@@ -1,0 +1,1935 @@
+{
+  "definitions": {
+    "CaseAvailableTest": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "caseName": {
+          "type": "string"
+        },
+        "initCases": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/CaseChangeSetup"
+          }
+        },
+        "testName": {
+          "type": "string"
+        },
+        "testDescription": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "testCategory": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "input": {
+          "$ref": "#/definitions/CaseChangeSetup"
+        },
+        "inputFile": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "output": {
+          "type": "boolean"
+        },
+        "outputFile": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "caseName",
+        "testName"
+      ]
+    },
+    "CaseBuildTest": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "initCases": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/CaseChangeSetup"
+          }
+        },
+        "testName": {
+          "type": "string"
+        },
+        "testDescription": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "testCategory": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "input": {
+          "$ref": "#/definitions/CaseChangeSetup"
+        },
+        "inputFile": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "output": {
+          "$ref": "#/definitions/CaseSet"
+        },
+        "outputFile": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "testName"
+      ]
+    },
+    "CaseChange": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "userId": {
+          "type": "integer"
+        },
+        "userIdentifier": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "payrollId": {
+          "type": "integer"
+        },
+        "payrollName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "employeeId": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "divisionId": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "divisionName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cancellationType": {
+          "type": "string",
+          "enum": [
+            "None",
+            "Case"
+          ]
+        },
+        "cancellationId": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "cancellationDate": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "validationCaseName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "forecast": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "values": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/CaseValue"
+          }
+        },
+        "issues": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/CaseValidationIssue"
+          }
+        },
+        "id": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Active",
+            "Inactive"
+          ]
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "CaseChangeSetup": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "userId": {
+          "type": "integer"
+        },
+        "userIdentifier": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "employeeId": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "employeeIdentifier": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "divisionId": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "divisionName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cancellationId": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "cancellationCreated": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "forecast": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "case": {
+          "$ref": "#/definitions/CaseSetup"
+        },
+        "issues": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/CaseValidationIssue"
+          }
+        },
+        "id": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Active",
+            "Inactive"
+          ]
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "case"
+      ]
+    },
+    "CaseDocument": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "content": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "contentFile": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "contentType": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 128
+        },
+        "id": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Active",
+            "Inactive"
+          ]
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "name",
+        "contentType"
+      ]
+    },
+    "CaseFieldReference": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "order": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        }
+      }
+    },
+    "CaseFieldSet": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "displayName": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 0,
+          "maxLength": 128
+        },
+        "caseSlot": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 0,
+          "maxLength": 128
+        },
+        "caseSlotLocalizations": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "value": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "start": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "end": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "cancellationDate": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "hasValue": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "nameLocalizations": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "descriptionLocalizations": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "valueType": {
+          "type": "string",
+          "enum": [
+            "String",
+            "Boolean",
+            "Integer",
+            "NumericBoolean",
+            "Decimal",
+            "DateTime",
+            "None",
+            "Date",
+            "WebResource",
+            "Money",
+            "Percent",
+            "Hour",
+            "Day",
+            "Week",
+            "Month",
+            "Year",
+            "Distance"
+          ]
+        },
+        "valueScope": {
+          "type": "string",
+          "enum": [
+            "Local",
+            "Global"
+          ]
+        },
+        "timeType": {
+          "type": "string",
+          "enum": [
+            "Timeless",
+            "Moment",
+            "Period",
+            "ScaledPeriod"
+          ]
+        },
+        "timeUnit": {
+          "type": "string",
+          "enum": [
+            "Day",
+            "HalfDay",
+            "Month"
+          ]
+        },
+        "overrideType": {
+          "type": "string",
+          "enum": [
+            "Active",
+            "Inactive"
+          ]
+        },
+        "cancellationMode": {
+          "type": "string",
+          "enum": [
+            "TimeType",
+            "Previous",
+            "Keep",
+            "Reset",
+            "Invert"
+          ]
+        },
+        "valueCreationMode": {
+          "type": "string",
+          "enum": [
+            "OnChanges",
+            "Always",
+            "Discard"
+          ]
+        },
+        "optional": {
+          "type": "boolean"
+        },
+        "order": {
+          "type": "integer"
+        },
+        "startDateType": {
+          "type": "string",
+          "enum": [
+            "Day",
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Month",
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+            "Year"
+          ]
+        },
+        "endDateType": {
+          "type": "string",
+          "enum": [
+            "Day",
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Month",
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+            "Year"
+          ]
+        },
+        "endMandatory": {
+          "type": "boolean"
+        },
+        "defaultStart": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "defaultEnd": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "defaultValue": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "tags": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "lookupSettings": {
+          "$ref": "#/definitions/LookupSettings"
+        },
+        "clusters": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "buildActions": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "validateActions": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "attributes": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {}
+        },
+        "valueAttributes": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {}
+        },
+        "id": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Active",
+            "Inactive"
+          ]
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "CaseRelationReference": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "sourceCaseName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sourceCaseSlot": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "targetCaseName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "targetCaseSlot": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "CaseSet": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "displayName": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 0,
+          "maxLength": 128
+        },
+        "caseSlot": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 0,
+          "maxLength": 128
+        },
+        "caseSlotLocalizations": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "cancellationDate": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "fields": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/CaseFieldSet"
+          }
+        },
+        "relatedCases": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/CaseSet"
+          }
+        },
+        "caseType": {
+          "type": "string",
+          "enum": [
+            "Global",
+            "National",
+            "Company",
+            "Employee"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 128
+        },
+        "nameLocalizations": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "nameSynonyms": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "descriptionLocalizations": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "defaultReason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "defaultReasonLocalizations": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "baseCase": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "baseCaseFields": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/CaseFieldReference"
+          }
+        },
+        "overrideType": {
+          "type": "string",
+          "enum": [
+            "Active",
+            "Inactive"
+          ]
+        },
+        "cancellationType": {
+          "type": "string",
+          "enum": [
+            "None",
+            "Case"
+          ]
+        },
+        "availableExpression": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "availableExpressionFile": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "buildExpression": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "buildExpressionFile": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "validateExpression": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "validateExpressionFile": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "lookups": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "slots": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/CaseSlot"
+          }
+        },
+        "availableActions": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "buildActions": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "validateActions": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "attributes": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {}
+        },
+        "clusters": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "id": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Active",
+            "Inactive"
+          ]
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "CaseSetup": {
+      "type": "object",
+      "properties": {
+        "caseName": {
+          "type": "string"
+        },
+        "caseSlot": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "values": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/CaseValueSetup"
+          }
+        },
+        "relatedCases": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/CaseSetup-1"
+          }
+        },
+        "id": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Active",
+            "Inactive"
+          ]
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "caseName"
+      ]
+    },
+    "CaseSetup-1": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "caseName": {
+          "type": "string"
+        },
+        "caseSlot": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "values": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/CaseValueSetup"
+          }
+        },
+        "relatedCases": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/CaseSetup-1"
+          }
+        },
+        "id": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Active",
+            "Inactive"
+          ]
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "caseName"
+      ]
+    },
+    "CaseSlot": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 128
+        },
+        "nameLocalizations": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "CaseValidateTest": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "initCases": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/CaseChangeSetup"
+          }
+        },
+        "testName": {
+          "type": "string"
+        },
+        "testDescription": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "testCategory": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "input": {
+          "$ref": "#/definitions/CaseChangeSetup"
+        },
+        "inputFile": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "output": {
+          "$ref": "#/definitions/CaseChange"
+        },
+        "outputFile": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "testName"
+      ]
+    },
+    "CaseValidationIssue": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "issueType": {
+          "type": "string",
+          "enum": [
+            "Unknown",
+            "CaseInvalid",
+            "CaseUnknown",
+            "CaseRelationInvalid",
+            "CaseFieldDuplicated",
+            "CaseValueIncomplete",
+            "CaseValueStartInvalid",
+            "CaseValueEndInvalid",
+            "CaseValueEndMissing"
+          ]
+        },
+        "number": {
+          "type": "integer"
+        },
+        "caseName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "caseNameLocalizations": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "caseSlot": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "caseSlotLocalizations": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "caseFieldName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "caseFieldNameLocalizations": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "sourceCaseName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sourceCaseNameLocalizations": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "sourceCaseSlot": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sourceCaseSlotLocalizations": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "targetCaseName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "targetCaseNameLocalizations": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "targetCaseSlot": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "targetCaseSlotLocalizations": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "message": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "CaseValue": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "divisionId": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "employeeId": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "divisionName": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 0,
+          "maxLength": 128
+        },
+        "caseName": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 0,
+          "maxLength": 128
+        },
+        "caseNameLocalizations": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "caseFieldName": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 0,
+          "maxLength": 128
+        },
+        "caseFieldNameLocalizations": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "caseSlot": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 0,
+          "maxLength": 128
+        },
+        "caseSlotLocalizations": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "valueType": {
+          "type": "string",
+          "enum": [
+            "String",
+            "Boolean",
+            "Integer",
+            "NumericBoolean",
+            "Decimal",
+            "DateTime",
+            "None",
+            "Date",
+            "WebResource",
+            "Money",
+            "Percent",
+            "Hour",
+            "Day",
+            "Week",
+            "Month",
+            "Year",
+            "Distance"
+          ]
+        },
+        "value": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "numericValue": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "caseRelation": {
+          "$ref": "#/definitions/CaseRelationReference"
+        },
+        "cancellationDate": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "start": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "end": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "forecast": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "tags": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "attributes": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {}
+        },
+        "id": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Active",
+            "Inactive"
+          ]
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "CaseValueSetup": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "documents": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/CaseDocument"
+          }
+        },
+        "divisionId": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "employeeId": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "divisionName": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 0,
+          "maxLength": 128
+        },
+        "caseName": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 0,
+          "maxLength": 128
+        },
+        "caseNameLocalizations": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "caseFieldName": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 0,
+          "maxLength": 128
+        },
+        "caseFieldNameLocalizations": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "caseSlot": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 0,
+          "maxLength": 128
+        },
+        "caseSlotLocalizations": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "valueType": {
+          "type": "string",
+          "enum": [
+            "String",
+            "Boolean",
+            "Integer",
+            "NumericBoolean",
+            "Decimal",
+            "DateTime",
+            "None",
+            "Date",
+            "WebResource",
+            "Money",
+            "Percent",
+            "Hour",
+            "Day",
+            "Week",
+            "Month",
+            "Year",
+            "Distance"
+          ]
+        },
+        "value": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "numericValue": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "caseRelation": {
+          "$ref": "#/definitions/CaseRelationReference"
+        },
+        "cancellationDate": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "start": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "end": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "forecast": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "tags": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "attributes": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {}
+        },
+        "id": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Active",
+            "Inactive"
+          ]
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "LookupSettings": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "lookupName": {
+          "type": "string"
+        },
+        "valueFieldName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "textFieldName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "lookupName"
+      ]
+    }
+  },
+  "type": "object",
+  "properties": {
+    "testName": {
+      "type": "string"
+    },
+    "testDescription": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "testCategory": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "tenantIdentifier": {
+      "type": "string"
+    },
+    "userIdentifier": {
+      "type": "string"
+    },
+    "payrollName": {
+      "type": "string"
+    },
+    "employeeIdentifier": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "evaluationDate": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "periodDate": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "regulationDate": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "initCases": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/CaseChangeSetup"
+      }
+    },
+    "customTestFiles": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": [
+          "string",
+          "null"
+        ]
+      }
+    },
+    "availableTests": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/CaseAvailableTest"
+      }
+    },
+    "buildTests": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/CaseBuildTest"
+      }
+    },
+    "validateTests": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/CaseValidateTest"
+      }
+    }
+  },
+  "required": [
+    "testName",
+    "tenantIdentifier",
+    "userIdentifier",
+    "payrollName"
+  ]
+}

@@ -1,0 +1,1282 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PayrollEngine.Client.Test</name>
+    </assembly>
+    <members>
+        <member name="T:PayrollEngine.Client.Test.Assert">
+            <summary>A collection of helper classes to test various conditions within unit tests.
+            If the condition being tested is not met, an exception is thrown</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Assert.AreEqual``1(``0,``0,System.String)">
+            <summary>Tests whether the specified values are equal and throws an exception if the two values are not equal.
+            Different numeric types are treated as unequal even if the logical values are equal. 42L is not equal to 42</summary>
+            <param name="expected">The expected value</param>
+            <param name="actual">The actual value</param>
+            <param name="message">The assert failed message</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Assert.AreNotEqual``1(``0,``0,System.String)">
+            <summary>Tests whether the specified values are not equal and throws an exception if the two values are not equal.
+            Different numeric types are treated as unequal even if the logical values are equal. 42L is not equal to 42</summary>
+            <param name="expected">The expected value</param>
+            <param name="actual">The actual value</param>
+            <param name="message">The assert failed message</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Assert.IsFalse(System.Boolean,System.String)">
+            <summary>Tests whether the specified condition is false and throws an exception if the condition is true</summary>
+            <param name="condition">The condition the test expects to be false</param>
+            <param name="message">The message to include in the exception when condition is true. The message is shown in test results</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Assert.IsTrue(System.Boolean,System.String)">
+            <summary>Tests whether the specified condition is true and throws an exception if the condition is false</summary>
+            <param name="condition">The condition the test expects to be false</param>
+            <param name="message">The message to include in the exception when condition is true. The message is shown in test results</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Assert.IsNull(System.Object,System.String)">
+            <summary>Tests whether the specified object is null and throws an exception if it is not</summary>
+            <param name="value">The object the test expects to be null</param>
+            <param name="message">The message to include in the exception when value is not null</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Assert.IsNotNull(System.Object,System.String)">
+            <summary>Tests whether the specified object is non-null and throws an exception if it is null</summary>
+            <param name="value">The object the test expects not to be null</param>
+            <param name="message">The message to include in the exception when value is null</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Assert.Fail(System.String)">
+            <summary>Throws an AssertFailedException</summary>
+            <param name="message">The exception message</param>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.AssertFailedException">
+            <summary>Assert failed exception</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.AssertFailedException.#ctor">
+            <inheritdoc/>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.AssertFailedException.#ctor(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.AssertFailedException.#ctor(System.String,System.Exception)">
+            <inheritdoc/>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.AssertFailedException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <inheritdoc/>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Case.CaseAvailableTest">
+            <summary>Case available function test
+            Test input: case change setup
+            Test output: bool indicates the case available state
+            </summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseAvailableTest.CaseName">
+            <summary>The case name</summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Case.CaseAvailableTestRunner">
+            <summary>Case available function test runner.
+            Compare expected output with the case available state
+            </summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseAvailableTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,PayrollEngine.Client.Test.Case.CaseTestContext)">
+            <summary>new instance of <see cref="T:PayrollEngine.Client.Test.Case.CaseValidateTestRunner"/>see</summary>
+            <param name="httpClient">The payroll http client</param>
+            <param name="context">The test context</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseAvailableTestRunner.Test(PayrollEngine.Client.Test.Case.CaseAvailableTest)">
+            <summary>Test the case available</summary>
+            <param name="test">The test</param>
+            <returns>The test results</returns>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Case.CaseBuildTest">
+            <summary>Case build function test
+            Test input: case change setup
+            Test output: case set
+            </summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Case.CaseBuildTestRunner">
+            <summary>Case build function test runner.
+            Compares the output case slots/fields and related cases with the received case
+            </summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseBuildTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,PayrollEngine.Client.Test.Case.CaseTestContext)">
+            <summary>new instance of <see cref="T:PayrollEngine.Client.Test.Case.CaseValidateTestRunner"/>see</summary>
+            <param name="httpClient">The payroll http client</param>
+            <param name="context">The test context</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseBuildTestRunner.Test(PayrollEngine.Client.Test.Case.CaseBuildTest)">
+            <summary>Test the case validation</summary>
+            <param name="test">The test name</param>
+            <returns>The test results</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseBuildTestRunner.CompareCase(System.String,PayrollEngine.Client.Model.CaseSet,PayrollEngine.Client.Model.CaseSet)">
+            <summary>Compare expected case with received case</summary>
+            <param name="testName">The test name</param>
+            <param name="expected">The expected case</param>
+            <param name="actual">The actual case</param>
+            <returns>TupleThe value case field matching the name, null on missing case field</returns>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Case.CaseCustomTest">
+            <summary>Case custom test class</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseCustomTest.Payroll">
+            <summary>The payroll</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseCustomTest.Employee">
+            <summary>The employee</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseCustomTest.EvaluationDate">
+            <summary>The evaluation date, default is now</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseCustomTest.RegulationDate">
+            <summary>The regulation date, default is now</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseCustomTest.#ctor(PayrollEngine.Client.PayrollHttpClient,PayrollEngine.Client.Test.Case.CaseTestContext)">
+            <summary>New instance of <see cref="T:PayrollEngine.Client.Test.Case.CaseCustomTest"/></summary>
+            <param name="httpClient">The payroll http client</param>
+            <param name="context">The test context</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseCustomTest.GetCases(PayrollEngine.CaseType,System.String,System.String,System.Nullable{PayrollEngine.Language})">
+            <summary>Get cases by type</summary>
+            <param name="caseType">The case type</param>
+            <param name="caseSlot">The case slot</param>
+            <param name="clusterSetName">The cluster set name</param>
+            <param name="language">The language</param>
+            <returns>The cases by type</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseCustomTest.GetCase(System.String,System.String,System.Nullable{PayrollEngine.Language},PayrollEngine.Client.Model.CaseChangeSetup)">
+            <summary>Get a case</summary>
+            <param name="caseName">The case name</param>
+            <param name="clusterSetName">The cluster set name</param>
+            <param name="language">The language</param>
+            <param name="caseChangeSetup">The case change setup</param>
+            <returns>The case including the case fields and related cases</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseCustomTest.GetCasePeriodValues(System.String)">
+            <summary>Get case period values</summary>
+            <param name="caseFieldName">The case field name</param>
+            <returns>The case values</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseCustomTest.GetCasePeriodValues(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>Get case period values</summary>
+            <param name="caseFieldNames">The case field names</param>
+            <returns>The case values</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseCustomTest.GetCasePeriodValue(System.String)">
+            <summary>Get case period value</summary>
+            <param name="caseFieldName">The case field name</param>
+            <returns>The case values</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseCustomTest.GetCasePeriodValue``1(System.String)">
+            <summary>Get typed case period value</summary>
+            <param name="caseFieldName">The case field name</param>
+            <returns>The case value</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseCustomTest.GetCaseValues(System.String,System.String)">
+            <summary>Get case raw values</summary>
+            <param name="caseFieldName">The case field name</param>
+            <param name="caseSlot">The case slot</param>
+            <returns>The case raw values</returns>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Case.CaseCustomTestParser">
+            <summary>Parse case custom test class</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseCustomTestParser.#ctor(System.String,System.Collections.Generic.List{System.String})">
+            <summary>Case custom text parser constructor</summary>
+            <param name="testName">The test name</param>
+            <param name="sourceFiles">THe source  files</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseCustomTestParser.GetDefaultReferences">
+            <inheritdoc />
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Case.CaseScriptTest`2">
+            <summary>Case script base test</summary>
+            <typeparam name="TIn">The case test input type</typeparam>
+            <typeparam name="TOut">The case test output type</typeparam>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseScriptTest`2.InitCases">
+            <summary>The init cases</summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Case.CaseScriptTestResult">
+            <summary>Case script test result</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseScriptTestResult.TestType">
+            <summary>The result type</summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Case.CaseScriptTestRunner">
+            <summary>Case available function test runner</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseScriptTestRunner.Context">
+            <summary>The test context</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseScriptTestRunner.Tenant">
+            <summary>The Tenant</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseScriptTestRunner.User">
+            <summary>The user</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseScriptTestRunner.Payroll">
+            <summary>The payroll</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseScriptTestRunner.Employee">
+            <summary>The employee</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseScriptTestRunner.EvaluationDate">
+            <summary>The evaluation date, default is now</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseScriptTestRunner.RegulationDate">
+            <summary>The regulation date, default is now</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseScriptTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,PayrollEngine.Client.Test.Case.CaseTestContext)">
+            <summary>new instance of <see cref="T:PayrollEngine.Client.Test.Case.CaseScriptTestRunner"/>see</summary>
+            <param name="httpClient">The payroll http client</param>
+            <param name="context">The test context</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseScriptTestRunner.NewResult(PayrollEngine.Client.Test.Case.CaseTestType,System.String,System.String,System.Object,System.Object)">
+            <summary>Create new test result</summary>
+            <param name="testType">The case test type</param>
+            <param name="testName">The test name</param>
+            <param name="message">The test message</param>
+            <param name="expected">The expected value</param>
+            <param name="received">The received value</param>
+            <returns>The new test result</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseScriptTestRunner.NewResult(System.Boolean,PayrollEngine.Client.Test.Case.CaseTestType,System.String,System.String,System.Object,System.Object)">
+            <summary>Create new test result with failed condition</summary>
+            <param name="failed">The failed state</param>
+            <param name="testType">The case test type</param>
+            <param name="testName">The test name</param>
+            <param name="message">The test message</param>
+            <param name="expected">The expected value</param>
+            <param name="received">The received value</param>
+            <returns>The new test or test failed result</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseScriptTestRunner.NewFailedResult(PayrollEngine.Client.Test.Case.CaseTestType,System.String,System.String,System.Object,System.Object)">
+            <summary>Create new failed test result</summary>
+            <param name="testType">The case test type</param>
+            <param name="testName">The test name</param>
+            <param name="message">The test message</param>
+            <param name="expected">The expected value</param>
+            <param name="received">The received value</param>
+            <returns>The new failed test result</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseScriptTestRunner.NewResult(System.Net.Http.HttpRequestException,System.String,System.Object)">
+            <summary>Create new test result from http</summary>
+            <param name="exception">The http request exception</param>
+            <param name="testName">The test name</param>
+            <param name="expected">The expected value</param>
+            <returns>The new test result</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseScriptTestRunner.GetAvailableCase(System.String)">
+            <summary>Get case if available</summary>
+            <param name="caseName">The case name</param>
+            <returns>The case if available, otherwise null</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseScriptTestRunner.GetAvailableCaseAsync(System.String)">
+            <summary>Get case if available</summary>
+            <param name="caseName">The case name</param>
+            <returns>The case if available, otherwise null</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseScriptTestRunner.GetCase(System.String,PayrollEngine.Client.Model.CaseChangeSetup)">
+            <summary>Get case by name</summary>
+            <param name="caseName">The case name</param>
+            <param name="caseChangeSetup">The case setup (optional)</param>
+            <returns>The case including the case fields and related cases</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseScriptTestRunner.GetCaseAsync(System.String,PayrollEngine.Client.Model.CaseChangeSetup)">
+            <summary>Get case by name async</summary>
+            <param name="caseName">The case name</param>
+            <param name="caseChangeSetup">The case setup (optional)</param>
+            <returns>The case including the case fields and related cases</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseScriptTestRunner.AddCaseAsync(PayrollEngine.Client.Model.CaseChangeSetup)">
+            <summary>Add new case</summary>
+            <param name="caseChangeSetup">The case setup</param>
+            <returns>The creation result</returns>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Case.CaseTest">
+            <summary>Case test</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseTest.TestName">
+            <summary>The test name</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseTest.TestDescription">
+            <summary>The test description</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseTest.TestCategory">
+            <summary>The test category</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseTest.TenantIdentifier">
+            <summary>The tenant identifier</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseTest.UserIdentifier">
+            <summary>The user identifier</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseTest.PayrollName">
+            <summary>The payroll name</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseTest.EmployeeIdentifier">
+            <summary>The employee identifier, mandatory for employee case</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseTest.EvaluationDate">
+            <summary>The evaluation date, default is now</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseTest.PeriodDate">
+            <summary>The period date, default is now</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseTest.RegulationDate">
+            <summary>The regulation date, default is now</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseTest.InitCases">
+            <summary>The init cases</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseTest.CustomTestFiles">
+            <summary>Custom test files</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseTest.AvailableTests">
+            <summary>The case available tests</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseTest.BuildTests">
+            <summary>The case build tests</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseTest.ValidateTests">
+            <summary>The case validate tests</summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Case.CaseTestContext">
+            <summary>The case test context</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseTestContext.Payroll">
+            <summary>The payroll</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseTestContext.Employee">
+            <summary>The employee, mandatory for employee case</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseTestContext.EvaluationPeriod">
+            <summary>The evaluation period</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseTestContext.EvaluationDate">
+            <summary>The evaluation date, default is now</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseTestContext.RegulationDate">
+            <summary>The regulation date, default is the evaluation date</summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Case.CaseTestResult">
+            <summary>Result of case test</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseTestResult.Results">
+            <summary>The test results</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseTestResult.IsFailed">
+            <summary>Test if case test is failed</summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Case.CaseTestRunner">
+            <summary>Case test runner</summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Case.CaseTestRunner.CaseCustomTestParser">
+            <summary>Parse case custom test class</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,System.String)">
+            <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Case.CaseTestRunner"/> class</summary>
+            <param name="httpClient">The payroll engine http client</param>
+            <param name="fileName">Name of the file</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseTestRunner.TestAsync">
+            <summary>Test case</summary>
+            <returns>The case test results</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseTestRunner.InitTest(PayrollEngine.Client.Test.Case.CaseTest,PayrollEngine.Client.Test.Case.CaseTestContext)">
+            <summary>Initialize the test</summary>
+            <param name="caseTest">The test</param>
+            <param name="context">The test context</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseTestRunner.SetupInitCases(System.Collections.Generic.List{PayrollEngine.Client.Model.CaseChangeSetup},PayrollEngine.Client.Test.Case.CaseTestContext)">
+            <summary>Setup initialization cases</summary>
+            <param name="initCases">The cases to setup</param>
+            <param name="testContext">The test context</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseTestRunner.RunCustomTest``1(``0,PayrollEngine.Client.Test.Case.CaseTestType,System.Type,System.Reflection.MethodInfo,PayrollEngine.Client.Test.Case.CaseTestContext)">
+            <summary>Run the test</summary>
+            <typeparam name="T"></typeparam>
+            <param name="test"></param>
+            <param name="caseTestType"></param>
+            <param name="testType"></param>
+            <param name="testMethod"></param>
+            <param name="context"></param>
+            <returns></returns>
+            <exception cref="T:PayrollEngine.Client.Test.TestCompileException"></exception>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseTestRunner.CreateTestContext(PayrollEngine.Client.Test.Case.CaseTest)">
+            <summary>Create the test context</summary>
+            <param name="caseTest">The test</param>
+            <returns>The test context</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseTestRunner.LoadCaseTest">
+            <summary>Loads the case test</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseTestRunner.GetDivisionAsync(System.Int32,System.String)">
+            <summary>Get tenant</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="divisionName">The division name</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseTestRunner.GetPayrollAsync(System.Int32,System.String)">
+            <summary>Get tenant</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="payrollName">The payrun job name</param>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Case.CaseTestType">
+            <summary>Case test type</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.Case.CaseTestType.Http">
+            <summary>Http result</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.Case.CaseTestType.CaseAvailable">
+            <summary>Case available result</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.Case.CaseTestType.CaseAvailableCustom">
+            <summary>Case available custom result</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.Case.CaseTestType.CaseBuild">
+            <summary>Case build result</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.Case.CaseTestType.CaseBuildCustom">
+            <summary>Case build custom result</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.Case.CaseTestType.CaseValidate">
+            <summary>Case validate result</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.Case.CaseTestType.CaseValidateCustom">
+            <summary>Case validate custom result</summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Case.CaseValidateTest">
+            <summary>Case validate function test
+            Test input: case change setup
+            Test output: case change
+            </summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Case.CaseValidateTestRunner">
+            <summary>Case validate function test runner
+            Compares the output case change values with the received case change values
+            </summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseValidateTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,PayrollEngine.Client.Test.Case.CaseTestContext)">
+            <summary>new instance of <see cref="T:PayrollEngine.Client.Test.Case.CaseValidateTestRunner"/>see</summary>
+            <param name="httpClient">The payroll http client</param>
+            <param name="context">The test context</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseValidateTestRunner.Test(PayrollEngine.Client.Test.Case.CaseValidateTest)">
+            <summary>Test the case validation</summary>
+            <param name="test">The test name</param>
+            <returns>The test results</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseValidateTestRunner.CompareCaseChange(System.String,PayrollEngine.Client.Model.CaseChange,PayrollEngine.Client.Model.CaseChange)">
+            <summary>Compare expected case with received case</summary>
+            <param name="testName">The test name</param>
+            <param name="expected">The expected case</param>
+            <param name="actual">The actual case</param>
+            <returns>TupleThe value case field matching the name, null on missing case field</returns>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.CustomTestBase`1">
+            <summary>Base class for custom tests</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.CustomTestBase`1.HttpClient">
+            <summary>The Payroll http client</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.CustomTestBase`1.Context">
+            <summary>The test context</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.CustomTestBase`1.Tenant">
+            <summary>The Tenant</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.CustomTestBase`1.User">
+            <summary>The user</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.CustomTestBase`1.#ctor(PayrollEngine.Client.PayrollHttpClient,`0)">
+            <summary>New instance of <see cref="T:PayrollEngine.Client.Test.CustomTestBase`1"/></summary>
+            <param name="httpClient">The payroll http client</param>
+            <param name="context">The test context</param>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.CustomTestParser`2">
+            <summary>Parse custom test class</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.CustomTestParser`2.TestName">
+            <summary>The test name</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.CustomTestParser`2.SourceFiles">
+            <summary>The custom test source file names</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.CustomTestParser`2.#ctor(System.String,System.Collections.Generic.List{System.String})">
+            <summary>Custom text parser constructor</summary>
+            <param name="testName">The test name</param>
+            <param name="sourceFiles">THe source  files</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.CustomTestParser`2.GetTest(System.String,System.Type[])">
+            <summary>Get the test method</summary>
+            <param name="testName">The test name</param>
+            <param name="parameterTypes">The parameter types</param>
+            <returns>THe test method info</returns>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.CustomTestParser`2.Assembly">
+            <summary>The custom tests assembly, maybe null</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.CustomTestParser`2.TestType">
+            <summary>The custom test type, maybe null</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.CustomTestParser`2.GetDefaultReferences">
+            <summary>Get the test default references</summary>
+            <returns>Type reference list</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.CustomTestParser`2.GetDefaultAssemblies">
+            <summary>Get the test default assembly names</summary>
+            <returns>Assembly name list</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.CustomTestParser`2.CreateAssemblyReference(System.Reflection.Assembly)">
+            <summary>Creates an assembly reference</summary>
+            <param name="referenceAssembly">The assembly to refer</param>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.CustomTestParserBase">
+            <summary>Parse custom test class</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.DictionaryExtensions.FirstInvalidAttribute(System.Collections.Generic.IDictionary{System.String,System.Object},System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>Find the first invalid attribute</summary>
+            <param name="expectedAttributes">The expected attribute values</param>
+            <param name="actualAttributes">The actual attribute values</param>
+            <returns>A tuple with the attribute name, the expected value and the actual value</returns>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.FileTestRunner">
+            <summary>Base class for file based payroll tests</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.FileTestRunner.FileName">
+            <summary>The test file name</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.FileTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,System.String)">
+            <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.FileTestRunner"/> class</summary>
+            <param name="httpClient">The payroll engine http client</param>
+            <param name="fileName">Name of the file</param>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Payrun.CollectorTestCustomResult">
+            <summary>Collector test custom result</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.CollectorTestCustomResult.TestPrecision">
+            <summary>The testing precision</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.CollectorTestCustomResult.#ctor(PayrollEngine.Client.Test.TestPrecision,PayrollEngine.Client.Model.CollectorCustomResult,PayrollEngine.Client.Model.CollectorCustomResult)">
+            <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Payrun.CollectorTestCustomResult"/> class</summary>
+            <param name="testPrecision">The testing precision</param>
+            <param name="expectedResult">The expected result</param>
+            <param name="actualResult">The actual result</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.CollectorTestCustomResult.IsInvalidResult">
+            <summary>Test for invalid result</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.CollectorTestCustomResult.IsValidResult">
+            <inheritdoc />
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Payrun.CollectorTestResult">
+            <summary>Collector test result</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.CollectorTestResult.CustomResults">
+            <summary>The collector custom results</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.CollectorTestResult.TestPrecision">
+            <summary>The testing precision</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.CollectorTestResult.#ctor(PayrollEngine.Client.Test.TestPrecision,PayrollEngine.Client.Model.CollectorResultSet,PayrollEngine.Client.Model.CollectorResultSet)">
+            <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Payrun.CollectorTestResult"/> class</summary>
+            <param name="testPrecision">The testing precision</param>
+            <param name="expectedResult">The expected result</param>
+            <param name="actualResult">The actual result</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.CollectorTestResult.IsInvalidResult">
+            <summary>Test for invalid result</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.CollectorTestResult.IsValidResult">
+            <inheritdoc />
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Payrun.EmployeeTestMode">
+            <summary>The employee test mode</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.Payrun.EmployeeTestMode.InsertEmployee">
+            <summary>Insert new test employee</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.Payrun.EmployeeTestMode.UpdateEmployee">
+            <summary>Update existing test employee</summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Payrun.JobResultMode">
+            <summary>
+            Job result mode
+            </summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.Payrun.JobResultMode.Single">
+            <summary>
+            On job result per employee
+            </summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.Payrun.JobResultMode.Multiple">
+            <summary>
+            Multiple job results per employee
+            </summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Payrun.PayrollTestResult">
+            <summary>Result of payroll test</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrollTestResult.WageTypeResults">
+            <summary>The wage type results</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrollTestResult.CollectorResults">
+            <summary>The collector results</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrollTestResult.PayrunResults">
+            <summary>The payrun results</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrollTestResult.Tenant">
+            <summary>The tenant</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrollTestResult.Employee">
+            <summary>The employee</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrollTestResult.PayrunJob">
+            <summary>The payrun job</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrollTestResult.TotalResultCount">
+            <summary>Total result count</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrollTestResult.#ctor(PayrollEngine.Client.Model.Tenant,PayrollEngine.Client.Model.Employee,PayrollEngine.Client.Model.PayrunJob)">
+            <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Payrun.PayrollTestResult"/> class</summary>
+            <param name="tenant">The tenant</param>
+            <param name="payrunJob">The payrun job</param>
+            <param name="employee">The employee</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrollTestResult.IsFailed">
+            <summary>Test if payrun test is failed</summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner">
+            <summary>Payrun employee test runner</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.DelayBetweenCreateAndTest">
+            <summary>The delay between creation and test</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.ScriptParser">
+            <summary>The employee test mode</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.EmployeeMode">
+            <summary>The employee test mode</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,System.String,PayrollEngine.Client.Script.IScriptParser,PayrollEngine.Client.Test.TestPrecision,System.String,PayrollEngine.Client.Test.Payrun.EmployeeTestMode)">
+            <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner"/> class</summary>
+            <param name="httpClient">The payroll engine http client</param>
+            <param name="fileName">Name of the file</param>
+            <param name="scriptParser">The script parser</param>
+            <param name="owner">The test owner</param>
+            <param name="testPrecision">The testing precision</param>
+            <param name="employeeMode">The employee test mode</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.TestAllAsync(System.String)">
+            <summary>Start the test</summary>
+            <param name="namespace">The tenant name</param>
+            <returns>A list of payrun job results</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.DuplicateTestEmployee(System.Int32,PayrollEngine.Client.Model.ExchangeTenant)">
+            <summary>Duplicates the test employee</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="tenant">The exchange tenant</param>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner">
+            <summary>Base class for file based payroll tests</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.TestPrecision">
+            <summary>The testing precision</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.Owner">
+            <summary>The test owner</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,System.String,PayrollEngine.Client.Test.TestPrecision,System.String)">
+            <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner"/> class</summary>
+            <param name="httpClient">The payroll engine http client</param>
+            <param name="fileName">Name of the file</param>
+            <param name="testPrecision">The testing precision</param>
+            <param name="owner">The test owner</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.TestAsync(System.String)">
+            <summary>Start the test</summary>
+            <param name="namespace">The namespace</param>
+            <returns>A list of payrun job results</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.TestAllAsync(System.String)">
+            <summary>Start the test</summary>
+            <param name="namespace">The import namespace</param>
+            <returns>A list of payrun job results</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.LoadExchangeAsync(System.String)">
+            <summary>Loads the exchange</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.TestPayrunJobAsync(PayrollEngine.Client.Model.ExchangeTenant,PayrollEngine.Client.Test.Payrun.JobResultMode)">
+            <summary>Tests the payrun job</summary>
+            <param name="tenant">The tenant</param>
+            <param name="jobResultMode">The job result mode</param>
+            <returns>List of payrun job test results</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.ApplyOwner(PayrollEngine.Client.Model.Exchange,System.String)">
+            <summary>Apply the test owner</summary>
+            <param name="exchange">The exchange</param>
+            <param name="owner">The owner name</param>
+            <returns>List of payrun job test results</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.GetPayrunJobsAsync(System.Int32,System.String)">
+            <summary>Get payrun jobs</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="payrunName">The payrun name</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.GetEmployeePayrunJobsAsync(System.Int32,System.Int32)">
+            <summary>Get employee payrun jobs</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="employeeId">The tenant identifier</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.GetPayrollResultAsync(System.Int32,System.Int32,System.Int32)">
+            <summary>Get tenant</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="employeeId">The employee id</param>
+            <param name="payrunJobId">The payrun job id</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.GetWageTypeResultsAsync(System.Int32,System.Int32)">
+            <summary>Get wage type results</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="payrollResultId">The payroll result id</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.GetWageTypeCustomResultsAsync(System.Int32,System.Int32,System.Int32)">
+            <summary>Get wage type custom results</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="payrollResultId">The payroll result id</param>
+            <param name="wageTypeResultId">The wage type result id</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.GetCollectorResultsAsync(System.Int32,System.Int32)">
+            <summary>Get collector results</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="payrollResultId">The payroll result id</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.GetCollectorCustomResultsAsync(System.Int32,System.Int32,System.Int32)">
+            <summary>Get collector custom results</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="payrollResultId">The payroll result id</param>
+            <param name="collectorResultId">The collector result id</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.GetPayrunResultsAsync(System.Int32,System.Int32)">
+            <summary>Get payrun results</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="payrollResultId">The payroll result id</param>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Payrun.PayrunTestResult">
+            <summary>Payrun test result</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestResult.#ctor(PayrollEngine.Client.Model.PayrunResult,PayrollEngine.Client.Model.PayrunResult)">
+            <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Payrun.PayrunTestResult"/> class</summary>
+            <param name="expectedResult">The expected result</param>
+            <param name="actualResult">The actual result</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestResult.IsValidResult">
+            <inheritdoc />
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Payrun.PayrunTestRunner">
+            <summary>Payrun test runner</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.ScriptParser">
+            <summary>The employee test mode</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.ImportMode">
+            <summary>The data import mode</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.ResultMode">
+            <summary>The test result mode</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.DelayBetweenCreateAndTest">
+            <summary>The delay between creation and test</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,System.String,PayrollEngine.Client.Script.IScriptParser,PayrollEngine.Client.Test.TestPrecision,System.String,PayrollEngine.Client.Exchange.DataImportMode,PayrollEngine.Client.Test.Payrun.TestResultMode)">
+            <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Payrun.PayrunTestRunner"/> class</summary>
+            <param name="httpClient">The payroll engine http client</param>
+            <param name="fileName">Name of the file</param>
+            <param name="scriptParser">The script parser</param>
+            <param name="testPrecision">The testing precision</param>
+            <param name="owner">The test owner</param>
+            <param name="importMode">The data import mode (default: single)</param>
+            <param name="resultMode">The test result mode (default: clean)</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.TestAllAsync(System.String)">
+            <summary>Start the test</summary>
+            <param name="namespace">The tenant name</param>
+            <returns>A list of payrun job results</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.ValidateTenant(PayrollEngine.Client.Model.ExchangeTenant)">
+            <summary>Validate the tenant</summary>
+            <param name="tenant">The tenant</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.CleanupTenants(PayrollEngine.Client.Model.Exchange)">
+            <summary>Cleanup exchange tenants</summary>
+            <param name="exchange">The exchange</param>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Payrun.TestResultMode">
+            <summary>The test result mode</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.Payrun.TestResultMode.CleanTest">
+            <summary>Cleanup all test results</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.Payrun.TestResultMode.KeepTest">
+            <summary>Keep all test results (manual cleanup)</summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Payrun.WageTypeTestCustomResult">
+            <summary>The wage type test custom result</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.WageTypeTestCustomResult.TestPrecision">
+            <summary>The testing precision</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.WageTypeTestCustomResult.#ctor(PayrollEngine.Client.Test.TestPrecision,PayrollEngine.Client.Model.WageTypeCustomResult,PayrollEngine.Client.Model.WageTypeCustomResult)">
+            <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Payrun.WageTypeTestCustomResult"/> class</summary>
+            <param name="testPrecision">The testing precision</param>
+            <param name="expectedResult">The expected result</param>
+            <param name="actualResult">The actual result</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.WageTypeTestCustomResult.IsInvalidResult">
+            <summary>Test for invalid result</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.WageTypeTestCustomResult.IsValidResult">
+            <inheritdoc />
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Payrun.WageTypeTestResult">
+            <summary>Wage type test result</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.WageTypeTestResult.CustomResults">
+            <summary>The wage type custom results</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.WageTypeTestResult.TestPrecision">
+            <summary>The testing precision</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.WageTypeTestResult.#ctor(PayrollEngine.Client.Test.TestPrecision,PayrollEngine.Client.Model.WageTypeResultSet,PayrollEngine.Client.Model.WageTypeResultSet)">
+            <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Payrun.WageTypeTestResult"/> class</summary>
+            <param name="testPrecision">The testing precision</param>
+            <param name="expectedResult">The expected result</param>
+            <param name="actualResult">The actual result</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.WageTypeTestResult.IsInvalidResult">
+            <summary>Test for invalid result</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.WageTypeTestResult.IsValidResult">
+            <inheritdoc />
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Report.ReportBuildTest">
+            <summary>Report build test
+            Test input: report request
+            Test output: list of report parameter
+            </summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Report.ReportBuildTestRunner">
+            <summary>Report build test runner.</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportBuildTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,PayrollEngine.Client.Test.Report.ReportTestContext)">
+            <summary>new instance of <see cref="T:PayrollEngine.Client.Test.Report.ReportBuildTestRunner"/>see</summary>
+            <param name="httpClient">The payroll http client</param>
+            <param name="context">The test context</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportBuildTestRunner.Test(PayrollEngine.Client.Test.Report.ReportBuildTest)">
+            <summary>Test the report build</summary>
+            <param name="test">The test</param>
+            <returns>The test results</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportBuildTestRunner.CompareReport(System.String,System.Collections.Generic.List{PayrollEngine.Client.Model.ReportParameter},System.Collections.Generic.List{PayrollEngine.Client.Model.ReportParameter})">
+            <summary>Compare expected report with received report</summary>
+            <param name="testName">The test name</param>
+            <param name="expected">The expected report</param>
+            <param name="actual">The actual report</param>
+            <returns>TupleThe value case field matching the name, null on missing case field</returns>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Report.ReportCustomTest">
+            <summary>Report custom test class</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportCustomTest.#ctor(PayrollEngine.Client.PayrollHttpClient,PayrollEngine.Client.Test.Report.ReportTestContext)">
+            <summary>New instance of <see cref="T:PayrollEngine.Client.Test.Report.ReportCustomTest"/></summary>
+            <param name="httpClient">The payroll http client</param>
+            <param name="context">The test context</param>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Report.ReportExecuteTest">
+            <summary>Report execute test
+            Test input: report request
+            Test output: report data set
+            </summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Report.ReportExecuteTestRunner">
+            <summary>Report execute test runner.</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportExecuteTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,PayrollEngine.Client.Test.Report.ReportTestContext)">
+            <summary>new instance of <see cref="T:PayrollEngine.Client.Test.Report.ReportExecuteTestRunner"/>see</summary>
+            <param name="httpClient">The payroll http client</param>
+            <param name="context">The test context</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportExecuteTestRunner.Test(PayrollEngine.Client.Test.Report.ReportExecuteTest)">
+            <summary>Test the report end</summary>
+            <param name="test">The test</param>
+            <returns>The test results</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportExecuteTestRunner.CompareReport(System.String,PayrollEngine.Data.DataSet,PayrollEngine.Data.DataSet)">
+            <summary>Compare expected report with received report</summary>
+            <param name="testName">The test name</param>
+            <param name="expected">The expected report</param>
+            <param name="actual">The actual report</param>
+            <returns>TupleThe value case field matching the name, null on missing case field</returns>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Report.ReportScriptTest`2">
+            <summary>Report script base test</summary>
+            <typeparam name="TIn">The case test input type</typeparam>
+            <typeparam name="TOut">The case test output type</typeparam>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Report.ReportScriptTest`2.ReportName">
+            <summary>The report name</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Report.ReportScriptTest`2.Parameters">
+            <summary>The report parameters</summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Report.ReportScriptTestResult">
+            <summary>Report script test result</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Report.ReportScriptTestResult.TestType">
+            <summary>The result type</summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Report.ReportScriptTestRunner">
+            <summary>Report available function test runner</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Report.ReportScriptTestRunner.Context">
+            <summary>The test context</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Report.ReportScriptTestRunner.Tenant">
+            <summary>The Tenant</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Report.ReportScriptTestRunner.User">
+            <summary>The user</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportScriptTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,PayrollEngine.Client.Test.Report.ReportTestContext)">
+            <summary>new instance of <see cref="T:PayrollEngine.Client.Test.Report.ReportScriptTestRunner"/>see</summary>
+            <param name="httpClient">The payroll http client</param>
+            <param name="context">The test context</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportScriptTestRunner.NewResult(PayrollEngine.Client.Test.Report.ReportTestType,System.String,System.String,System.Object,System.Object)">
+            <summary>Create new test result</summary>
+            <param name="testType">The report test type</param>
+            <param name="testName">The test name</param>
+            <param name="message">The test message</param>
+            <param name="expected">The expected value</param>
+            <param name="received">The received value</param>
+            <returns>The new test result</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportScriptTestRunner.NewResult(System.Boolean,PayrollEngine.Client.Test.Report.ReportTestType,System.String,System.String,System.Object,System.Object)">
+            <summary>Create new test result with failed condition</summary>
+            <param name="failed">The failed state</param>
+            <param name="testType">The report test type</param>
+            <param name="testName">The test name</param>
+            <param name="message">The test message</param>
+            <param name="expected">The expected value</param>
+            <param name="received">The received value</param>
+            <returns>The new test or test failed result</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportScriptTestRunner.NewFailedResult(PayrollEngine.Client.Test.Report.ReportTestType,System.String,System.String,System.Object,System.Object)">
+            <summary>Create new failed test result</summary>
+            <param name="testType">The report test type</param>
+            <param name="testName">The test name</param>
+            <param name="message">The test message</param>
+            <param name="expected">The expected value</param>
+            <param name="received">The received value</param>
+            <returns>The new failed test result</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportScriptTestRunner.NewResult(System.Net.Http.HttpRequestException,System.String,System.Object)">
+            <summary>Create new test result from http</summary>
+            <param name="exception">The http request exception</param>
+            <param name="testName">The test name</param>
+            <param name="expected">The expected value</param>
+            <returns>The new test result</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportScriptTestRunner.GetRegulationAsync(System.Int32,System.String)">
+            <summary>Get regulation</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="name">The regulation name</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportScriptTestRunner.GetReportAsync(System.Int32,System.Int32,System.String)">
+            <summary>Get report</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="regulationId">The regulation id</param>
+            <param name="name">The report name</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportScriptTestRunner.BuildReportAsync(System.Int32,System.Int32,System.Int32,PayrollEngine.Client.Model.ReportRequest)">
+            <summary>Build report</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="regulationId">The regulation id</param>
+            <param name="reportId">The report id</param>
+            <param name="reportRequest">The report request</param>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Report.ReportTest">
+            <summary>Report test</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Report.ReportTest.TestName">
+            <summary>The test name</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Report.ReportTest.TestDescription">
+            <summary>The test description</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Report.ReportTest.TestCategory">
+            <summary>The test category</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Report.ReportTest.TenantIdentifier">
+            <summary>The tenant identifier</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Report.ReportTest.UserIdentifier">
+            <summary>The user identifier</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Report.ReportTest.RegulationName">
+            <summary>The regulation name</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Report.ReportTest.CustomTestFiles">
+            <summary>Custom test files</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Report.ReportTest.BuildTests">
+            <summary>The report build tests</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Report.ReportTest.ExecuteTests">
+            <summary>The report execute tests</summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Report.ReportTestContext">
+            <summary>The report test context</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Report.ReportTestContext.Regulation">
+            <summary>The regulation</summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Report.ReportTestResult">
+            <summary>Result of report test</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Report.ReportTestResult.Results">
+            <summary>The test results</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportTestResult.IsFailed">
+            <summary>Test if report test is failed</summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Report.ReportTestRunner">
+            <summary>Report test runner</summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Report.ReportTestRunner.ReportCustomTestParser">
+            <summary>Parse report custom test class</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,System.String)">
+            <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Report.ReportTestRunner"/> class</summary>
+            <param name="httpClient">The payroll engine http client</param>
+            <param name="fileName">Name of the file</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportTestRunner.TestAsync">
+            <summary>Test case</summary>
+            <returns>The report test results</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportTestRunner.InitTest(PayrollEngine.Client.Test.Report.ReportTest,PayrollEngine.Client.Test.Report.ReportTestContext)">
+            <summary>Initialize the test</summary>
+            <param name="reportTest">The test</param>
+            <param name="context">The test context</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportTestRunner.RunCustomTest``1(``0,PayrollEngine.Client.Test.Report.ReportTestType,System.Type,System.Reflection.MethodInfo,PayrollEngine.Client.Test.Report.ReportTestContext)">
+            <summary>Run the test</summary>
+            <typeparam name="T"></typeparam>
+            <param name="test"></param>
+            <param name="reportTestType"></param>
+            <param name="testType"></param>
+            <param name="testMethod"></param>
+            <param name="context"></param>
+            <returns></returns>
+            <exception cref="T:PayrollEngine.Client.Test.TestCompileException"></exception>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportTestRunner.CreateTestContext(PayrollEngine.Client.Test.Report.ReportTest)">
+            <summary>Create the test context</summary>
+            <param name="reportTest">The test</param>
+            <returns>The test context</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportTestRunner.GetRegulationAsync(System.Int32,System.String)">
+            <summary>Get regulation</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="name">The regulation name</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportTestRunner.LoadReportTest">
+            <summary>Loads the case test</summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Report.ReportTestType">
+            <summary>Report test type</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.Report.ReportTestType.Http">
+            <summary>Http result</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.Report.ReportTestType.ReportBuild">
+            <summary>report build result</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.Report.ReportTestType.ReportBuildCustom">
+            <summary>report build custom result</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.Report.ReportTestType.ReportExecute">
+            <summary>Report execute result</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.Report.ReportTestType.ReportExecuteCustom">
+            <summary>Report execute custom result</summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.ScriptTestResultBase">
+            <summary>Report script test result</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.ScriptTestResultBase.TestName">
+            <summary>The test name</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.ScriptTestResultBase.Failed">
+            <summary>The failed state</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.ScriptTestResultBase.Message">
+            <summary>The result message</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.ScriptTestResultBase.Expected">
+            <summary>The expected state</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.ScriptTestResultBase.Received">
+            <summary>The received state</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.ScriptTestResultBase.HttpStatusCode">
+            <summary>The http status code</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.ScriptTestResultBase.ErrorCode">
+            <summary>The error code</summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.TestBase`2">
+            <summary>Script base test</summary>
+            <typeparam name="TIn">The test input type</typeparam>
+            <typeparam name="TOut">The test output type</typeparam>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.TestBase`2.TestName">
+            <summary>The test name</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.TestBase`2.TestDescription">
+            <summary>The test description</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.TestBase`2.TestCategory">
+            <summary>The test category</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.TestBase`2.Input">
+            <summary>The test input</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.TestBase`2.InputFile">
+            <summary>The test input file name</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.TestBase`2.Output">
+            <summary>The test output</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.TestBase`2.OutputFile">
+            <summary>The test output file name</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.TestBase`2.InitTest">
+            <summary>Init the test</summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.TestCompileException">
+            <summary>Case test compile exception</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.TestCompileException.#ctor(System.String,System.Exception)">
+            <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.TestCompileException"></see> class.</summary>
+            <param name="message">The exception message</param>
+            <param name="innerException">The inner exception</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.TestCompileException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.TestCompileException"></see> class.</summary>
+            <param name="info">The serialization info</param>
+            <param name="context">The streaming context</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.TestCompileException.#ctor(System.Collections.Generic.IList{System.String})">
+            <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.TestCompileException"></see> class.</summary>
+            <param name="failures">The diagnostic results</param>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.TestContextBase">
+            <summary>The test context base</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.TestContextBase.TestName">
+            <summary>The test name</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.TestContextBase.Tenant">
+            <summary>The tenant</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.TestContextBase.User">
+            <summary>The user</summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.TestPrecision">
+            <summary>The test precision</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.TestPrecision.TestPrecisionOff">
+            <summary>No test digits</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.TestPrecision.TestPrecision1">
+            <summary>Test 1 digit</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.TestPrecision.TestPrecision2">
+            <summary>Test 2 digits</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.TestPrecision.TestPrecision3">
+            <summary>Test 3 digits</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.TestPrecision.TestPrecision4">
+            <summary>Test 4 digits</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.TestPrecision.TestPrecision5">
+            <summary>Test 5 digits</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.TestPrecision.TestPrecision6">
+            <summary>Test 6 digits</summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.TestPrecisionExtensions">
+            <summary>Extension methods for <see cref="T:PayrollEngine.Client.Test.TestPrecision"/> </summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.TestPrecisionExtensions.GetDecimals(PayrollEngine.Client.Test.TestPrecision)">
+            <summary>The testing precision decimal count</summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.TestResultBase`1">
+            <summary>Result of test</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.TestResultBase`1.ExpectedResult">
+            <summary>The expected result</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.TestResultBase`1.ActualResult">
+            <summary>The actual result</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.TestResultBase`1.#ctor(`0,`0)">
+            <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.TestResultBase`1"/> class</summary>
+            <param name="expectedResult">The expected result</param>
+            <param name="actualResult">The actual result</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.TestResultBase`1.IsFailed">
+            <summary>Test failed test</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.TestResultBase`1.IsValidResult">
+            <summary>Get for valid result</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.TestResultBase`1.ValidAttributes">
+            <summary>Test attribute values</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.TestResultBase`1.FirstInvalidAttribute">
+            <summary>Test attribute values</summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.TestRunnerBase">
+            <summary>Base class for payroll tests</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.TestRunnerBase.HttpClient">
+            <summary>The Payroll http client</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.TestRunnerBase.#ctor(PayrollEngine.Client.PayrollHttpClient)">
+            <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.TestRunnerBase"/> class</summary>
+            <param name="httpClient">The payroll engine http client</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.TestRunnerBase.GetTenantAsync(System.String)">
+            <summary>Get tenant</summary>
+            <param name="identifier">The tenant identifier</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.TestRunnerBase.DeleteTenantAsync(System.Int32)">
+            <summary>Delete tenant</summary>
+            <param name="tenantId">The tenant id</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.TestRunnerBase.GetUserAsync(System.Int32,System.String)">
+            <summary>Get user</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="identifier">The tenant identifier</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.TestRunnerBase.GetEmployeeAsync(System.Int32,System.String)">
+            <summary>Get tenant</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="identifier">The tenant identifier</param>
+        </member>
+    </members>
+</doc>

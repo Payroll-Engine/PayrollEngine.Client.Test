@@ -1,0 +1,547 @@
+{
+  "definitions": {
+    "DataColumn": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "expression": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "valueType": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "valueBaseType": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "DataRelation": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "parentTable": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "parentColumn": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "childTable": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "childColumn": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "DataRow": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "values": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "DataSet": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "tables": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/DataTable"
+          }
+        },
+        "relations": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/DataRelation"
+          }
+        }
+      }
+    },
+    "DataTable": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "columns": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/DataColumn"
+          }
+        },
+        "rows": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/DataRow"
+          }
+        }
+      }
+    },
+    "ReportBuildTest": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "reportName": {
+          "type": "string"
+        },
+        "parameters": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "testName": {
+          "type": "string"
+        },
+        "testDescription": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "testCategory": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "input": {
+          "$ref": "#/definitions/ReportRequest"
+        },
+        "inputFile": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "output": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/ReportParameter"
+          }
+        },
+        "outputFile": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "reportName",
+        "testName"
+      ]
+    },
+    "ReportExecuteTest": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "reportName": {
+          "type": "string"
+        },
+        "parameters": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "testName": {
+          "type": "string"
+        },
+        "testDescription": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "testCategory": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "input": {
+          "$ref": "#/definitions/ReportRequest"
+        },
+        "inputFile": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "output": {
+          "$ref": "#/definitions/DataSet"
+        },
+        "outputFile": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "reportName",
+        "testName"
+      ]
+    },
+    "ReportParameter": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 128
+        },
+        "nameLocalizations": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "descriptionLocalizations": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "mandatory": {
+          "type": "boolean"
+        },
+        "value": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "valueType": {
+          "type": "string",
+          "enum": [
+            "String",
+            "Boolean",
+            "Integer",
+            "NumericBoolean",
+            "Decimal",
+            "DateTime",
+            "None",
+            "Date",
+            "WebResource",
+            "Money",
+            "Percent",
+            "Hour",
+            "Day",
+            "Week",
+            "Month",
+            "Year",
+            "Distance"
+          ]
+        },
+        "parameterType": {
+          "type": "string",
+          "enum": [
+            "Value",
+            "Now",
+            "Today",
+            "TenantId",
+            "UserId",
+            "EmployeeId",
+            "RegulationId",
+            "PayrollId",
+            "PayrunId",
+            "ReportId",
+            "WebhookId"
+          ]
+        },
+        "attributes": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {}
+        },
+        "id": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Active",
+            "Inactive"
+          ]
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "ReportRequest": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "language": {
+          "type": "string",
+          "enum": [
+            "English",
+            "Afrikaans",
+            "Arabic",
+            "Azerbaijani",
+            "Belarusian",
+            "Bulgarian",
+            "Bosnian",
+            "Czech",
+            "Danish",
+            "German",
+            "Greek",
+            "Spanish",
+            "Estonian",
+            "Persian",
+            "Finnish",
+            "French",
+            "Irish",
+            "Hebrew",
+            "Hindi",
+            "Croatian",
+            "Hungarian",
+            "Armenian",
+            "Icelandic",
+            "Italian",
+            "Japanese",
+            "Georgian",
+            "Korean",
+            "Luxembourgish",
+            "Lithuanian",
+            "Latvian",
+            "Macedonian",
+            "Dutch",
+            "Norwegian",
+            "Polish",
+            "Portuguese",
+            "Romanian",
+            "Russian",
+            "Slovak",
+            "Slovenian",
+            "Albanian",
+            "Serbian",
+            "Swedish",
+            "Thai",
+            "Turkish",
+            "Ukrainian",
+            "Uzbek",
+            "Vietnamese",
+            "Chinese"
+          ]
+        },
+        "userId": {
+          "type": "integer"
+        },
+        "userIdentifier": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "parameters": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "type": "object",
+  "properties": {
+    "testName": {
+      "type": "string"
+    },
+    "testDescription": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "testCategory": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "tenantIdentifier": {
+      "type": "string"
+    },
+    "userIdentifier": {
+      "type": "string"
+    },
+    "regulationName": {
+      "type": "string"
+    },
+    "customTestFiles": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": [
+          "string",
+          "null"
+        ]
+      }
+    },
+    "buildTests": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/ReportBuildTest"
+      }
+    },
+    "executeTests": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/ReportExecuteTest"
+      }
+    }
+  },
+  "required": [
+    "testName",
+    "tenantIdentifier",
+    "userIdentifier",
+    "regulationName"
+  ]
+}
