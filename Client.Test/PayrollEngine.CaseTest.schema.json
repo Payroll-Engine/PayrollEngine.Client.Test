@@ -1,0 +1,2101 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "CaseTest",
+  "type": "object",
+  "description": "Case test",
+  "additionalProperties": false,
+  "required": [
+    "TestName",
+    "TenantIdentifier",
+    "UserIdentifier",
+    "PayrollName"
+  ],
+  "properties": {
+    "TestName": {
+      "type": "string",
+      "description": "The test name",
+      "minLength": 1
+    },
+    "TestDescription": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "The test description"
+    },
+    "TestCategory": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "The test category"
+    },
+    "TenantIdentifier": {
+      "type": "string",
+      "description": "The tenant identifier",
+      "minLength": 1
+    },
+    "UserIdentifier": {
+      "type": "string",
+      "description": "The user identifier",
+      "minLength": 1
+    },
+    "PayrollName": {
+      "type": "string",
+      "description": "The payroll name",
+      "minLength": 1
+    },
+    "EmployeeIdentifier": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "The employee identifier, mandatory for employee case"
+    },
+    "EvaluationDate": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "The evaluation date, default is now",
+      "format": "date-time"
+    },
+    "PeriodDate": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "The period date, default is now",
+      "format": "date-time"
+    },
+    "RegulationDate": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "The regulation date, default is now",
+      "format": "date-time"
+    },
+    "InitCases": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "description": "The init cases",
+      "items": {
+        "$ref": "#/definitions/CaseChangeSetup"
+      }
+    },
+    "CustomTestFiles": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "description": "Custom test files",
+      "items": {
+        "type": "string"
+      }
+    },
+    "AvailableTests": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "description": "The case available tests",
+      "items": {
+        "$ref": "#/definitions/CaseAvailableTest"
+      }
+    },
+    "BuildTests": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "description": "The case build tests",
+      "items": {
+        "$ref": "#/definitions/CaseBuildTest"
+      }
+    },
+    "ValidateTests": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "description": "The case validate tests",
+      "items": {
+        "$ref": "#/definitions/CaseValidateTest"
+      }
+    }
+  },
+  "definitions": {
+    "CaseChangeSetup": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Model"
+        },
+        {
+          "type": "object",
+          "description": "Payroll case change setup client object",
+          "additionalProperties": false,
+          "required": [
+            "Case"
+          ],
+          "properties": {
+            "UserId": {
+              "type": "integer",
+              "description": "The change user id",
+              "format": "int32"
+            },
+            "UserIdentifier": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The change user unique identifier (client only)"
+            },
+            "EmployeeId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "The change employee id (immutable)",
+              "format": "int32"
+            },
+            "EmployeeIdentifier": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The employee identifier (client only)"
+            },
+            "DivisionId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "The division id (immutable)\n            If present, this values overrides all case value divisions  DivisionId",
+              "format": "int32"
+            },
+            "DivisionName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The division name (client only)"
+            },
+            "CancellationId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "The case to cancel, the root case specifies the target case",
+              "format": "int32"
+            },
+            "CancellationCreated": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The creation date from the case to cancel, the root case specifies the target case",
+              "format": "date-time"
+            },
+            "Reason": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The change reason"
+            },
+            "Forecast": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The forecast name"
+            },
+            "Case": {
+              "description": "The setup root case",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CaseSetup"
+                }
+              ]
+            },
+            "Issues": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case validation issues",
+              "items": {
+                "$ref": "#/definitions/CaseValidationIssue"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "CaseSetup": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Model"
+        },
+        {
+          "type": "object",
+          "description": "Payroll case value change client object",
+          "additionalProperties": false,
+          "required": [
+            "CaseName"
+          ],
+          "properties": {
+            "CaseName": {
+              "type": "string",
+              "description": "The case name",
+              "minLength": 1
+            },
+            "CaseSlot": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The case slot"
+            },
+            "Values": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case values",
+              "items": {
+                "$ref": "#/definitions/CaseValueSetup"
+              }
+            },
+            "RelatedCases": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The related cases",
+              "items": {
+                "$ref": "#/definitions/CaseSetup"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "CaseValueSetup": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CaseValue"
+        },
+        {
+          "type": "object",
+          "description": "The payroll case value client object (immutable)",
+          "additionalProperties": false,
+          "properties": {
+            "Documents": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "Case documents",
+              "items": {
+                "$ref": "#/definitions/CaseDocument"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "CaseDocument": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Model"
+        },
+        {
+          "type": "object",
+          "description": "The case document client object",
+          "additionalProperties": false,
+          "required": [
+            "Name",
+            "ContentType"
+          ],
+          "properties": {
+            "Name": {
+              "type": "string",
+              "description": "The document name",
+              "minLength": 1
+            },
+            "Content": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The document content"
+            },
+            "ContentFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The document file name"
+            },
+            "ContentType": {
+              "type": "string",
+              "description": "The document content type",
+              "maxLength": 128,
+              "minLength": 0
+            }
+          }
+        }
+      ]
+    },
+    "Model": {
+      "type": "object",
+      "description": "Base for all Payroll models",
+      "x-abstract": true,
+      "additionalProperties": false,
+      "properties": {
+        "Id": {
+          "type": "integer",
+          "description": "The unique object id (immutable)",
+          "format": "int32"
+        },
+        "Status": {
+          "description": "The status of the object",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/ObjectStatus"
+            }
+          ]
+        },
+        "Created": {
+          "type": "string",
+          "description": "The date which the client object was created (immutable)",
+          "format": "date-time"
+        },
+        "Updated": {
+          "type": "string",
+          "description": "The date which the client object was last updated (immutable)",
+          "format": "date-time"
+        }
+      }
+    },
+    "ObjectStatus": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Active",
+        "Inactive"
+      ],
+      "enum": [
+        "Active",
+        "Inactive"
+      ]
+    },
+    "CaseValue": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Model"
+        },
+        {
+          "type": "object",
+          "description": "The payroll case value client object (immutable)",
+          "additionalProperties": false,
+          "properties": {
+            "DivisionId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "The division id (immutable), Mandatory for case values with local value scope ValueScope",
+              "format": "int32"
+            },
+            "EmployeeId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "The employee id, mandatory for employee case changes (immutable)",
+              "format": "int32"
+            },
+            "DivisionName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The associated case field name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "CaseName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The associated case name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "CaseNameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized case names",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "CaseFieldName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The associated case field name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "CaseFieldNameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized case field names",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "CaseSlot": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The case slot",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "CaseSlotLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized case slots",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "ValueType": {
+              "description": "The type of the value",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/ValueType"
+                }
+              ]
+            },
+            "Value": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The case value (JSON format)"
+            },
+            "NumericValue": {
+              "type": [
+                "null",
+                "number"
+              ],
+              "description": "The case numeric value",
+              "format": "decimal"
+            },
+            "CaseRelation": {
+              "description": "The case relation",
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "$ref": "#/definitions/CaseRelationReference"
+                }
+              ]
+            },
+            "CancellationDate": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "Cancellation date",
+              "format": "date-time"
+            },
+            "Start": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The starting date for the value",
+              "format": "date-time"
+            },
+            "End": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The ending date for the value",
+              "format": "date-time"
+            },
+            "Forecast": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The forecast name"
+            },
+            "Tags": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case value tags",
+              "items": {
+                "type": "string"
+              }
+            },
+            "Attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "ValueType": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "String",
+        "Boolean",
+        "Integer",
+        "NumericBoolean",
+        "Decimal",
+        "DateTime",
+        "None",
+        "Date",
+        "WebResource",
+        "Money",
+        "Percent",
+        "Hour",
+        "Day",
+        "Week",
+        "Month",
+        "Year",
+        "Distance"
+      ],
+      "enum": [
+        "String",
+        "Boolean",
+        "Integer",
+        "NumericBoolean",
+        "Decimal",
+        "DateTime",
+        "None",
+        "Date",
+        "WebResource",
+        "Money",
+        "Percent",
+        "Hour",
+        "Day",
+        "Week",
+        "Month",
+        "Year",
+        "Distance"
+      ]
+    },
+    "CaseRelationReference": {
+      "type": "object",
+      "description": "Case relation reference",
+      "additionalProperties": false,
+      "properties": {
+        "SourceCaseName": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The relation source case name (immutable)"
+        },
+        "SourceCaseSlot": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The relation source case slot"
+        },
+        "TargetCaseName": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The relation target case name (immutable)"
+        },
+        "TargetCaseSlot": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The relation target case slot"
+        }
+      }
+    },
+    "CaseValidationIssue": {
+      "type": "object",
+      "description": "Represents an issue from the case validation",
+      "additionalProperties": false,
+      "properties": {
+        "IssueType": {
+          "description": "The validation issue type",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/CaseIssueType"
+            }
+          ]
+        },
+        "Number": {
+          "type": "integer",
+          "description": "The issue number (negative issue type)",
+          "format": "int32"
+        },
+        "CaseName": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Gets the name of the case"
+        },
+        "CaseNameLocalizations": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "description": "The localized case names",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "CaseSlot": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The case slot"
+        },
+        "CaseSlotLocalizations": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "description": "The localized case slot names",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "CaseFieldName": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Gets the name of the case field"
+        },
+        "CaseFieldNameLocalizations": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "description": "The localized case field names",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "SourceCaseName": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The relation source case name"
+        },
+        "SourceCaseNameLocalizations": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "description": "The localized source case names",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "SourceCaseSlot": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The relation source case slot"
+        },
+        "SourceCaseSlotLocalizations": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "description": "The localized source case slots",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "TargetCaseName": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The relation target case name"
+        },
+        "TargetCaseNameLocalizations": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "description": "The localized target case names",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "TargetCaseSlot": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The relation target case slot"
+        },
+        "TargetCaseSlotLocalizations": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "description": "The localized target case slots",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "Message": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Gets the validation message"
+        }
+      }
+    },
+    "CaseIssueType": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Unknown",
+        "CaseInvalid",
+        "CaseUnknown",
+        "CaseRelationInvalid",
+        "CaseFieldDuplicated",
+        "CaseValueIncomplete",
+        "CaseValueStartInvalid",
+        "CaseValueEndInvalid",
+        "CaseValueEndMissing"
+      ],
+      "enum": [
+        "Unknown",
+        "CaseInvalid",
+        "CaseUnknown",
+        "CaseRelationInvalid",
+        "CaseFieldDuplicated",
+        "CaseValueIncomplete",
+        "CaseValueStartInvalid",
+        "CaseValueEndInvalid",
+        "CaseValueEndMissing"
+      ]
+    },
+    "CaseAvailableTest": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CaseScriptTestOfCaseChangeSetupAndBoolean"
+        },
+        {
+          "type": "object",
+          "description": "Case available function test\n            Test input: case change setup\n            Test output: bool indicates the case available state\n            ",
+          "additionalProperties": false,
+          "required": [
+            "CaseName"
+          ],
+          "properties": {
+            "CaseName": {
+              "type": "string",
+              "description": "The case name",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    },
+    "CaseScriptTestOfCaseChangeSetupAndBoolean": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/TestBaseOfCaseChangeSetupAndBoolean"
+        },
+        {
+          "type": "object",
+          "description": "Case script base test",
+          "x-abstract": true,
+          "additionalProperties": false,
+          "properties": {
+            "InitCases": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The init cases",
+              "items": {
+                "$ref": "#/definitions/CaseChangeSetup"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "TestBaseOfCaseChangeSetupAndBoolean": {
+      "type": "object",
+      "description": "Script base test",
+      "x-abstract": true,
+      "additionalProperties": false,
+      "required": [
+        "TestName"
+      ],
+      "properties": {
+        "TestName": {
+          "type": "string",
+          "description": "The test name",
+          "minLength": 1
+        },
+        "TestDescription": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The test description"
+        },
+        "TestCategory": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The test category"
+        },
+        "Input": {
+          "description": "The test input",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/CaseChangeSetup"
+            }
+          ]
+        },
+        "InputFile": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The test input file name"
+        },
+        "Output": {
+          "type": "boolean",
+          "description": "The test output"
+        },
+        "OutputFile": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The test output file name"
+        }
+      }
+    },
+    "CaseBuildTest": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CaseScriptTestOfCaseChangeSetupAndCaseSet"
+        },
+        {
+          "type": "object",
+          "description": "Case build function test\n            Test input: case change setup\n            Test output: case set\n            ",
+          "additionalProperties": false
+        }
+      ]
+    },
+    "CaseScriptTestOfCaseChangeSetupAndCaseSet": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/TestBaseOfCaseChangeSetupAndCaseSet"
+        },
+        {
+          "type": "object",
+          "description": "Case script base test",
+          "x-abstract": true,
+          "additionalProperties": false,
+          "properties": {
+            "InitCases": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The init cases",
+              "items": {
+                "$ref": "#/definitions/CaseChangeSetup"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "TestBaseOfCaseChangeSetupAndCaseSet": {
+      "type": "object",
+      "description": "Script base test",
+      "x-abstract": true,
+      "additionalProperties": false,
+      "required": [
+        "TestName"
+      ],
+      "properties": {
+        "TestName": {
+          "type": "string",
+          "description": "The test name",
+          "minLength": 1
+        },
+        "TestDescription": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The test description"
+        },
+        "TestCategory": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The test category"
+        },
+        "Input": {
+          "description": "The test input",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/CaseChangeSetup"
+            }
+          ]
+        },
+        "InputFile": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The test input file name"
+        },
+        "Output": {
+          "description": "The test output",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/CaseSet"
+            }
+          ]
+        },
+        "OutputFile": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The test output file name"
+        }
+      }
+    },
+    "CaseSet": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Case"
+        },
+        {
+          "type": "object",
+          "description": "The payroll derived case",
+          "additionalProperties": false,
+          "properties": {
+            "DisplayName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The case display name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "CaseSlot": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The case slot",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "CaseSlotLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized case slots",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "CancellationDate": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The cancellation date",
+              "format": "date-time"
+            },
+            "Fields": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The derived case fields",
+              "items": {
+                "$ref": "#/definitions/CaseFieldSet"
+              }
+            },
+            "RelatedCases": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The related cases",
+              "items": {
+                "$ref": "#/definitions/CaseSet"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "CaseFieldSet": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CaseField"
+        },
+        {
+          "type": "object",
+          "description": "The case field including the slot and values",
+          "additionalProperties": false,
+          "properties": {
+            "DisplayName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The case field display name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "CaseSlot": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The case slot",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "CaseSlotLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized case slots",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "Value": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The case value (JSON format)"
+            },
+            "Start": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The starting date for the value",
+              "format": "date-time"
+            },
+            "End": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The ending date for the value",
+              "format": "date-time"
+            },
+            "CancellationDate": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "Cancellation date",
+              "format": "date-time"
+            },
+            "HasValue": {
+              "type": "boolean",
+              "description": "Test for existing value"
+            }
+          }
+        }
+      ]
+    },
+    "CaseField": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Model"
+        },
+        {
+          "type": "object",
+          "description": "The payroll case field client object",
+          "additionalProperties": false,
+          "required": [
+            "Name"
+          ],
+          "properties": {
+            "Name": {
+              "type": "string",
+              "description": "The case field name (immutable)",
+              "minLength": 1
+            },
+            "NameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized case field names",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "Description": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The case field description"
+            },
+            "DescriptionLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized case field descriptions",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "ValueType": {
+              "description": "The value type of the case field",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/ValueType"
+                }
+              ]
+            },
+            "ValueScope": {
+              "description": "The value scope",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/ValueScope"
+                }
+              ]
+            },
+            "TimeType": {
+              "description": "The date period type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CaseFieldTimeType"
+                }
+              ]
+            },
+            "TimeUnit": {
+              "description": "The date unit type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CaseFieldTimeUnit"
+                }
+              ]
+            },
+            "OverrideType": {
+              "description": "The override type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/OverrideType"
+                }
+              ]
+            },
+            "CancellationMode": {
+              "description": "The cancellation mode",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CaseFieldCancellationMode"
+                }
+              ]
+            },
+            "ValueCreationMode": {
+              "description": "The case value creation mode",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CaseValueCreationMode"
+                }
+              ]
+            },
+            "Optional": {
+              "type": "boolean",
+              "description": "Optional case field"
+            },
+            "Order": {
+              "type": "integer",
+              "description": "The case field order",
+              "format": "int32"
+            },
+            "StartDateType": {
+              "description": "The start date type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CaseFieldDateType"
+                }
+              ]
+            },
+            "EndDateType": {
+              "description": "The end date type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CaseFieldDateType"
+                }
+              ]
+            },
+            "EndMandatory": {
+              "type": "boolean",
+              "description": "The end date mandatory state"
+            },
+            "DefaultStart": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The default start value of the case field (date or expression)"
+            },
+            "DefaultEnd": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The default end value of the case field (date or expression)"
+            },
+            "DefaultValue": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The default value of the case field (JSON format)"
+            },
+            "Tags": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case field tags",
+              "items": {
+                "type": "string"
+              }
+            },
+            "LookupSettings": {
+              "description": "The lookup settings",
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "$ref": "#/definitions/LookupSettings"
+                }
+              ]
+            },
+            "Clusters": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case field clusters",
+              "items": {
+                "type": "string"
+              }
+            },
+            "BuildActions": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case field build actions",
+              "items": {
+                "type": "string"
+              }
+            },
+            "ValidateActions": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case field validate actions",
+              "items": {
+                "type": "string"
+              }
+            },
+            "Attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "additionalProperties": {}
+            },
+            "ValueAttributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom value attributes",
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "ValueScope": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Local",
+        "Global"
+      ],
+      "enum": [
+        "Local",
+        "Global"
+      ]
+    },
+    "CaseFieldTimeType": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Timeless",
+        "Moment",
+        "Period",
+        "ScaledPeriod"
+      ],
+      "enum": [
+        "Timeless",
+        "Moment",
+        "Period",
+        "ScaledPeriod"
+      ]
+    },
+    "CaseFieldTimeUnit": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Day",
+        "HalfDay",
+        "Month"
+      ],
+      "enum": [
+        "Day",
+        "HalfDay",
+        "Month"
+      ]
+    },
+    "OverrideType": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Active",
+        "Inactive"
+      ],
+      "enum": [
+        "Active",
+        "Inactive"
+      ]
+    },
+    "CaseFieldCancellationMode": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "TimeType",
+        "Previous",
+        "Keep",
+        "Reset",
+        "Invert"
+      ],
+      "enum": [
+        "TimeType",
+        "Previous",
+        "Keep",
+        "Reset",
+        "Invert"
+      ]
+    },
+    "CaseValueCreationMode": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "OnChanges",
+        "Always",
+        "Discard"
+      ],
+      "enum": [
+        "OnChanges",
+        "Always",
+        "Discard"
+      ]
+    },
+    "CaseFieldDateType": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Day",
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Month",
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+        "Year"
+      ],
+      "enum": [
+        "Day",
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Month",
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+        "Year"
+      ]
+    },
+    "LookupSettings": {
+      "type": "object",
+      "description": "The lookup settings",
+      "additionalProperties": false,
+      "required": [
+        "LookupName"
+      ],
+      "properties": {
+        "LookupName": {
+          "type": "string",
+          "description": "The lookup name",
+          "minLength": 1
+        },
+        "ValueFieldName": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The lookup value field name"
+        },
+        "TextFieldName": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The lookup text/display field name"
+        }
+      }
+    },
+    "Case": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Model"
+        },
+        {
+          "type": "object",
+          "description": "The payroll case client object",
+          "additionalProperties": false,
+          "required": [
+            "Name"
+          ],
+          "properties": {
+            "CaseType": {
+              "description": "The type of he case (immutable)",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CaseType"
+                }
+              ]
+            },
+            "Name": {
+              "type": "string",
+              "description": "The case name (immutable)",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "NameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized case names",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "NameSynonyms": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "Synonyms for the case name",
+              "items": {
+                "type": "string"
+              }
+            },
+            "Description": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The case description"
+            },
+            "DescriptionLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized case descriptions",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "DefaultReason": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The default case change reason"
+            },
+            "DefaultReasonLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized default case change reasons",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "BaseCase": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The base case name"
+            },
+            "BaseCaseFields": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The base case fields",
+              "items": {
+                "$ref": "#/definitions/CaseFieldReference"
+              }
+            },
+            "OverrideType": {
+              "description": "The override type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/OverrideType"
+                }
+              ]
+            },
+            "CancellationType": {
+              "description": "The cancellation type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CaseCancellationType"
+                }
+              ]
+            },
+            "AvailableExpression": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The expression used to build a case"
+            },
+            "AvailableExpressionFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The expression used to build a case file"
+            },
+            "BuildExpression": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The expression used to build a case"
+            },
+            "BuildExpressionFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The expression used to build a case file"
+            },
+            "ValidateExpression": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The case validate expression"
+            },
+            "ValidateExpressionFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The case validate expression file"
+            },
+            "Lookups": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case lookups",
+              "items": {
+                "type": "string"
+              }
+            },
+            "Slots": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case slots",
+              "items": {
+                "$ref": "#/definitions/CaseSlot"
+              }
+            },
+            "AvailableActions": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case available actions",
+              "items": {
+                "type": "string"
+              }
+            },
+            "BuildActions": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case build actions",
+              "items": {
+                "type": "string"
+              }
+            },
+            "ValidateActions": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case validate actions",
+              "items": {
+                "type": "string"
+              }
+            },
+            "Attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "additionalProperties": {}
+            },
+            "Clusters": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case clusters",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "CaseType": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Global",
+        "National",
+        "Company",
+        "Employee"
+      ],
+      "enum": [
+        "Global",
+        "National",
+        "Company",
+        "Employee"
+      ]
+    },
+    "CaseFieldReference": {
+      "type": "object",
+      "description": "Case field reference",
+      "additionalProperties": false,
+      "properties": {
+        "Name": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The case field name"
+        },
+        "Order": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "The case field order",
+          "format": "int32"
+        }
+      }
+    },
+    "CaseCancellationType": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "None",
+        "Case"
+      ],
+      "enum": [
+        "None",
+        "Case"
+      ]
+    },
+    "CaseSlot": {
+      "type": "object",
+      "description": "Case slot",
+      "additionalProperties": false,
+      "required": [
+        "Name"
+      ],
+      "properties": {
+        "Name": {
+          "type": "string",
+          "description": "The case slot name",
+          "maxLength": 128,
+          "minLength": 0
+        },
+        "NameLocalizations": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "description": "The localized case slot names",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "CaseValidateTest": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CaseScriptTestOfCaseChangeSetupAndCaseChange"
+        },
+        {
+          "type": "object",
+          "description": "Case validate function test\n            Test input: case change setup\n            Test output: case change\n            ",
+          "additionalProperties": false
+        }
+      ]
+    },
+    "CaseScriptTestOfCaseChangeSetupAndCaseChange": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/TestBaseOfCaseChangeSetupAndCaseChange"
+        },
+        {
+          "type": "object",
+          "description": "Case script base test",
+          "x-abstract": true,
+          "additionalProperties": false,
+          "properties": {
+            "InitCases": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The init cases",
+              "items": {
+                "$ref": "#/definitions/CaseChangeSetup"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "TestBaseOfCaseChangeSetupAndCaseChange": {
+      "type": "object",
+      "description": "Script base test",
+      "x-abstract": true,
+      "additionalProperties": false,
+      "required": [
+        "TestName"
+      ],
+      "properties": {
+        "TestName": {
+          "type": "string",
+          "description": "The test name",
+          "minLength": 1
+        },
+        "TestDescription": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The test description"
+        },
+        "TestCategory": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The test category"
+        },
+        "Input": {
+          "description": "The test input",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/CaseChangeSetup"
+            }
+          ]
+        },
+        "InputFile": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The test input file name"
+        },
+        "Output": {
+          "description": "The test output",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/CaseChange"
+            }
+          ]
+        },
+        "OutputFile": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The test output file name"
+        }
+      }
+    },
+    "CaseChange": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Model"
+        },
+        {
+          "type": "object",
+          "description": "Payroll case value change client object",
+          "additionalProperties": false,
+          "properties": {
+            "UserId": {
+              "type": "integer",
+              "description": "The change user id",
+              "format": "int32"
+            },
+            "UserIdentifier": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The change user unique identifier (client only)"
+            },
+            "PayrollId": {
+              "type": "integer",
+              "description": "The payroll id",
+              "format": "int32"
+            },
+            "PayrollName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The payroll name"
+            },
+            "EmployeeId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "The employee id, mandatory for employee case changes (immutable)",
+              "format": "int32"
+            },
+            "DivisionId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "The division id (immutable)\n            If present, this values overrides all case value divisions  DivisionId",
+              "format": "int32"
+            },
+            "DivisionName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The division name (client only)"
+            },
+            "CancellationType": {
+              "description": "The cancellation type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CaseCancellationType"
+                }
+              ]
+            },
+            "CancellationId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "The cancellation case id (immutable)",
+              "format": "int32"
+            },
+            "CancellationDate": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The cancellation date (immutable)",
+              "format": "date-time"
+            },
+            "Reason": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The change reason"
+            },
+            "ValidationCaseName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The validation case name"
+            },
+            "Forecast": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The forecast name"
+            },
+            "Values": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case values",
+              "items": {
+                "$ref": "#/definitions/CaseValue"
+              }
+            },
+            "Issues": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case validation issues",
+              "items": {
+                "$ref": "#/definitions/CaseValidationIssue"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

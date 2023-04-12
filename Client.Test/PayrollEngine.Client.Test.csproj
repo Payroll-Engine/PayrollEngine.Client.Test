@@ -18,33 +18,37 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.CodeAnalysis.Compilers" Version="4.5.0" />
-		<PackageReference Include="PayrollEngine.Client.Core" Version="0.5.0-pre-230411" />
+		<PackageReference Include="PayrollEngine.Client.Core" Version="0.5.0-pre-230412-2" />
 	</ItemGroup>
 
-	<!-- include xml documention files to the nuget package -->
+	<!-- include xml documention files and json schemas to the nuget package -->
 	<ItemGroup>
-		<!-- ReSharper disable UnknownProperty -->
 		<None Include="$(OutputDir)*.xml" Pack="true">
 			<PackageCopyToOutput>true</PackageCopyToOutput>
 		</None>
-		<!-- ReSharper restore UnknownProperty -->
+		<None Include="$(OutputDir)*.schema.json" Pack="true">
+			<PackageCopyToOutput>true</PackageCopyToOutput>
+		</None>
 	</ItemGroup>
 
-	<!-- build and deploy client json schemas -->
-	<Target Name="TestTarget" AfterTargets="Build">
-		<Message Importance="High" />
-		<Exec Command="JsonSchemaBuilder $(OutDir)\PayrollEngine.Client.Test.dll PayrollEngine.Client.Test.Case.CaseTest $(ProjectDir)schema\PayrollEngine.CaseTest.schema.json" />
-		<Copy SourceFiles="$(ProjectDir)schema\PayrollEngine.CaseTest.schema.json" DestinationFolder="$(ProjectDir)..\..\.schemas" />
-		<Exec Command="JsonSchemaBuilder $(OutDir)\PayrollEngine.Client.Test.dll PayrollEngine.Client.Test.Report.ReportTest $(ProjectDir)schema\PayrollEngine.ReportTest.schema.json" />
-		<Copy SourceFiles="$(ProjectDir)schema\PayrollEngine.ReportTest.schema.json" DestinationFolder="$(ProjectDir)..\..\.schemas" />
+	<!--  build json schemas -->
+	<Target Name="BuildJsonSchema" AfterTargets="Build">
+		<Message Importance="High" Text="Building json schema..."/>
+		<Exec Command="JsonSchemaBuilder $(OutDir)\PayrollEngine.Client.Test.dll PayrollEngine.Client.Test.Case.CaseTest $(OutputDir)PayrollEngine.CaseTest.schema.json" />
+		<Exec Command="JsonSchemaBuilder $(OutDir)\PayrollEngine.Client.Test.dll PayrollEngine.Client.Test.Report.ReportTest $(OutputDir)PayrollEngine.ReportTest.schema.json" />
 	</Target>
 
-	<!-- copy nuget to package folder -->
-	<Target Name="CopyPackage" AfterTargets="Pack">
-		<Message Importance="High" Text="Deploying package global" />
-		<!-- ReSharper disable UnknownProperty -->
-		<Copy SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(ProjectDir)\..\..\.packages" />
-		<!-- ReSharper restore UnknownProperty -->
+	<!--  publish json schemas -->
+	<Target Name="PublishJsonSchema" AfterTargets="Build" Condition="exists('$(PayrollEngineSchemaDir)')">
+		<Message Importance="High" Text="Publish schemas..."/>
+		<Copy SourceFiles="$(OutputDir)PayrollEngine.CaseTest.schema.json" DestinationFolder="$(PayrollEngineSchemaDir)" />
+		<Copy SourceFiles="$(OutputDir)PayrollEngine.ReportTest.schema.json" DestinationFolder="$(PayrollEngineSchemaDir)" />
+	</Target>
+
+	<!-- publish package -->
+	<Target Name="PublishPackage" AfterTargets="Pack" Condition="exists('$(PayrollEnginePackageDir)')">
+		<Message Importance="High" Text="Publish package..." />
+		<Copy SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(PayrollEnginePackageDir)" />
 	</Target>
 
 </Project>

@@ -1,0 +1,783 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "ReportTest",
+  "type": "object",
+  "description": "Report test",
+  "additionalProperties": false,
+  "required": [
+    "TestName",
+    "TenantIdentifier",
+    "UserIdentifier",
+    "RegulationName"
+  ],
+  "properties": {
+    "TestName": {
+      "type": "string",
+      "description": "The test name",
+      "minLength": 1
+    },
+    "TestDescription": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "The test description"
+    },
+    "TestCategory": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "The test category"
+    },
+    "TenantIdentifier": {
+      "type": "string",
+      "description": "The tenant identifier",
+      "minLength": 1
+    },
+    "UserIdentifier": {
+      "type": "string",
+      "description": "The user identifier",
+      "minLength": 1
+    },
+    "RegulationName": {
+      "type": "string",
+      "description": "The regulation name",
+      "minLength": 1
+    },
+    "CustomTestFiles": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "description": "Custom test files",
+      "items": {
+        "type": "string"
+      }
+    },
+    "BuildTests": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "description": "The report build tests",
+      "items": {
+        "$ref": "#/definitions/ReportBuildTest"
+      }
+    },
+    "ExecuteTests": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "description": "The report execute tests",
+      "items": {
+        "$ref": "#/definitions/ReportExecuteTest"
+      }
+    }
+  },
+  "definitions": {
+    "ReportBuildTest": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ReportScriptTestOfReportRequestAndListOfReportParameter"
+        },
+        {
+          "type": "object",
+          "description": "Report build test\n            Test input: report request\n            Test output: list of report parameter\n            ",
+          "additionalProperties": false
+        }
+      ]
+    },
+    "ReportScriptTestOfReportRequestAndListOfReportParameter": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/TestBaseOfReportRequestAndListOfReportParameter"
+        },
+        {
+          "type": "object",
+          "description": "Report script base test",
+          "x-abstract": true,
+          "additionalProperties": false,
+          "required": [
+            "ReportName"
+          ],
+          "properties": {
+            "ReportName": {
+              "type": "string",
+              "description": "The report name",
+              "minLength": 1
+            },
+            "Parameters": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The report parameters",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "TestBaseOfReportRequestAndListOfReportParameter": {
+      "type": "object",
+      "description": "Script base test",
+      "x-abstract": true,
+      "additionalProperties": false,
+      "required": [
+        "TestName"
+      ],
+      "properties": {
+        "TestName": {
+          "type": "string",
+          "description": "The test name",
+          "minLength": 1
+        },
+        "TestDescription": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The test description"
+        },
+        "TestCategory": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The test category"
+        },
+        "Input": {
+          "description": "The test input",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/ReportRequest"
+            }
+          ]
+        },
+        "InputFile": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The test input file name"
+        },
+        "Output": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "The test output",
+          "items": {
+            "$ref": "#/definitions/ReportParameter"
+          }
+        },
+        "OutputFile": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The test output file name"
+        }
+      }
+    },
+    "ReportRequest": {
+      "type": "object",
+      "description": "The report request client object",
+      "additionalProperties": false,
+      "properties": {
+        "Language": {
+          "description": "The report language",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/Language"
+            }
+          ]
+        },
+        "UserId": {
+          "type": "integer",
+          "description": "The report user id",
+          "format": "int32"
+        },
+        "UserIdentifier": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The report user identifier"
+        },
+        "Parameters": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "description": "The report parameters",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Language": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "English",
+        "Afrikaans",
+        "Arabic",
+        "Azerbaijani",
+        "Belarusian",
+        "Bulgarian",
+        "Bosnian",
+        "Czech",
+        "Danish",
+        "German",
+        "Greek",
+        "Spanish",
+        "Estonian",
+        "Persian",
+        "Finnish",
+        "French",
+        "Irish",
+        "Hebrew",
+        "Hindi",
+        "Croatian",
+        "Hungarian",
+        "Armenian",
+        "Icelandic",
+        "Italian",
+        "Japanese",
+        "Georgian",
+        "Korean",
+        "Luxembourgish",
+        "Lithuanian",
+        "Latvian",
+        "Macedonian",
+        "Dutch",
+        "Norwegian",
+        "Polish",
+        "Portuguese",
+        "Romanian",
+        "Russian",
+        "Slovak",
+        "Slovenian",
+        "Albanian",
+        "Serbian",
+        "Swedish",
+        "Thai",
+        "Turkish",
+        "Ukrainian",
+        "Uzbek",
+        "Vietnamese",
+        "Chinese"
+      ],
+      "enum": [
+        "English",
+        "Afrikaans",
+        "Arabic",
+        "Azerbaijani",
+        "Belarusian",
+        "Bulgarian",
+        "Bosnian",
+        "Czech",
+        "Danish",
+        "German",
+        "Greek",
+        "Spanish",
+        "Estonian",
+        "Persian",
+        "Finnish",
+        "French",
+        "Irish",
+        "Hebrew",
+        "Hindi",
+        "Croatian",
+        "Hungarian",
+        "Armenian",
+        "Icelandic",
+        "Italian",
+        "Japanese",
+        "Georgian",
+        "Korean",
+        "Luxembourgish",
+        "Lithuanian",
+        "Latvian",
+        "Macedonian",
+        "Dutch",
+        "Norwegian",
+        "Polish",
+        "Portuguese",
+        "Romanian",
+        "Russian",
+        "Slovak",
+        "Slovenian",
+        "Albanian",
+        "Serbian",
+        "Swedish",
+        "Thai",
+        "Turkish",
+        "Ukrainian",
+        "Uzbek",
+        "Vietnamese",
+        "Chinese"
+      ]
+    },
+    "ReportParameter": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Model"
+        },
+        {
+          "type": "object",
+          "description": "The payroll report parameter client object",
+          "additionalProperties": false,
+          "required": [
+            "Name"
+          ],
+          "properties": {
+            "Name": {
+              "type": "string",
+              "description": "The report parameter name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "NameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized wage type names",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "Description": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The report parameter description"
+            },
+            "DescriptionLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized report parameter descriptions",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "Mandatory": {
+              "type": "boolean",
+              "description": "The parameter mandatory state"
+            },
+            "Value": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The parameter value (JSON)"
+            },
+            "ValueType": {
+              "description": "The parameter value type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/ValueType"
+                }
+              ]
+            },
+            "ParameterType": {
+              "description": "The parameter type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/ReportParameterType"
+                }
+              ]
+            },
+            "Attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "ValueType": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "String",
+        "Boolean",
+        "Integer",
+        "NumericBoolean",
+        "Decimal",
+        "DateTime",
+        "None",
+        "Date",
+        "WebResource",
+        "Money",
+        "Percent",
+        "Hour",
+        "Day",
+        "Week",
+        "Month",
+        "Year",
+        "Distance"
+      ],
+      "enum": [
+        "String",
+        "Boolean",
+        "Integer",
+        "NumericBoolean",
+        "Decimal",
+        "DateTime",
+        "None",
+        "Date",
+        "WebResource",
+        "Money",
+        "Percent",
+        "Hour",
+        "Day",
+        "Week",
+        "Month",
+        "Year",
+        "Distance"
+      ]
+    },
+    "ReportParameterType": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Value",
+        "Now",
+        "Today",
+        "TenantId",
+        "UserId",
+        "EmployeeId",
+        "RegulationId",
+        "PayrollId",
+        "PayrunId",
+        "ReportId",
+        "WebhookId"
+      ],
+      "enum": [
+        "Value",
+        "Now",
+        "Today",
+        "TenantId",
+        "UserId",
+        "EmployeeId",
+        "RegulationId",
+        "PayrollId",
+        "PayrunId",
+        "ReportId",
+        "WebhookId"
+      ]
+    },
+    "Model": {
+      "type": "object",
+      "description": "Base for all Payroll models",
+      "x-abstract": true,
+      "additionalProperties": false,
+      "properties": {
+        "Id": {
+          "type": "integer",
+          "description": "The unique object id (immutable)",
+          "format": "int32"
+        },
+        "Status": {
+          "description": "The status of the object",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/ObjectStatus"
+            }
+          ]
+        },
+        "Created": {
+          "type": "string",
+          "description": "The date which the client object was created (immutable)",
+          "format": "date-time"
+        },
+        "Updated": {
+          "type": "string",
+          "description": "The date which the client object was last updated (immutable)",
+          "format": "date-time"
+        }
+      }
+    },
+    "ObjectStatus": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Active",
+        "Inactive"
+      ],
+      "enum": [
+        "Active",
+        "Inactive"
+      ]
+    },
+    "ReportExecuteTest": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ReportScriptTestOfReportRequestAndDataSet"
+        },
+        {
+          "type": "object",
+          "description": "Report execute test\n            Test input: report request\n            Test output: report data set\n            ",
+          "additionalProperties": false
+        }
+      ]
+    },
+    "ReportScriptTestOfReportRequestAndDataSet": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/TestBaseOfReportRequestAndDataSet"
+        },
+        {
+          "type": "object",
+          "description": "Report script base test",
+          "x-abstract": true,
+          "additionalProperties": false,
+          "required": [
+            "ReportName"
+          ],
+          "properties": {
+            "ReportName": {
+              "type": "string",
+              "description": "The report name",
+              "minLength": 1
+            },
+            "Parameters": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The report parameters",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "TestBaseOfReportRequestAndDataSet": {
+      "type": "object",
+      "description": "Script base test",
+      "x-abstract": true,
+      "additionalProperties": false,
+      "required": [
+        "TestName"
+      ],
+      "properties": {
+        "TestName": {
+          "type": "string",
+          "description": "The test name",
+          "minLength": 1
+        },
+        "TestDescription": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The test description"
+        },
+        "TestCategory": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The test category"
+        },
+        "Input": {
+          "description": "The test input",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/ReportRequest"
+            }
+          ]
+        },
+        "InputFile": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The test input file name"
+        },
+        "Output": {
+          "description": "The test output",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/DataSet"
+            }
+          ]
+        },
+        "OutputFile": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The test output file name"
+        }
+      }
+    },
+    "DataSet": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Tables": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/DataTable"
+          }
+        },
+        "Relations": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/DataRelation"
+          }
+        }
+      }
+    },
+    "DataTable": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Columns": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/DataColumn"
+          }
+        },
+        "Rows": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/DataRow"
+          }
+        }
+      }
+    },
+    "DataColumn": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Expression": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "ValueType": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "ValueBaseType": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "DataRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Values": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "DataRelation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "ParentTable": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "ParentColumn": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "ChildTable": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "ChildColumn": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    }
+  }
+}
