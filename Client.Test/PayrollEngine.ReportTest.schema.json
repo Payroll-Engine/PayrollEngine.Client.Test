@@ -3,49 +3,48 @@
   "title": "ReportTest",
   "type": "object",
   "description": "Report test",
-  "additionalProperties": false,
   "required": [
-    "TestName",
-    "TenantIdentifier",
-    "UserIdentifier",
-    "RegulationName"
+    "testName",
+    "tenantIdentifier",
+    "userIdentifier",
+    "regulationName"
   ],
   "properties": {
-    "TestName": {
+    "testName": {
       "type": "string",
       "description": "The test name",
       "minLength": 1
     },
-    "TestDescription": {
+    "testDescription": {
       "type": [
         "null",
         "string"
       ],
       "description": "The test description"
     },
-    "TestCategory": {
+    "testCategory": {
       "type": [
         "null",
         "string"
       ],
       "description": "The test category"
     },
-    "TenantIdentifier": {
+    "tenantIdentifier": {
       "type": "string",
       "description": "The tenant identifier",
       "minLength": 1
     },
-    "UserIdentifier": {
+    "userIdentifier": {
       "type": "string",
       "description": "The user identifier",
       "minLength": 1
     },
-    "RegulationName": {
+    "regulationName": {
       "type": "string",
       "description": "The regulation name",
       "minLength": 1
     },
-    "CustomTestFiles": {
+    "customTestFiles": {
       "type": [
         "array",
         "null"
@@ -55,7 +54,7 @@
         "type": "string"
       }
     },
-    "BuildTests": {
+    "buildTests": {
       "type": [
         "array",
         "null"
@@ -65,7 +64,7 @@
         "$ref": "#/definitions/ReportBuildTest"
       }
     },
-    "ExecuteTests": {
+    "executeTests": {
       "type": [
         "array",
         "null"
@@ -84,8 +83,7 @@
         },
         {
           "type": "object",
-          "description": "Report build test\n            Test input: report request\n            Test output: list of report parameter\n            ",
-          "additionalProperties": false
+          "description": "Report build test\n            Test input: report request\n            Test output: list of report parameter\n            "
         }
       ]
     },
@@ -98,17 +96,16 @@
           "type": "object",
           "description": "Report script base test",
           "x-abstract": true,
-          "additionalProperties": false,
           "required": [
-            "ReportName"
+            "reportName"
           ],
           "properties": {
-            "ReportName": {
+            "reportName": {
               "type": "string",
               "description": "The report name",
               "minLength": 1
             },
-            "Parameters": {
+            "parameters": {
               "type": [
                 "null",
                 "object"
@@ -126,31 +123,30 @@
       "type": "object",
       "description": "Script base test",
       "x-abstract": true,
-      "additionalProperties": false,
       "required": [
-        "TestName"
+        "testName"
       ],
       "properties": {
-        "TestName": {
+        "testName": {
           "type": "string",
           "description": "The test name",
           "minLength": 1
         },
-        "TestDescription": {
+        "testDescription": {
           "type": [
             "null",
             "string"
           ],
           "description": "The test description"
         },
-        "TestCategory": {
+        "testCategory": {
           "type": [
             "null",
             "string"
           ],
           "description": "The test category"
         },
-        "Input": {
+        "input": {
           "description": "The test input",
           "oneOf": [
             {
@@ -161,14 +157,14 @@
             }
           ]
         },
-        "InputFile": {
+        "inputFile": {
           "type": [
             "null",
             "string"
           ],
           "description": "The test input file name"
         },
-        "Output": {
+        "output": {
           "type": [
             "array",
             "null"
@@ -178,7 +174,7 @@
             "$ref": "#/definitions/ReportParameter"
           }
         },
-        "OutputFile": {
+        "outputFile": {
           "type": [
             "null",
             "string"
@@ -190,9 +186,8 @@
     "ReportRequest": {
       "type": "object",
       "description": "The report request client object",
-      "additionalProperties": false,
       "properties": {
-        "Language": {
+        "language": {
           "description": "The report language",
           "oneOf": [
             {
@@ -200,19 +195,19 @@
             }
           ]
         },
-        "UserId": {
+        "userId": {
           "type": "integer",
           "description": "The report user id",
           "format": "int32"
         },
-        "UserIdentifier": {
+        "userIdentifier": {
           "type": [
             "null",
             "string"
           ],
           "description": "The report user identifier"
         },
-        "Parameters": {
+        "parameters": {
           "type": [
             "null",
             "object"
@@ -336,18 +331,17 @@
         {
           "type": "object",
           "description": "The payroll report parameter client object",
-          "additionalProperties": false,
           "required": [
-            "Name"
+            "name"
           ],
           "properties": {
-            "Name": {
+            "name": {
               "type": "string",
               "description": "The report parameter name",
               "maxLength": 128,
               "minLength": 0
             },
-            "NameLocalizations": {
+            "nameLocalizations": {
               "type": [
                 "null",
                 "object"
@@ -357,14 +351,14 @@
                 "type": "string"
               }
             },
-            "Description": {
+            "description": {
               "type": [
                 "null",
                 "string"
               ],
               "description": "The report parameter description"
             },
-            "DescriptionLocalizations": {
+            "descriptionLocalizations": {
               "type": [
                 "null",
                 "object"
@@ -374,18 +368,18 @@
                 "type": "string"
               }
             },
-            "Mandatory": {
+            "mandatory": {
               "type": "boolean",
               "description": "The parameter mandatory state"
             },
-            "Value": {
+            "value": {
               "type": [
                 "null",
                 "string"
               ],
               "description": "The parameter value (JSON)"
             },
-            "ValueType": {
+            "valueType": {
               "description": "The parameter value type",
               "oneOf": [
                 {
@@ -393,7 +387,7 @@
                 }
               ]
             },
-            "ParameterType": {
+            "parameterType": {
               "description": "The parameter type",
               "oneOf": [
                 {
@@ -401,7 +395,7 @@
                 }
               ]
             },
-            "Attributes": {
+            "attributes": {
               "type": [
                 "null",
                 "object"
@@ -488,14 +482,13 @@
       "type": "object",
       "description": "Base for all Payroll models",
       "x-abstract": true,
-      "additionalProperties": false,
       "properties": {
-        "Id": {
+        "id": {
           "type": "integer",
           "description": "The unique object id (immutable)",
           "format": "int32"
         },
-        "Status": {
+        "status": {
           "description": "The status of the object",
           "oneOf": [
             {
@@ -503,12 +496,12 @@
             }
           ]
         },
-        "Created": {
+        "created": {
           "type": "string",
           "description": "The date which the client object was created (immutable)",
           "format": "date-time"
         },
-        "Updated": {
+        "updated": {
           "type": "string",
           "description": "The date which the client object was last updated (immutable)",
           "format": "date-time"
@@ -534,8 +527,7 @@
         },
         {
           "type": "object",
-          "description": "Report execute test\n            Test input: report request\n            Test output: report data set\n            ",
-          "additionalProperties": false
+          "description": "Report execute test\n            Test input: report request\n            Test output: report data set\n            "
         }
       ]
     },
@@ -548,17 +540,16 @@
           "type": "object",
           "description": "Report script base test",
           "x-abstract": true,
-          "additionalProperties": false,
           "required": [
-            "ReportName"
+            "reportName"
           ],
           "properties": {
-            "ReportName": {
+            "reportName": {
               "type": "string",
               "description": "The report name",
               "minLength": 1
             },
-            "Parameters": {
+            "parameters": {
               "type": [
                 "null",
                 "object"
@@ -576,31 +567,30 @@
       "type": "object",
       "description": "Script base test",
       "x-abstract": true,
-      "additionalProperties": false,
       "required": [
-        "TestName"
+        "testName"
       ],
       "properties": {
-        "TestName": {
+        "testName": {
           "type": "string",
           "description": "The test name",
           "minLength": 1
         },
-        "TestDescription": {
+        "testDescription": {
           "type": [
             "null",
             "string"
           ],
           "description": "The test description"
         },
-        "TestCategory": {
+        "testCategory": {
           "type": [
             "null",
             "string"
           ],
           "description": "The test category"
         },
-        "Input": {
+        "input": {
           "description": "The test input",
           "oneOf": [
             {
@@ -611,14 +601,14 @@
             }
           ]
         },
-        "InputFile": {
+        "inputFile": {
           "type": [
             "null",
             "string"
           ],
           "description": "The test input file name"
         },
-        "Output": {
+        "output": {
           "description": "The test output",
           "oneOf": [
             {
@@ -629,7 +619,7 @@
             }
           ]
         },
-        "OutputFile": {
+        "outputFile": {
           "type": [
             "null",
             "string"
@@ -640,15 +630,14 @@
     },
     "DataSet": {
       "type": "object",
-      "additionalProperties": false,
       "properties": {
-        "Name": {
+        "name": {
           "type": [
             "null",
             "string"
           ]
         },
-        "Tables": {
+        "tables": {
           "type": [
             "array",
             "null"
@@ -657,7 +646,7 @@
             "$ref": "#/definitions/DataTable"
           }
         },
-        "Relations": {
+        "relations": {
           "type": [
             "array",
             "null"
@@ -670,15 +659,14 @@
     },
     "DataTable": {
       "type": "object",
-      "additionalProperties": false,
       "properties": {
-        "Name": {
+        "name": {
           "type": [
             "null",
             "string"
           ]
         },
-        "Columns": {
+        "columns": {
           "type": [
             "array",
             "null"
@@ -687,7 +675,7 @@
             "$ref": "#/definitions/DataColumn"
           }
         },
-        "Rows": {
+        "rows": {
           "type": [
             "array",
             "null"
@@ -700,27 +688,26 @@
     },
     "DataColumn": {
       "type": "object",
-      "additionalProperties": false,
       "properties": {
-        "Name": {
+        "name": {
           "type": [
             "null",
             "string"
           ]
         },
-        "Expression": {
+        "expression": {
           "type": [
             "null",
             "string"
           ]
         },
-        "ValueType": {
+        "valueType": {
           "type": [
             "null",
             "string"
           ]
         },
-        "ValueBaseType": {
+        "valueBaseType": {
           "type": [
             "null",
             "string"
@@ -730,9 +717,8 @@
     },
     "DataRow": {
       "type": "object",
-      "additionalProperties": false,
       "properties": {
-        "Values": {
+        "values": {
           "type": [
             "array",
             "null"
@@ -745,33 +731,32 @@
     },
     "DataRelation": {
       "type": "object",
-      "additionalProperties": false,
       "properties": {
-        "Name": {
+        "name": {
           "type": [
             "null",
             "string"
           ]
         },
-        "ParentTable": {
+        "parentTable": {
           "type": [
             "null",
             "string"
           ]
         },
-        "ParentColumn": {
+        "parentColumn": {
           "type": [
             "null",
             "string"
           ]
         },
-        "ChildTable": {
+        "childTable": {
           "type": [
             "null",
             "string"
           ]
         },
-        "ChildColumn": {
+        "childColumn": {
           "type": [
             "null",
             "string"
