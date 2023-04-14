@@ -505,6 +505,14 @@
           "type": "string",
           "description": "The date which the client object was last updated (immutable)",
           "format": "date-time"
+        },
+        "updateMode": {
+          "description": "The object update mode",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/UpdateMode"
+            }
+          ]
         }
       }
     },
@@ -518,6 +526,18 @@
       "enum": [
         "Active",
         "Inactive"
+      ]
+    },
+    "UpdateMode": {
+      "type": "string",
+      "description": "The exchange update mode",
+      "x-enumNames": [
+        "Update",
+        "NoUpdate"
+      ],
+      "enum": [
+        "Update",
+        "NoUpdate"
       ]
     },
     "ReportExecuteTest": {

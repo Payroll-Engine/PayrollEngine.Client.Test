@@ -68,8 +68,7 @@ public class PayrunTestRunner : PayrunFileTestRunner
 
             // validate tenants and regulation permissions
             // create new tenant including all payrolls, payrun and payrun job
-            var import = new ExchangeImport(HttpClient, exchange, ScriptParser, UpdateMode.NoUpdate,
-                ImportMode);
+            var import = new ExchangeImport(HttpClient, exchange, ScriptParser, ImportMode);
             await import.ImportAsync();
 
             // all payrun jobs should be executed

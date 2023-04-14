@@ -60,7 +60,7 @@ public class PayrunEmployeeTestRunner : PayrunFileTestRunner
             await DuplicateTestEmployee(existingTenant.Id, tenant);
 
             // create new tenant including all payrolls, payrun and payrun job
-            var import = new ExchangeImport(HttpClient, exchange, ScriptParser, UpdateMode.NoUpdate);
+            var import = new ExchangeImport(HttpClient, exchange, ScriptParser);
             await import.ImportAsync();
 
             // all payrun jobs should be executed
