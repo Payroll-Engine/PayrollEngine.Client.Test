@@ -25,7 +25,7 @@ public class CollectorTestResult : TestResultBase<CollectorResultSet>
     /// <summary>Test for invalid result</summary>
     public bool IsInvalidResult() =>
         ActualResult == null && ExpectedResult.Value != default ||
-        ActualResult != null && !ActualResult.AlmostEquals(ExpectedResult.Value, TestPrecision.GetDecimals()) ||
+        ActualResult != null && !ActualResult.AlmostEqualValue(ExpectedResult.Value, TestPrecision.GetDecimals()) ||
         !ValidAttributes();
 
     /// <inheritdoc />

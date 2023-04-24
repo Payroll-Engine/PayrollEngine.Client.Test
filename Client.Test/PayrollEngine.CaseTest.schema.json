@@ -356,6 +356,14 @@
           "description": "The unique object id (immutable)",
           "format": "int32"
         },
+        "isExistingObject": {
+          "type": "boolean",
+          "description": "Test for existing object (opposite of IsNewObject)"
+        },
+        "isNewObject": {
+          "type": "boolean",
+          "description": "Test for new object (opposite of IsExistingObject)"
+        },
         "status": {
           "description": "The status of the object",
           "oneOf": [
