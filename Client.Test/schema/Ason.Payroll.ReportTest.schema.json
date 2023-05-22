@@ -342,7 +342,7 @@
             "None",
             "Date",
             "WebResource",
-            "Money",
+            "Decimal",
             "Percent",
             "Hour",
             "Day",

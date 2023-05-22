@@ -18,7 +18,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.CodeAnalysis.Compilers" Version="4.5.0" />
-		<PackageReference Include="PayrollEngine.Client.Core" Version="0.5.0-pre-230429-2" />
+		<PackageReference Include="PayrollEngine.Client.Core" Version="0.5.0-pre-230522" />
 	</ItemGroup>
 
 	<!-- include xml documention files and json schemas to the nuget package -->
@@ -33,14 +33,14 @@
 
 	<!--  build json schemas -->
 	<Target Name="BuildJsonSchema" AfterTargets="Build">
-		<Message Importance="High" Text="Building json schema..."/>
+		<Message Importance="High" Text="Building json schema..." />
 		<Exec Command="JsonSchemaBuilder $(OutDir)\PayrollEngine.Client.Test.dll PayrollEngine.Client.Test.Case.CaseTest $(OutputDir)PayrollEngine.CaseTest.schema.json" />
 		<Exec Command="JsonSchemaBuilder $(OutDir)\PayrollEngine.Client.Test.dll PayrollEngine.Client.Test.Report.ReportTest $(OutputDir)PayrollEngine.ReportTest.schema.json" />
 	</Target>
 
 	<!--  publish json schemas -->
 	<Target Name="PublishJsonSchema" AfterTargets="Build" Condition="exists('$(PayrollEngineSchemaDir)')">
-		<Message Importance="High" Text="Publish schemas..."/>
+		<Message Importance="High" Text="Publish schemas..." />
 		<Copy SourceFiles="$(OutputDir)PayrollEngine.CaseTest.schema.json" DestinationFolder="$(PayrollEngineSchemaDir)" />
 		<Copy SourceFiles="$(OutputDir)PayrollEngine.ReportTest.schema.json" DestinationFolder="$(PayrollEngineSchemaDir)" />
 	</Target>

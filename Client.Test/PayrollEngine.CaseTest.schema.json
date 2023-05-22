@@ -314,20 +314,19 @@
           "description": "The case document client object",
           "required": [
             "name",
+            "content",
             "contentType"
           ],
           "properties": {
             "name": {
               "type": "string",
-              "description": "The document name",
+              "description": "The case document name",
               "minLength": 1
             },
             "content": {
-              "type": [
-                "null",
-                "string"
-              ],
-              "description": "The document content"
+              "type": "string",
+              "description": "The document content",
+              "minLength": 1
             },
             "contentFile": {
               "type": [
@@ -424,6 +423,9 @@
         {
           "type": "object",
           "description": "The payroll case value client object (immutable)",
+          "required": [
+            "caseFieldName"
+          ],
           "properties": {
             "divisionId": {
               "type": [
@@ -470,10 +472,7 @@
               }
             },
             "caseFieldName": {
-              "type": [
-                "null",
-                "string"
-              ],
+              "type": "string",
               "description": "The associated case field name",
               "maxLength": 128,
               "minLength": 0
@@ -570,7 +569,9 @@
                 "null",
                 "string"
               ],
-              "description": "The forecast name"
+              "description": "The forecast name",
+              "maxLength": 128,
+              "minLength": 0
             },
             "tags": {
               "type": [
@@ -605,15 +606,12 @@
         "DateTime",
         "None",
         "Date",
-        "WebResource",
-        "Money",
-        "Percent",
-        "Hour",
-        "Day",
-        "Week",
+        "Weekday",
         "Month",
         "Year",
-        "Distance"
+        "Money",
+        "Percent",
+        "WebResource"
       ],
       "enum": [
         "String",
@@ -624,15 +622,12 @@
         "DateTime",
         "None",
         "Date",
-        "WebResource",
-        "Money",
-        "Percent",
-        "Hour",
-        "Day",
-        "Week",
+        "Weekday",
         "Month",
         "Year",
-        "Distance"
+        "Money",
+        "Percent",
+        "WebResource"
       ]
     },
     "CaseRelationReference": {
@@ -672,6 +667,11 @@
     "CaseValidationIssue": {
       "type": "object",
       "description": "Represents an issue from the case validation",
+      "required": [
+        "issueType",
+        "caseName",
+        "message"
+      ],
       "properties": {
         "issueType": {
           "description": "The validation issue type",
@@ -687,11 +687,10 @@
           "format": "int32"
         },
         "caseName": {
-          "type": [
-            "null",
-            "string"
-          ],
-          "description": "Gets the name of the case"
+          "type": "string",
+          "description": "Gets the name of the case",
+          "maxLength": 128,
+          "minLength": 0
         },
         "caseNameLocalizations": {
           "type": [
@@ -708,7 +707,9 @@
             "null",
             "string"
           ],
-          "description": "The case slot"
+          "description": "The case slot",
+          "maxLength": 128,
+          "minLength": 0
         },
         "caseSlotLocalizations": {
           "type": [
@@ -725,7 +726,9 @@
             "null",
             "string"
           ],
-          "description": "Gets the name of the case field"
+          "description": "Gets the name of the case field",
+          "maxLength": 128,
+          "minLength": 0
         },
         "caseFieldNameLocalizations": {
           "type": [
@@ -742,7 +745,9 @@
             "null",
             "string"
           ],
-          "description": "The relation source case name"
+          "description": "The relation source case name",
+          "maxLength": 128,
+          "minLength": 0
         },
         "sourceCaseNameLocalizations": {
           "type": [
@@ -759,7 +764,9 @@
             "null",
             "string"
           ],
-          "description": "The relation source case slot"
+          "description": "The relation source case slot",
+          "maxLength": 128,
+          "minLength": 0
         },
         "sourceCaseSlotLocalizations": {
           "type": [
@@ -776,7 +783,9 @@
             "null",
             "string"
           ],
-          "description": "The relation target case name"
+          "description": "The relation target case name",
+          "maxLength": 128,
+          "minLength": 0
         },
         "targetCaseNameLocalizations": {
           "type": [
@@ -793,7 +802,9 @@
             "null",
             "string"
           ],
-          "description": "The relation target case slot"
+          "description": "The relation target case slot",
+          "maxLength": 128,
+          "minLength": 0
         },
         "targetCaseSlotLocalizations": {
           "type": [
@@ -806,11 +817,9 @@
           }
         },
         "message": {
-          "type": [
-            "null",
-            "string"
-          ],
-          "description": "Gets the validation message"
+          "type": "string",
+          "description": "Gets the validation message",
+          "minLength": 1
         }
       }
     },
@@ -824,9 +833,12 @@
         "CaseRelationInvalid",
         "CaseFieldDuplicated",
         "CaseValueIncomplete",
+        "CaseValueMissing",
         "CaseValueStartInvalid",
         "CaseValueEndInvalid",
-        "CaseValueEndMissing"
+        "CaseValueEndMissing",
+        "CaseValueWeekdayInvalid",
+        "CaseValueMonthInvalid"
       ],
       "enum": [
         "Unknown",
@@ -835,9 +847,12 @@
         "CaseRelationInvalid",
         "CaseFieldDuplicated",
         "CaseValueIncomplete",
+        "CaseValueMissing",
         "CaseValueStartInvalid",
         "CaseValueEndInvalid",
-        "CaseValueEndMissing"
+        "CaseValueEndMissing",
+        "CaseValueWeekdayInvalid",
+        "CaseValueMonthInvalid"
       ]
     },
     "CaseAvailableTest": {
@@ -1202,8 +1217,9 @@
           "properties": {
             "name": {
               "type": "string",
-              "description": "The case field name (immutable)",
-              "minLength": 1
+              "description": "The case field name",
+              "maxLength": 128,
+              "minLength": 0
             },
             "nameLocalizations": {
               "type": [
@@ -1288,9 +1304,9 @@
                 }
               ]
             },
-            "optional": {
+            "valueMandatory": {
               "type": "boolean",
-              "description": "Optional case field"
+              "description": "Mandatory case field value"
             },
             "order": {
               "type": "integer",
@@ -1583,6 +1599,7 @@
           "type": "object",
           "description": "The payroll case client object",
           "required": [
+            "caseType",
             "name"
           ],
           "properties": {
@@ -1596,7 +1613,7 @@
             },
             "name": {
               "type": "string",
-              "description": "The case name (immutable)",
+              "description": "The case name",
               "maxLength": 128,
               "minLength": 0
             },

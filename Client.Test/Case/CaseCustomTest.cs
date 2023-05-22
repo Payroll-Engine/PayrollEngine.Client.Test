@@ -37,9 +37,9 @@ public abstract class CaseCustomTest : CustomTestBase<CaseTestContext>
     /// <param name="clusterSetName">The cluster set name</param>
     /// <param name="language">The language</param>
     /// <returns>The cases by type</returns>
-    protected List<CaseSet> GetCases(CaseType caseType, string caseSlot = null,
+    protected List<Model.Case> GetAvailableCases(CaseType caseType, string caseSlot = null,
         string clusterSetName = null, Language? language = null) =>
-        new PayrollService(HttpClient).GetAvailableCaseSetsAsync<CaseSet>(
+        new PayrollService(HttpClient).GetAvailableCasesAsync<Model.Case>(
             new(Tenant.Id, Payroll.Id),
             userId: User.Id,
             caseType: caseType,
@@ -59,7 +59,7 @@ public abstract class CaseCustomTest : CustomTestBase<CaseTestContext>
     /// <returns>The case including the case fields and related cases</returns>
     protected CaseSet GetCase(string caseName, string clusterSetName = null, Language? language = null,
         CaseChangeSetup caseChangeSetup = null) =>
-        new PayrollService(HttpClient).BuildCaseSetAsync<CaseSet>(
+        new PayrollService(HttpClient).BuildCaseAsync<CaseSet>(
             new(Tenant.Id, Payroll.Id),
             caseName: caseName,
             userId: User.Id,
@@ -86,7 +86,7 @@ public abstract class CaseCustomTest : CustomTestBase<CaseTestContext>
     protected List<CaseFieldValue> GetCasePeriodValues(IEnumerable<string> caseFieldNames)
     {
         var period = Context.EvaluationPeriod;
-        var caseValues = new PayrollService(HttpClient).GetPayrollAvailableCaseFieldValuesAsync(
+        var caseValues = new PayrollService(HttpClient).GetAvailableCaseFieldValuesAsync(
             new(Tenant.Id, Payroll.Id), User.Id, caseFieldNames,
             period.Start, period.End, Employee?.Id, RegulationDate, EvaluationDate).Result;
         return caseValues;

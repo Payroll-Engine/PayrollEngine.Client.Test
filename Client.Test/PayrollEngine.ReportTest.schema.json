@@ -395,6 +395,14 @@
                 }
               ]
             },
+            "overrideType": {
+              "description": "The override type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/OverrideType"
+                }
+              ]
+            },
             "attributes": {
               "type": [
                 "null",
@@ -418,15 +426,12 @@
         "DateTime",
         "None",
         "Date",
-        "WebResource",
-        "Money",
-        "Percent",
-        "Hour",
-        "Day",
-        "Week",
+        "Weekday",
         "Month",
         "Year",
-        "Distance"
+        "Money",
+        "Percent",
+        "WebResource"
       ],
       "enum": [
         "String",
@@ -437,15 +442,12 @@
         "DateTime",
         "None",
         "Date",
-        "WebResource",
-        "Money",
-        "Percent",
-        "Hour",
-        "Day",
-        "Week",
+        "Weekday",
         "Month",
         "Year",
-        "Distance"
+        "Money",
+        "Percent",
+        "WebResource"
       ]
     },
     "ReportParameterType": {
@@ -476,6 +478,18 @@
         "PayrunId",
         "ReportId",
         "WebhookId"
+      ]
+    },
+    "OverrideType": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Active",
+        "Inactive"
+      ],
+      "enum": [
+        "Active",
+        "Inactive"
       ]
     },
     "Model": {

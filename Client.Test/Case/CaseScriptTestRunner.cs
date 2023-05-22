@@ -146,7 +146,7 @@ public abstract class CaseScriptTestRunner : TestRunnerBase
             throw new PayrollException($"Unknown case {caseName}");
         }
 
-        var cases = await new PayrollService(HttpClient).GetAvailableCaseSetsAsync<CaseSet>(
+        var cases = await new PayrollService(HttpClient).GetAvailableCasesAsync<CaseSet>(
             new(Tenant.Id, Payroll.Id),
             userId: User.Id,
             caseType: @case.CaseType,
@@ -175,7 +175,7 @@ public abstract class CaseScriptTestRunner : TestRunnerBase
         {
             throw new ArgumentException(nameof(caseName));
         }
-        return await new PayrollService(HttpClient).BuildCaseSetAsync<CaseSet>(
+        return await new PayrollService(HttpClient).BuildCaseAsync<CaseSet>(
             new(Tenant.Id, Payroll.Id),
             caseName: caseName,
             userId: User.Id,

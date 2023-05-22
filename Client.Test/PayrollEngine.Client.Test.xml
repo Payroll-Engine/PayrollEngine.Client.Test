@@ -133,7 +133,7 @@
             <param name="httpClient">The payroll http client</param>
             <param name="context">The test context</param>
         </member>
-        <member name="M:PayrollEngine.Client.Test.Case.CaseCustomTest.GetCases(PayrollEngine.CaseType,System.String,System.String,System.Nullable{PayrollEngine.Language})">
+        <member name="M:PayrollEngine.Client.Test.Case.CaseCustomTest.GetAvailableCases(PayrollEngine.CaseType,System.String,System.String,System.Nullable{PayrollEngine.Language})">
             <summary>Get cases by type</summary>
             <param name="caseType">The case type</param>
             <param name="caseSlot">The case slot</param>
