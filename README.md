@@ -1,12 +1,11 @@
-# PayrollEngine.Client.Test
-[Payroll Engine](https://github.com/Payroll-Engine) client test library:
+<h1>Payroll Engine Client Test</h1>
 
-- Case test tools
-- Payrun test tools
-- Report test tools
+Library to test Payroll Engine clients:
+- Case test: Validate the user input
+- Payrun test: Test the payrun results
+- Report test: Test report output data (not the report layout)
 
 ## Build
-Runtime environment variables:
-
+Supported runtime environment variables:
 - *PayrollEngineSchemaDir* - the Json schema target direcotry (optional)
 - *PayrollEnginePackageDir* - the NuGet package target direcotry (optional)
