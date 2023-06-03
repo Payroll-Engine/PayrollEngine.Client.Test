@@ -20,7 +20,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.CodeAnalysis.Compilers" Version="4.6.0" />
-		<PackageReference Include="PayrollEngine.Client.Core" Version="0.5.0-pre-230602-2" />
+		<PackageReference Include="PayrollEngine.Client.Core" Version="0.5.0-pre-230602-5" />
 	</ItemGroup>
 
 	<!-- include xml documention files and json schemas to the nuget package -->
