@@ -345,6 +345,9 @@
         <member name="P:PayrollEngine.Client.Test.Case.CaseTestContext.Payroll">
             <summary>The payroll</summary>
         </member>
+        <member name="P:PayrollEngine.Client.Test.Case.CaseTestContext.Division">
+            <summary>The division</summary>
+        </member>
         <member name="P:PayrollEngine.Client.Test.Case.CaseTestContext.Employee">
             <summary>The employee, mandatory for employee case</summary>
         </member>

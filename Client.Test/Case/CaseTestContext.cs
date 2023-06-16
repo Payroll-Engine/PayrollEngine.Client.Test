@@ -9,6 +9,9 @@ public class CaseTestContext : TestContextBase
     /// <summary>The payroll</summary>
     public Payroll Payroll { get; set; }
 
+    /// <summary>The division</summary>
+    public Division Division { get; set; }
+
     /// <summary>The employee, mandatory for employee case</summary>
     public Employee Employee { get; set; }
     

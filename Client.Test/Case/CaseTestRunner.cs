@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -357,9 +358,12 @@ public class CaseTestRunner : FileTestRunner
             throw new PayrollException($"Missing payroll {caseTest.PayrollName}");
         }
 
-        // setup dates
-        context.EvaluationPeriod = await new TenantService(HttpClient).GetCalendarPeriodAsync(context.Tenant.Id,
-            context.Payroll.CalendarCalculationMode, evaluationDate);
+        // division
+        context.Division = await GetDivisionAsync(context.Tenant.Id, context.Payroll.DivisionName);
+        if (context.Division == null)
+        {
+            throw new PayrollException($"Missing division {context.Payroll.DivisionName} in payroll {caseTest.PayrollName}");
+        }
 
         // employee
         if (!string.IsNullOrWhiteSpace(caseTest.EmployeeIdentifier))
@@ -370,6 +374,25 @@ public class CaseTestRunner : FileTestRunner
                 throw new PayrollException($"Missing employee {caseTest.EmployeeIdentifier}");
             }
         }
+
+        // culture by priority
+        var cultureName = context.Employee?.Culture ??
+                      context.Division.Culture ??
+                      context.Tenant.Culture ??
+                      CultureInfo.CurrentCulture.Name;
+
+        // calendar by priority
+        var calendarName = context.Employee?.Calendar ??
+                       context.Division.Calendar ??
+                       context.Tenant.Calendar;
+        if (string.IsNullOrWhiteSpace(calendarName))
+        {
+            throw new PayrollException("Missing test calendar");
+        }
+
+        // date period
+        context.EvaluationPeriod = await new CalendarService(HttpClient).GetPeriodAsync(context.Tenant.Id,
+            cultureName: cultureName, calendarName: calendarName, periodMoment: evaluationDate);
 
         return context;
     }
