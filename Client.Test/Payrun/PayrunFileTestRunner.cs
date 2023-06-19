@@ -143,10 +143,14 @@ public abstract class PayrunFileTestRunner : FileTestRunner
                 }
                 else
                 {
-                    // full hob test: select the newest (last created) full (non-retro) job
-                    payrunJob = employePayrunJobs.Where(x => x.JobResult == PayrunJobResult.Full &&
-                                                             string.Equals(x.Name, payrollResult.PayrunJobName))
-                        .OrderByDescending(x => x.Created).First();
+                    // full job test: select the newest (last created) full (non-retro) job
+                    var payrunJobs = employePayrunJobs.Where(x => x.JobResult == PayrunJobResult.Full &&
+                                                                  string.Equals(x.Name, payrollResult.PayrunJobName)).ToList();
+                    if (!payrunJobs.Any())
+                    {    
+                        throw new PayrollException($"Missing payrun job {payrollResult.PayrunJobName}");
+                    }
+                    payrunJob = payrunJobs.OrderByDescending(x => x.Created).First();
                 }
             }
 
