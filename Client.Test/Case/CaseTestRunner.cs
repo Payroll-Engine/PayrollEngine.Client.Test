@@ -58,7 +58,11 @@ public class CaseTestRunner : FileTestRunner
         InitTest(caseTest, context);
 
         // custom tests
-        var testParser = new CaseCustomTestParser(caseTest.TestName, caseTest.CustomTestFiles);
+        CaseCustomTestParser customTestParser = null;
+        if (caseTest.CustomTestFiles != null && caseTest.CustomTestFiles.Any())
+        {
+            customTestParser = new CaseCustomTestParser(caseTest.TestName, caseTest.CustomTestFiles);
+        }
 
         // case test init cases
         if (caseTest.InitCases != null)
@@ -81,14 +85,22 @@ public class CaseTestRunner : FileTestRunner
                     await SetupInitCases(test.InitCases, context);
                 }
 
-                var customTest = testParser.GetTest(test.TestName, test.GetType());
-                if (customTest != null)
+                // custom test
+                var isCustomTest = false;
+                if (customTestParser != null)
                 {
-                    // custom test
-                    result.Results.Add(
-                        RunCustomTest(test, CaseTestType.CaseAvailableCustom, testParser.TestType, customTest, context));
+                    var customTest = customTestParser.GetTest(test.TestName, test.GetType());
+                    if (customTest != null)
+                    {
+                        var customResult = RunCustomTest(test, CaseTestType.CaseAvailableCustom,
+                            customTestParser.TestType, customTest, context);
+                        result.Results.Add(customResult);
+                        isCustomTest = true;
+                    }
                 }
-                else
+
+                // basic test
+                if (!isCustomTest)
                 {
                     // input/output test
                     result.Results.AddRange(await testRunner.Test(test));
@@ -114,14 +126,23 @@ public class CaseTestRunner : FileTestRunner
                     await SetupInitCases(test.InitCases, context);
                 }
 
-                var customTest = testParser.GetTest(test.TestName, test.GetType());
-                if (customTest != null)
+                // custom test
+                var isCustomTest = false;
+                if (customTestParser != null)
                 {
-                    // custom test
-                    result.Results.Add(
-                        RunCustomTest(test, CaseTestType.CaseBuildCustom, testParser.TestType, customTest, context));
+
+                    var customTest = customTestParser.GetTest(test.TestName, test.GetType());
+                    if (customTest != null)
+                    {
+                        var customResult = RunCustomTest(test, CaseTestType.CaseBuildCustom,
+                            customTestParser.TestType, customTest, context);
+                        result.Results.Add(customResult);
+                        isCustomTest = true;
+                    }
                 }
-                else
+
+                // basic test
+                if (!isCustomTest)
                 {
                     // input/output test
                     result.Results.AddRange(await testRunner.Test(test));
@@ -147,14 +168,22 @@ public class CaseTestRunner : FileTestRunner
                     await SetupInitCases(test.InitCases, context);
                 }
 
-                var customTest = testParser.GetTest(test.TestName, test.GetType());
-                if (customTest != null)
+                // custom test
+                var isCustomTest = false;
+                if (customTestParser != null)
                 {
-                    // custom test
-                    result.Results.Add(
-                        RunCustomTest(test, CaseTestType.CaseValidateCustom, testParser.TestType, customTest, context));
+                    var customTest = customTestParser.GetTest(test.TestName, test.GetType());
+                    if (customTest != null)
+                    {
+                        var customResult = RunCustomTest(test, CaseTestType.CaseValidateCustom,
+                            customTestParser.TestType, customTest, context);
+                        result.Results.Add(customResult);
+                        isCustomTest = true;
+                    }
                 }
-                else
+
+                // basic test
+                if (!isCustomTest)
                 {
                     // input/output test
                     result.Results.AddRange(await testRunner.Test(test));
@@ -359,7 +388,7 @@ public class CaseTestRunner : FileTestRunner
         }
 
         // division
-        context.Division = await GetDivisionAsync(context.Tenant.Id, context.Payroll.DivisionName);
+        context.Division = await GetDivisionAsync(context.Tenant.Id, context.Payroll.DivisionId);
         if (context.Division == null)
         {
             throw new PayrollException($"Missing division {context.Payroll.DivisionName} in payroll {caseTest.PayrollName}");
@@ -385,10 +414,6 @@ public class CaseTestRunner : FileTestRunner
         var calendarName = context.Employee?.Calendar ??
                        context.Division.Calendar ??
                        context.Tenant.Calendar;
-        if (string.IsNullOrWhiteSpace(calendarName))
-        {
-            throw new PayrollException("Missing test calendar");
-        }
 
         // date period
         context.EvaluationPeriod = await new CalendarService(HttpClient).GetPeriodAsync(context.Tenant.Id,
@@ -429,13 +454,19 @@ public class CaseTestRunner : FileTestRunner
         return caseTest;
     }
 
-    /// <summary>Get tenant</summary>
+    /// <summary>Get division by id</summary>
+    /// <param name="tenantId">The tenant id</param>
+    /// <param name="divisionId">The division id</param>
+    private async Task<Division> GetDivisionAsync(int tenantId, int divisionId) =>
+        await new DivisionService(HttpClient).GetAsync<Division>(new(tenantId), divisionId);
+
+    /// <summary>Get division by name</summary>
     /// <param name="tenantId">The tenant id</param>
     /// <param name="divisionName">The division name</param>
     private async Task<Division> GetDivisionAsync(int tenantId, string divisionName) =>
         await new DivisionService(HttpClient).GetAsync<Division>(new(tenantId), divisionName);
 
-    /// <summary>Get tenant</summary>
+    /// <summary>Get payroll by name</summary>
     /// <param name="tenantId">The tenant id</param>
     /// <param name="payrollName">The payrun job name</param>
     private async Task<Payroll> GetPayrollAsync(int tenantId, string payrollName) =>

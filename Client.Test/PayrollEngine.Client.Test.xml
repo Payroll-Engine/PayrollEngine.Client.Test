@@ -413,13 +413,18 @@
         <member name="M:PayrollEngine.Client.Test.Case.CaseTestRunner.LoadCaseTest">
             <summary>Loads the case test</summary>
         </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseTestRunner.GetDivisionAsync(System.Int32,System.Int32)">
+            <summary>Get division by id</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="divisionId">The division id</param>
+        </member>
         <member name="M:PayrollEngine.Client.Test.Case.CaseTestRunner.GetDivisionAsync(System.Int32,System.String)">
-            <summary>Get tenant</summary>
+            <summary>Get division by name</summary>
             <param name="tenantId">The tenant id</param>
             <param name="divisionName">The division name</param>
         </member>
         <member name="M:PayrollEngine.Client.Test.Case.CaseTestRunner.GetPayrollAsync(System.Int32,System.String)">
-            <summary>Get tenant</summary>
+            <summary>Get payroll by name</summary>
             <param name="tenantId">The tenant id</param>
             <param name="payrollName">The payrun job name</param>
         </member>

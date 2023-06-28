@@ -106,15 +106,15 @@ public abstract class CaseScriptTestRunner : TestRunnerBase
             throw new ArgumentNullException(nameof(exception));
         }
 
-        var success = exception.StatusCode.HasValue &&
-                      (int)exception.StatusCode.Value >= 200 &&
-                      (int)exception.StatusCode.Value <= 299;
+        var statusCode = exception.StatusCode.HasValue ? (int)exception.StatusCode.Value : 0;
+        var success = statusCode >= 200 && statusCode <= 299;
         return new()
         {
             Failed = !success,
             TestName = testName,
             TestType = CaseTestType.Http,
-            HttpStatusCode = exception.StatusCode.HasValue ? (int)exception.StatusCode.Value : default,
+            ErrorCode = statusCode,
+            HttpStatusCode = statusCode != 0 ? statusCode : default,
             Expected = expected != null ? DefaultJsonSerializer.Serialize(expected) : default,
             Message = exception.GetBaseMessage()
         };

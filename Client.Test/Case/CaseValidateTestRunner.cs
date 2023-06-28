@@ -36,6 +36,7 @@ public class CaseValidateTestRunner : CaseScriptTestRunner
         }
 
         var results = new List<CaseScriptTestResult>();
+        var expectedIssue = test.Output?.Issues?.FirstOrDefault();
         try
         {
             var caseSetup = await AddCaseAsync(test.Input);
@@ -46,16 +47,42 @@ public class CaseValidateTestRunner : CaseScriptTestRunner
             {
                 results.AddRange(testResults);
             }
+            else if (expectedIssue != null)
+            {
+                // expected issue
+                results.Add(NewFailedResult(CaseTestType.CaseValidate, test.TestName,
+                    $"Case validate {caseName} should be failed", test.Output));
+            }
             else
             {
+                // valid
                 results.Add(NewResult(CaseTestType.CaseValidate, test.TestName,
                     $"Case validate {caseName}", test.Output, caseSetup));
             }
         }
         catch (HttpRequestException exception)
         {
-            // test failed with http error
-            results.Add(NewResult(exception, test.TestName, test.Output));
+            if (expectedIssue != null)
+            {
+                var errorCode = exception.StatusCode.HasValue ? (int)exception.StatusCode : 0;
+                if (expectedIssue.Number == errorCode)
+                {
+                    // expected issue
+                    results.Add(NewResult(CaseTestType.CaseValidate, test.TestName,
+                        $"Case validate {caseName} - issue {errorCode}", test.Output, errorCode));
+                }
+                else
+                {
+                    // expected issue failed
+                    results.Add(NewFailedResult(CaseTestType.CaseValidate, test.TestName,
+                        $"Case validate {caseName} - issue {errorCode}", test.Output, errorCode));
+                }
+            }
+            else
+            {
+                // test failed with http error
+                results.Add(NewResult(exception, test.TestName, test.Output));
+            }
         }
         return results;
     }
@@ -73,7 +100,16 @@ public class CaseValidateTestRunner : CaseScriptTestRunner
         if (expected.Values != null && expected.Values.Any())
         {
             // case fields
-            if (actual.Values == null || !actual.Values.Any())
+            var actualValues = new List<CaseValue>();
+            if (actual.Values != null)
+            {
+                actualValues.AddRange(actual.Values);
+            }
+            if (actual.IgnoredValues != null)
+            {
+                actualValues.AddRange(actual.IgnoredValues);
+            }
+            if (!actualValues.Any())
             {
                 results.Add(NewFailedResult(CaseTestType.CaseValidate, testName, $"Missing values for case change {expected.Reason}"));
             }
@@ -83,9 +119,9 @@ public class CaseValidateTestRunner : CaseScriptTestRunner
                 {
                     // case field
                     var actualCaseValue = string.IsNullOrWhiteSpace(caseValue.CaseSlot) ?
-                        actual.Values.FirstOrDefault(x => string.Equals(x.CaseFieldName, caseValue.CaseFieldName)) :
-                        actual.Values.FirstOrDefault(x => string.Equals(x.CaseFieldName, caseValue.CaseFieldName)
-                                                          && string.Equals(x.CaseSlot, caseValue.CaseSlot));
+                        actualValues.FirstOrDefault(x => string.Equals(x.CaseFieldName, caseValue.CaseFieldName)) :
+                        actualValues.FirstOrDefault(x => string.Equals(x.CaseFieldName, caseValue.CaseFieldName)
+                                                      && string.Equals(x.CaseSlot, caseValue.CaseSlot));
                     if (actualCaseValue == null)
                     {
                         results.Add(NewFailedResult(CaseTestType.CaseValidate, testName, $"Missing value of case field {caseValue.CaseFieldName}"));
@@ -112,5 +148,4 @@ public class CaseValidateTestRunner : CaseScriptTestRunner
 
         return results;
     }
-
 }
