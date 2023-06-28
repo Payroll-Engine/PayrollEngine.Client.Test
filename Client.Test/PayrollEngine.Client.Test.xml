@@ -133,19 +133,19 @@
             <param name="httpClient">The payroll http client</param>
             <param name="context">The test context</param>
         </member>
-        <member name="M:PayrollEngine.Client.Test.Case.CaseCustomTest.GetAvailableCases(PayrollEngine.CaseType,System.String,System.String,System.Nullable{PayrollEngine.Language})">
+        <member name="M:PayrollEngine.Client.Test.Case.CaseCustomTest.GetAvailableCases(PayrollEngine.CaseType,System.String,System.String,System.String)">
             <summary>Get cases by type</summary>
             <param name="caseType">The case type</param>
             <param name="caseSlot">The case slot</param>
             <param name="clusterSetName">The cluster set name</param>
-            <param name="language">The language</param>
+            <param name="culture">The culture</param>
             <returns>The cases by type</returns>
         </member>
-        <member name="M:PayrollEngine.Client.Test.Case.CaseCustomTest.GetCase(System.String,System.String,System.Nullable{PayrollEngine.Language},PayrollEngine.Client.Model.CaseChangeSetup)">
+        <member name="M:PayrollEngine.Client.Test.Case.CaseCustomTest.GetCase(System.String,System.String,System.String,PayrollEngine.Client.Model.CaseChangeSetup)">
             <summary>Get a case</summary>
             <param name="caseName">The case name</param>
             <param name="clusterSetName">The cluster set name</param>
-            <param name="language">The language</param>
+            <param name="culture">The culture</param>
             <param name="caseChangeSetup">The case change setup</param>
             <returns>The case including the case fields and related cases</returns>
         </member>

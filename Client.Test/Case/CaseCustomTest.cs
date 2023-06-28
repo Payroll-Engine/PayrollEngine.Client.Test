@@ -35,10 +35,10 @@ public abstract class CaseCustomTest : CustomTestBase<CaseTestContext>
     /// <param name="caseType">The case type</param>
     /// <param name="caseSlot">The case slot</param>
     /// <param name="clusterSetName">The cluster set name</param>
-    /// <param name="language">The language</param>
+    /// <param name="culture">The culture</param>
     /// <returns>The cases by type</returns>
     protected List<Model.Case> GetAvailableCases(CaseType caseType, string caseSlot = null,
-        string clusterSetName = null, Language? language = null) =>
+        string clusterSetName = null, string culture = null) =>
         new PayrollService(HttpClient).GetAvailableCasesAsync<Model.Case>(
             new(Tenant.Id, Payroll.Id),
             userId: User.Id,
@@ -46,7 +46,7 @@ public abstract class CaseCustomTest : CustomTestBase<CaseTestContext>
             employeeId: Employee?.Id,
             caseSlot: caseSlot,
             clusterSetName: clusterSetName,
-            language: language,
+            culture: culture,
             regulationDate: RegulationDate,
             evaluationDate: EvaluationDate).Result;
 
@@ -54,10 +54,10 @@ public abstract class CaseCustomTest : CustomTestBase<CaseTestContext>
     /// <summary>Get a case</summary>
     /// <param name="caseName">The case name</param>
     /// <param name="clusterSetName">The cluster set name</param>
-    /// <param name="language">The language</param>
+    /// <param name="culture">The culture</param>
     /// <param name="caseChangeSetup">The case change setup</param>
     /// <returns>The case including the case fields and related cases</returns>
-    protected CaseSet GetCase(string caseName, string clusterSetName = null, Language? language = null,
+    protected CaseSet GetCase(string caseName, string clusterSetName = null, string culture = null,
         CaseChangeSetup caseChangeSetup = null) =>
         new PayrollService(HttpClient).BuildCaseAsync<CaseSet>(
             new(Tenant.Id, Payroll.Id),
@@ -65,7 +65,7 @@ public abstract class CaseCustomTest : CustomTestBase<CaseTestContext>
             userId: User.Id,
             employeeId: Employee?.Id,
             clusterSetName: clusterSetName,
-            language: language,
+            culture: culture,
             regulationDate: RegulationDate,
             evaluationDate: EvaluationDate,
             caseChangeSetup: caseChangeSetup).Result;
