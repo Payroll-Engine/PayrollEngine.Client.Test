@@ -36,7 +36,7 @@
 	</ItemGroup>
 
 	<!--  build json schemas -->
-	<Target Name="BuildJsonSchema" AfterTargets="Build">
+	<Target Name="BuildJsonSchema" AfterTargets="Build" Condition="exists('$(PayrollEngineSchemaDir)')">
 		<Message Importance="High" Text="Building json schema..." />
 		<Exec Command="JsonSchemaBuilder $(OutDir)\PayrollEngine.Client.Test.dll PayrollEngine.Client.Test.Case.CaseTest $(OutputDir)PayrollEngine.CaseTest.schema.json" />
 		<Exec Command="JsonSchemaBuilder $(OutDir)\PayrollEngine.Client.Test.dll PayrollEngine.Client.Test.Report.ReportTest $(OutputDir)PayrollEngine.ReportTest.schema.json" />
