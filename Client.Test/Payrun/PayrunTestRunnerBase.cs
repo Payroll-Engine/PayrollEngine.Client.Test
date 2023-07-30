@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using PayrollEngine.Client.Exchange;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.Service.Api;
 
 namespace PayrollEngine.Client.Test.Payrun;
 
 /// <summary>Base class for file based payroll tests</summary>
-public abstract class PayrunFileTestRunner : FileTestRunner
+public abstract class PayrunTestRunnerBase : TestRunnerBase
 {
     /// <summary>The testing precision</summary>
     public TestPrecision TestPrecision { get; }
@@ -16,42 +15,21 @@ public abstract class PayrunFileTestRunner : FileTestRunner
     /// <summary>The test owner</summary>
     public string Owner { get; }
 
-    /// <summary>Initializes a new instance of the <see cref="PayrunFileTestRunner"/> class</summary>
+    /// <summary>Initializes a new instance of the <see cref="PayrunTestRunnerBase"/> class</summary>
     /// <param name="httpClient">The payroll engine http client</param>
-    /// <param name="fileName">Name of the file</param>
     /// <param name="testPrecision">The testing precision</param>
     /// <param name="owner">The test owner</param>
-    protected PayrunFileTestRunner(PayrollHttpClient httpClient, string fileName,
-        TestPrecision testPrecision, string owner) :
-        base(httpClient, fileName)
+    protected PayrunTestRunnerBase(PayrollHttpClient httpClient, TestPrecision testPrecision, string owner = null) :
+        base(httpClient)
     {
         TestPrecision = testPrecision;
         Owner = owner;
     }
 
     /// <summary>Start the test</summary>
-    /// <param name="namespace">The namespace</param>
+    /// <param name="exchange">The test exchange</param>
     /// <returns>A list of payrun job results</returns>
-    public virtual Task<IList<PayrollTestResult>> TestAsync(string @namespace = null) =>
-        default;
-
-    /// <summary>Start the test</summary>
-    /// <param name="namespace">The import namespace</param>
-    /// <returns>A list of payrun job results</returns>
-    public virtual Task<Dictionary<Tenant, List<PayrollTestResult>>> TestAllAsync(string @namespace = null) =>
-        default;
-
-    /// <summary>Loads the exchange</summary>
-    protected virtual async Task<Model.Exchange> LoadExchangeAsync(string @namespace)
-    {
-        // exchange import
-        var exchange = await ExchangeReader.ReadAsync(FileName, @namespace);
-        if (exchange.Tenants == null || !exchange.Tenants.Any())
-        {
-            throw new PayrollException($"Missing tenant in test file {FileName}");
-        }
-        return exchange;
-    }
+    public abstract Task<Dictionary<Tenant, List<PayrollTestResult>>> TestAllAsync(Model.Exchange exchange);
 
     /// <summary>Tests the payrun job</summary>
     /// <param name="tenant">The tenant</param>
@@ -147,7 +125,7 @@ public abstract class PayrunFileTestRunner : FileTestRunner
                     var payrunJobs = employePayrunJobs.Where(x => x.JobResult == PayrunJobResult.Full &&
                                                                   string.Equals(x.Name, payrollResult.PayrunJobName)).ToList();
                     if (!payrunJobs.Any())
-                    {    
+                    {
                         throw new PayrollException($"Missing payrun job {payrollResult.PayrunJobName}");
                     }
                     payrunJob = payrunJobs.OrderByDescending(x => x.Created).First();

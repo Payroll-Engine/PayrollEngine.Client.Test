@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.Service.Api;
-using PayrollEngine.Serialization;
 
 namespace PayrollEngine.Client.Test.Report;
 
 /// <summary>Report test runner</summary>
-public class ReportTestRunner : FileTestRunner
+public class ReportTestRunner : TestRunnerBase
 {
     /// <summary>Parse report custom test class</summary>
     private sealed class ReportCustomTestParser : CustomTestParser<ReportCustomTest, ReportTestContext>
@@ -31,21 +29,17 @@ public class ReportTestRunner : FileTestRunner
         }
     }
 
-    /// <summary>Initializes a new instance of the <see cref="ReportTestRunner"/> class</summary>
+    /// <summary>Initializes a new instance of the class</summary>
     /// <param name="httpClient">The payroll engine http client</param>
-    /// <param name="fileName">Name of the file</param>
-    public ReportTestRunner(PayrollHttpClient httpClient, string fileName) :
-        base(httpClient, fileName)
+    public ReportTestRunner(PayrollHttpClient httpClient) :
+        base(httpClient)
     {
     }
 
     /// <summary>Test case</summary>
     /// <returns>The report test results</returns>
-    public virtual async Task<ReportTestResult> TestAsync()
+    public virtual async Task<ReportTestResult> TestAsync(ReportTest reportTest)
     {
-        // load test
-        var reportTest = await LoadReportTest();
-
         // test context
         var context = await CreateTestContext(reportTest);
 
@@ -216,32 +210,4 @@ public class ReportTestRunner : FileTestRunner
     /// <param name="name">The regulation name</param>
     protected async Task<Regulation> GetRegulationAsync(int tenantId, string name) =>
         await new RegulationService(HttpClient).GetAsync<Regulation>(new(tenantId), name);
-
-    /// <summary>Loads the case test</summary>
-    protected virtual async Task<ReportTest> LoadReportTest()
-    {
-        // read file
-        if (!File.Exists(FileName))
-        {
-            throw new PayrollException($"Missing import file {FileName}");
-        }
-        var json = await File.ReadAllTextAsync(FileName);
-        if (string.IsNullOrWhiteSpace(json))
-        {
-            throw new PayrollException($"Invalid import file {FileName}");
-        }
-
-        // convert from json
-        var reportTest = DefaultJsonSerializer.Deserialize<ReportTest>(json);
-        if (string.IsNullOrWhiteSpace(reportTest.TenantIdentifier))
-        {
-            throw new PayrollException($"Missing tenant {reportTest.TenantIdentifier}");
-        }
-        if (string.IsNullOrWhiteSpace(reportTest.UserIdentifier))
-        {
-            throw new PayrollException($"Missing user {reportTest.UserIdentifier}");
-        }
-
-        return reportTest;
-    }
 }

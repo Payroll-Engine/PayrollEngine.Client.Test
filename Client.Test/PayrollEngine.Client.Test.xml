@@ -375,12 +375,11 @@
         <member name="T:PayrollEngine.Client.Test.Case.CaseTestRunner.CaseCustomTestParser">
             <summary>Parse case custom test class</summary>
         </member>
-        <member name="M:PayrollEngine.Client.Test.Case.CaseTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,System.String)">
-            <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Case.CaseTestRunner"/> class</summary>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient)">
+            <summary>Initializes a new instance of the class</summary>
             <param name="httpClient">The payroll engine http client</param>
-            <param name="fileName">Name of the file</param>
         </member>
-        <member name="M:PayrollEngine.Client.Test.Case.CaseTestRunner.TestAsync">
+        <member name="M:PayrollEngine.Client.Test.Case.CaseTestRunner.TestAsync(PayrollEngine.Client.Test.Case.CaseTest)">
             <summary>Test case</summary>
             <returns>The case test results</returns>
         </member>
@@ -409,9 +408,6 @@
             <summary>Create the test context</summary>
             <param name="caseTest">The test</param>
             <returns>The test context</returns>
-        </member>
-        <member name="M:PayrollEngine.Client.Test.Case.CaseTestRunner.LoadCaseTest">
-            <summary>Loads the case test</summary>
         </member>
         <member name="M:PayrollEngine.Client.Test.Case.CaseTestRunner.GetDivisionAsync(System.Int32,System.Int32)">
             <summary>Get division by id</summary>
@@ -547,17 +543,6 @@
             <param name="actualAttributes">The actual attribute values</param>
             <returns>A tuple with the attribute name, the expected value and the actual value</returns>
         </member>
-        <member name="T:PayrollEngine.Client.Test.FileTestRunner">
-            <summary>Base class for file based payroll tests</summary>
-        </member>
-        <member name="P:PayrollEngine.Client.Test.FileTestRunner.FileName">
-            <summary>The test file name</summary>
-        </member>
-        <member name="M:PayrollEngine.Client.Test.FileTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,System.String)">
-            <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.FileTestRunner"/> class</summary>
-            <param name="httpClient">The payroll engine http client</param>
-            <param name="fileName">Name of the file</param>
-        </member>
         <member name="T:PayrollEngine.Client.Test.Payrun.CollectorTestCustomResult">
             <summary>Collector test custom result</summary>
         </member>
@@ -645,14 +630,23 @@
         <member name="P:PayrollEngine.Client.Test.Payrun.PayrollTestResult.TotalResultCount">
             <summary>Total result count</summary>
         </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrollTestResult.FailedWageTypeResult">
+            <summary>Test if wage type test is failed</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrollTestResult.FailedCollectorResult">
+            <summary>Test if collector test is failed</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrollTestResult.FailedPayrunResult">
+            <summary>Test if payrun test is failed</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrollTestResult.Failed">
+            <summary>Test if payroll test is failed</summary>
+        </member>
         <member name="M:PayrollEngine.Client.Test.Payrun.PayrollTestResult.#ctor(PayrollEngine.Client.Model.Tenant,PayrollEngine.Client.Model.Employee,PayrollEngine.Client.Model.PayrunJob)">
             <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Payrun.PayrollTestResult"/> class</summary>
             <param name="tenant">The tenant</param>
             <param name="payrunJob">The payrun job</param>
             <param name="employee">The employee</param>
-        </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrollTestResult.IsFailed">
-            <summary>Test if payrun test is failed</summary>
         </member>
         <member name="T:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner">
             <summary>Payrun employee test runner</summary>
@@ -666,108 +660,22 @@
         <member name="P:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.EmployeeMode">
             <summary>The employee test mode</summary>
         </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,System.String,PayrollEngine.Client.Script.IScriptParser,PayrollEngine.Client.Test.TestPrecision,System.String,PayrollEngine.Client.Test.Payrun.EmployeeTestMode)">
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,PayrollEngine.Client.Script.IScriptParser,PayrollEngine.Client.Test.TestPrecision,System.String,PayrollEngine.Client.Test.Payrun.EmployeeTestMode)">
             <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner"/> class</summary>
             <param name="httpClient">The payroll engine http client</param>
-            <param name="fileName">Name of the file</param>
             <param name="scriptParser">The script parser</param>
             <param name="owner">The test owner</param>
             <param name="testPrecision">The testing precision</param>
             <param name="employeeMode">The employee test mode</param>
         </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.TestAllAsync(System.String)">
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.TestAllAsync(PayrollEngine.Client.Model.Exchange)">
             <summary>Start the test</summary>
-            <param name="namespace">The tenant name</param>
             <returns>A list of payrun job results</returns>
         </member>
         <member name="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.DuplicateTestEmployee(System.Int32,PayrollEngine.Client.Model.ExchangeTenant)">
             <summary>Duplicates the test employee</summary>
             <param name="tenantId">The tenant id</param>
             <param name="tenant">The exchange tenant</param>
-        </member>
-        <member name="T:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner">
-            <summary>Base class for file based payroll tests</summary>
-        </member>
-        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.TestPrecision">
-            <summary>The testing precision</summary>
-        </member>
-        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.Owner">
-            <summary>The test owner</summary>
-        </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,System.String,PayrollEngine.Client.Test.TestPrecision,System.String)">
-            <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner"/> class</summary>
-            <param name="httpClient">The payroll engine http client</param>
-            <param name="fileName">Name of the file</param>
-            <param name="testPrecision">The testing precision</param>
-            <param name="owner">The test owner</param>
-        </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.TestAsync(System.String)">
-            <summary>Start the test</summary>
-            <param name="namespace">The namespace</param>
-            <returns>A list of payrun job results</returns>
-        </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.TestAllAsync(System.String)">
-            <summary>Start the test</summary>
-            <param name="namespace">The import namespace</param>
-            <returns>A list of payrun job results</returns>
-        </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.LoadExchangeAsync(System.String)">
-            <summary>Loads the exchange</summary>
-        </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.TestPayrunJobAsync(PayrollEngine.Client.Model.ExchangeTenant,PayrollEngine.Client.Test.Payrun.JobResultMode)">
-            <summary>Tests the payrun job</summary>
-            <param name="tenant">The tenant</param>
-            <param name="jobResultMode">The job result mode</param>
-            <returns>List of payrun job test results</returns>
-        </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.ApplyOwner(PayrollEngine.Client.Model.Exchange,System.String)">
-            <summary>Apply the test owner</summary>
-            <param name="exchange">The exchange</param>
-            <param name="owner">The owner name</param>
-            <returns>List of payrun job test results</returns>
-        </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.GetPayrunJobsAsync(System.Int32,System.String)">
-            <summary>Get payrun jobs</summary>
-            <param name="tenantId">The tenant id</param>
-            <param name="payrunName">The payrun name</param>
-        </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.GetEmployeePayrunJobsAsync(System.Int32,System.Int32)">
-            <summary>Get employee payrun jobs</summary>
-            <param name="tenantId">The tenant id</param>
-            <param name="employeeId">The tenant identifier</param>
-        </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.GetPayrollResultAsync(System.Int32,System.Int32,System.Int32)">
-            <summary>Get tenant</summary>
-            <param name="tenantId">The tenant id</param>
-            <param name="employeeId">The employee id</param>
-            <param name="payrunJobId">The payrun job id</param>
-        </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.GetWageTypeResultsAsync(System.Int32,System.Int32)">
-            <summary>Get wage type results</summary>
-            <param name="tenantId">The tenant id</param>
-            <param name="payrollResultId">The payroll result id</param>
-        </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.GetWageTypeCustomResultsAsync(System.Int32,System.Int32,System.Int32)">
-            <summary>Get wage type custom results</summary>
-            <param name="tenantId">The tenant id</param>
-            <param name="payrollResultId">The payroll result id</param>
-            <param name="wageTypeResultId">The wage type result id</param>
-        </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.GetCollectorResultsAsync(System.Int32,System.Int32)">
-            <summary>Get collector results</summary>
-            <param name="tenantId">The tenant id</param>
-            <param name="payrollResultId">The payroll result id</param>
-        </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.GetCollectorCustomResultsAsync(System.Int32,System.Int32,System.Int32)">
-            <summary>Get collector custom results</summary>
-            <param name="tenantId">The tenant id</param>
-            <param name="payrollResultId">The payroll result id</param>
-            <param name="collectorResultId">The collector result id</param>
-        </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunFileTestRunner.GetPayrunResultsAsync(System.Int32,System.Int32)">
-            <summary>Get payrun results</summary>
-            <param name="tenantId">The tenant id</param>
-            <param name="payrollResultId">The payroll result id</param>
         </member>
         <member name="T:PayrollEngine.Client.Test.Payrun.PayrunTestResult">
             <summary>Payrun test result</summary>
@@ -795,19 +703,17 @@
         <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.DelayBetweenCreateAndTest">
             <summary>The delay between creation and test</summary>
         </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,System.String,PayrollEngine.Client.Script.IScriptParser,PayrollEngine.Client.Test.TestPrecision,System.String,PayrollEngine.Client.Exchange.DataImportMode,PayrollEngine.Client.Test.Payrun.TestResultMode)">
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,PayrollEngine.Client.Script.IScriptParser,PayrollEngine.Client.Test.TestPrecision,System.String,PayrollEngine.Client.Exchange.DataImportMode,PayrollEngine.Client.Test.Payrun.TestResultMode)">
             <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Payrun.PayrunTestRunner"/> class</summary>
             <param name="httpClient">The payroll engine http client</param>
-            <param name="fileName">Name of the file</param>
             <param name="scriptParser">The script parser</param>
             <param name="testPrecision">The testing precision</param>
             <param name="owner">The test owner</param>
             <param name="importMode">The data import mode (default: single)</param>
             <param name="resultMode">The test result mode (default: clean)</param>
         </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.TestAllAsync(System.String)">
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.TestAllAsync(PayrollEngine.Client.Model.Exchange)">
             <summary>Start the test</summary>
-            <param name="namespace">The tenant name</param>
             <returns>A list of payrun job results</returns>
         </member>
         <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.ValidateTenant(PayrollEngine.Client.Model.ExchangeTenant)">
@@ -817,6 +723,81 @@
         <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.CleanupTenants(PayrollEngine.Client.Model.Exchange)">
             <summary>Cleanup exchange tenants</summary>
             <param name="exchange">The exchange</param>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase">
+            <summary>Base class for file based payroll tests</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.TestPrecision">
+            <summary>The testing precision</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.Owner">
+            <summary>The test owner</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.#ctor(PayrollEngine.Client.PayrollHttpClient,PayrollEngine.Client.Test.TestPrecision,System.String)">
+            <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase"/> class</summary>
+            <param name="httpClient">The payroll engine http client</param>
+            <param name="testPrecision">The testing precision</param>
+            <param name="owner">The test owner</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.TestAllAsync(PayrollEngine.Client.Model.Exchange)">
+            <summary>Start the test</summary>
+            <param name="exchange">The test exchange</param>
+            <returns>A list of payrun job results</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.TestPayrunJobAsync(PayrollEngine.Client.Model.ExchangeTenant,PayrollEngine.Client.Test.Payrun.JobResultMode)">
+            <summary>Tests the payrun job</summary>
+            <param name="tenant">The tenant</param>
+            <param name="jobResultMode">The job result mode</param>
+            <returns>List of payrun job test results</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.ApplyOwner(PayrollEngine.Client.Model.Exchange,System.String)">
+            <summary>Apply the test owner</summary>
+            <param name="exchange">The exchange</param>
+            <param name="owner">The owner name</param>
+            <returns>List of payrun job test results</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.GetPayrunJobsAsync(System.Int32,System.String)">
+            <summary>Get payrun jobs</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="payrunName">The payrun name</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.GetEmployeePayrunJobsAsync(System.Int32,System.Int32)">
+            <summary>Get employee payrun jobs</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="employeeId">The tenant identifier</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.GetPayrollResultAsync(System.Int32,System.Int32,System.Int32)">
+            <summary>Get tenant</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="employeeId">The employee id</param>
+            <param name="payrunJobId">The payrun job id</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.GetWageTypeResultsAsync(System.Int32,System.Int32)">
+            <summary>Get wage type results</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="payrollResultId">The payroll result id</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.GetWageTypeCustomResultsAsync(System.Int32,System.Int32,System.Int32)">
+            <summary>Get wage type custom results</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="payrollResultId">The payroll result id</param>
+            <param name="wageTypeResultId">The wage type result id</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.GetCollectorResultsAsync(System.Int32,System.Int32)">
+            <summary>Get collector results</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="payrollResultId">The payroll result id</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.GetCollectorCustomResultsAsync(System.Int32,System.Int32,System.Int32)">
+            <summary>Get collector custom results</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="payrollResultId">The payroll result id</param>
+            <param name="collectorResultId">The collector result id</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.GetPayrunResultsAsync(System.Int32,System.Int32)">
+            <summary>Get payrun results</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="payrollResultId">The payroll result id</param>
         </member>
         <member name="T:PayrollEngine.Client.Test.Payrun.TestResultMode">
             <summary>The test result mode</summary>
@@ -1064,12 +1045,11 @@
         <member name="T:PayrollEngine.Client.Test.Report.ReportTestRunner.ReportCustomTestParser">
             <summary>Parse report custom test class</summary>
         </member>
-        <member name="M:PayrollEngine.Client.Test.Report.ReportTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,System.String)">
-            <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Report.ReportTestRunner"/> class</summary>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient)">
+            <summary>Initializes a new instance of the class</summary>
             <param name="httpClient">The payroll engine http client</param>
-            <param name="fileName">Name of the file</param>
         </member>
-        <member name="M:PayrollEngine.Client.Test.Report.ReportTestRunner.TestAsync">
+        <member name="M:PayrollEngine.Client.Test.Report.ReportTestRunner.TestAsync(PayrollEngine.Client.Test.Report.ReportTest)">
             <summary>Test case</summary>
             <returns>The report test results</returns>
         </member>
@@ -1098,9 +1078,6 @@
             <summary>Get regulation</summary>
             <param name="tenantId">The tenant id</param>
             <param name="name">The regulation name</param>
-        </member>
-        <member name="M:PayrollEngine.Client.Test.Report.ReportTestRunner.LoadReportTest">
-            <summary>Loads the case test</summary>
         </member>
         <member name="T:PayrollEngine.Client.Test.Report.ReportTestType">
             <summary>Report test type</summary>
@@ -1262,7 +1239,7 @@
             <summary>Base class for payroll tests</summary>
         </member>
         <member name="P:PayrollEngine.Client.Test.TestRunnerBase.HttpClient">
-            <summary>The Payroll http client</summary>
+            <summary>The payroll http client</summary>
         </member>
         <member name="M:PayrollEngine.Client.Test.TestRunnerBase.#ctor(PayrollEngine.Client.PayrollHttpClient)">
             <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.TestRunnerBase"/> class</summary>

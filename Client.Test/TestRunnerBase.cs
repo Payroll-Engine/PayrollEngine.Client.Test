@@ -9,7 +9,7 @@ namespace PayrollEngine.Client.Test;
 /// <summary>Base class for payroll tests</summary>
 public abstract class TestRunnerBase
 {
-    /// <summary>The Payroll http client</summary>
+    /// <summary>The payroll http client</summary>
     public PayrollHttpClient HttpClient { get; }
 
     /// <summary>Initializes a new instance of the <see cref="TestRunnerBase"/> class</summary>

@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.Service;
 using PayrollEngine.Client.Service.Api;
-using PayrollEngine.Serialization;
 using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.Client.Test.Case;
 
 /// <summary>Case test runner</summary>
-public class CaseTestRunner : FileTestRunner
+public class CaseTestRunner : TestRunnerBase
 {
 
     /// <summary>Parse case custom test class</summary>
@@ -36,21 +34,17 @@ public class CaseTestRunner : FileTestRunner
         }
     }
 
-    /// <summary>Initializes a new instance of the <see cref="CaseTestRunner"/> class</summary>
+    /// <summary>Initializes a new instance of the class</summary>
     /// <param name="httpClient">The payroll engine http client</param>
-    /// <param name="fileName">Name of the file</param>
-    public CaseTestRunner(PayrollHttpClient httpClient, string fileName) :
-        base(httpClient, fileName)
+    public CaseTestRunner(PayrollHttpClient httpClient) :
+        base(httpClient)
     {
     }
 
     /// <summary>Test case</summary>
     /// <returns>The case test results</returns>
-    public virtual async Task<CaseTestResult> TestAsync()
+    public virtual async Task<CaseTestResult> TestAsync(CaseTest caseTest)
     {
-        // load test
-        var caseTest = await LoadCaseTest();
-
         // test context
         var context = await CreateTestContext(caseTest);
 
@@ -420,38 +414,6 @@ public class CaseTestRunner : FileTestRunner
             cultureName: cultureName, calendarName: calendarName, periodMoment: evaluationDate);
 
         return context;
-    }
-
-    /// <summary>Loads the case test</summary>
-    protected virtual async Task<CaseTest> LoadCaseTest()
-    {
-        // import file
-        if (!File.Exists(FileName))
-        {
-            throw new PayrollException($"Missing import file {FileName}");
-        }
-        var json = await File.ReadAllTextAsync(FileName);
-        if (string.IsNullOrWhiteSpace(json))
-        {
-            throw new PayrollException($"Invalid import file {FileName}");
-        }
-
-        // import from JSON
-        var caseTest = DefaultJsonSerializer.Deserialize<CaseTest>(json);
-        if (string.IsNullOrWhiteSpace(caseTest.TenantIdentifier))
-        {
-            throw new PayrollException($"Missing tenant {caseTest.TenantIdentifier}");
-        }
-        if (string.IsNullOrWhiteSpace(caseTest.UserIdentifier))
-        {
-            throw new PayrollException($"Missing user {caseTest.UserIdentifier}");
-        }
-        if (string.IsNullOrWhiteSpace(caseTest.PayrollName))
-        {
-            throw new PayrollException($"Missing payroll {caseTest.PayrollName}");
-        }
-
-        return caseTest;
     }
 
     /// <summary>Get division by id</summary>

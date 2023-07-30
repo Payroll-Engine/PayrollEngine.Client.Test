@@ -11,7 +11,7 @@ using Task = System.Threading.Tasks.Task;
 namespace PayrollEngine.Client.Test.Payrun;
 
 /// <summary>Payrun test runner</summary>
-public class PayrunTestRunner : PayrunFileTestRunner
+public class PayrunTestRunner : PayrunTestRunnerBase
 {
     /// <summary>The employee test mode</summary>
     public IScriptParser ScriptParser { get; }
@@ -27,16 +27,16 @@ public class PayrunTestRunner : PayrunFileTestRunner
 
     /// <summary>Initializes a new instance of the <see cref="PayrunTestRunner"/> class</summary>
     /// <param name="httpClient">The payroll engine http client</param>
-    /// <param name="fileName">Name of the file</param>
     /// <param name="scriptParser">The script parser</param>
     /// <param name="testPrecision">The testing precision</param>
     /// <param name="owner">The test owner</param>
     /// <param name="importMode">The data import mode (default: single)</param>
     /// <param name="resultMode">The test result mode (default: clean)</param>
-    public PayrunTestRunner(PayrollHttpClient httpClient, string fileName, IScriptParser scriptParser,
-        TestPrecision testPrecision, string owner = null, DataImportMode importMode = DataImportMode.Single,
+    public PayrunTestRunner(PayrollHttpClient httpClient, IScriptParser scriptParser,
+        TestPrecision testPrecision = TestPrecision.TestPrecision2,
+        string owner = null, DataImportMode importMode = DataImportMode.Single,
         TestResultMode resultMode = TestResultMode.CleanTest) :
-        base(httpClient, fileName, testPrecision, owner)
+        base(httpClient, testPrecision, owner)
     {
         ScriptParser = scriptParser ?? throw new ArgumentNullException(nameof(scriptParser));
         ImportMode = importMode;
@@ -44,12 +44,9 @@ public class PayrunTestRunner : PayrunFileTestRunner
     }
 
     /// <summary>Start the test</summary>
-    /// <param name="namespace">The tenant name</param>
     /// <returns>A list of payrun job results</returns>
-    public override async Task<Dictionary<Tenant, List<PayrollTestResult>>> TestAllAsync(string @namespace = null)
+    public override async Task<Dictionary<Tenant, List<PayrollTestResult>>> TestAllAsync(Model.Exchange exchange)
     {
-        // exchange
-        var exchange = await LoadExchangeAsync(@namespace);
         // apply owner
         ApplyOwner(exchange, Owner);
 

@@ -30,6 +30,24 @@ public class PayrollTestResult
     public int TotalResultCount =>
         WageTypeResults.Count + CollectorResults.Count + PayrunResults.Count;
 
+    /// <summary>Test if wage type test is failed</summary>
+    public bool FailedWageTypeResult =>
+        WageTypeResults.Any(x => x.IsFailed());
+
+    /// <summary>Test if collector test is failed</summary>
+    public bool FailedCollectorResult =>
+        CollectorResults.Any(x => x.IsFailed());
+
+    /// <summary>Test if payrun test is failed</summary>
+    public bool FailedPayrunResult =>
+        PayrunResults.Any(x => x.IsFailed());
+
+    /// <summary>Test if payroll test is failed</summary>
+    public bool Failed =>
+        FailedWageTypeResult ||
+        FailedCollectorResult ||
+        FailedPayrunResult;
+
     /// <summary>Initializes a new instance of the <see cref="PayrollTestResult"/> class</summary>
     /// <param name="tenant">The tenant</param>
     /// <param name="payrunJob">The payrun job</param>
@@ -40,10 +58,4 @@ public class PayrollTestResult
         Employee = employee ?? throw new ArgumentNullException(nameof(employee));
         PayrunJob = payrunJob ?? throw new ArgumentNullException(nameof(payrunJob));
     }
-
-    /// <summary>Test if payrun test is failed</summary>
-    public bool IsFailed() =>
-        WageTypeResults.Any(x => x.IsFailed()) ||
-        CollectorResults.Any(x => x.IsFailed()) ||
-        PayrunResults.Any(x => x.IsFailed());
 }

@@ -16,7 +16,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.CodeAnalysis.Compilers" Version="4.6.0" />
-		<PackageReference Include="PayrollEngine.Client.Core" Version="0.6.0-beta.4" />
+		<PackageReference Include="PayrollEngine.Client.Core" Version="0.6.0-beta.5" />
 	</ItemGroup>
 
 	<!-- include xml documention files and json schemas to the nuget package -->
@@ -29,10 +29,26 @@
 		</None>
 	</ItemGroup>
 	<ItemGroup>
+	  <Compile Remove="ExchangeFileTestDataProvider.cs" />
+	  <Compile Remove="FileTestDataProvider.cs" />
+	  <Compile Remove="FileTestRunner.cs" />
+	  <Compile Remove="ITestDataProvider.cs" />
+	  <Compile Remove="ResourceTestDataProvider.cs" />
+	  <Compile Remove="StreamTestDataProvider.cs" />
+	  <Compile Remove="StringTestDataProvider.cs" />
+	</ItemGroup>
+	<ItemGroup>
 	  <None Include="..\README.md">
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
 	  </None>
+	  <None Include="ExchangeFileTestDataProvider.cs" />
+	  <None Include="FileTestDataProvider.cs" />
+	  <None Include="FileTestRunner.cs" />
+	  <None Include="ITestDataProvider.cs" />
+	  <None Include="ResourceTestDataProvider.cs" />
+	  <None Include="StreamTestDataProvider.cs" />
+	  <None Include="StringTestDataProvider.cs" />
 	</ItemGroup>
 
 	<!--  build json schemas -->
