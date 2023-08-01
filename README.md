@@ -1,4 +1,4 @@
-<h1>Payroll Engine Client Test</h1>
+# Payroll Engine Client Test
 
 Library for testing Payroll Engine clients:
 - Case test: Validate the user input
