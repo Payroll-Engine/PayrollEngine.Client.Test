@@ -1,5 +1,5 @@
 # Payroll Engine Client Test
-👉 This repository is part of the [Payroll Engine](https://github.com/Payroll-Engine/PayrollEngine/wiki).
+👉 This library is part of the [Payroll Engine](https://github.com/Payroll-Engine/PayrollEngine/wiki).
 
 Library for testing Payroll Engine clients:
 - Case test: Validate the user input
