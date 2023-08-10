@@ -22,6 +22,9 @@ public class PayrunTestRunner : PayrunTestRunnerBase
     /// <summary>The test result mode</summary>
     public TestResultMode ResultMode { get; }
 
+    /// <summary>The test running mode</summary>
+    public TestRunMode RunMode { get; }
+
     /// <summary>The delay between creation and test</summary>
     public int DelayBetweenCreateAndTest { get; set; }
 
@@ -32,15 +35,18 @@ public class PayrunTestRunner : PayrunTestRunnerBase
     /// <param name="owner">The test owner</param>
     /// <param name="importMode">The data import mode (default: single)</param>
     /// <param name="resultMode">The test result mode (default: clean)</param>
+    /// <param name="runMode">The employee test mode</param>
     public PayrunTestRunner(PayrollHttpClient httpClient, IScriptParser scriptParser,
         TestPrecision testPrecision = TestPrecision.TestPrecision2,
         string owner = null, DataImportMode importMode = DataImportMode.Single,
-        TestResultMode resultMode = TestResultMode.CleanTest) :
+        TestResultMode resultMode = TestResultMode.CleanTest,
+        TestRunMode runMode = TestRunMode.RunTests) :
         base(httpClient, testPrecision, owner)
     {
         ScriptParser = scriptParser ?? throw new ArgumentNullException(nameof(scriptParser));
         ImportMode = importMode;
         ResultMode = resultMode;
+        RunMode = runMode;
     }
 
     /// <summary>Start the test</summary>
@@ -68,18 +74,22 @@ public class PayrunTestRunner : PayrunTestRunnerBase
             var import = new ExchangeImport(HttpClient, exchange, ScriptParser, importMode: ImportMode);
             await import.ImportAsync();
 
-            // all payrun jobs should be executed
-            if (DelayBetweenCreateAndTest > 0)
+            // not test skip
+            if (RunMode == TestRunMode.RunTests)
             {
-                Task.Delay(DelayBetweenCreateAndTest).Wait();
-            }
+                // all payrun jobs should be executed
+                if (DelayBetweenCreateAndTest > 0)
+                {
+                    Task.Delay(DelayBetweenCreateAndTest).Wait();
+                }
 
-            // test tenants
-            foreach (var tenant in exchange.Tenants)
-            {
-                // test results
-                var payrunJobResult = await TestPayrunJobAsync(tenant, JobResultMode.Single);
-                results.Add(tenant, payrunJobResult.ToList());
+                // test tenants
+                foreach (var tenant in exchange.Tenants)
+                {
+                    // test results
+                    var payrunJobResult = await TestPayrunJobAsync(tenant, JobResultMode.Single);
+                    results.Add(tenant, payrunJobResult.ToList());
+                }
             }
         }
         finally

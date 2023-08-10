@@ -21,22 +21,29 @@ public class PayrunEmployeeTestRunner : PayrunTestRunnerBase
     /// <summary>The employee test mode</summary>
     public EmployeeTestMode EmployeeMode { get; }
 
+    /// <summary>The test running mode</summary>
+    public TestRunMode RunMode { get; }
+
     /// <summary>Initializes a new instance of the <see cref="PayrunEmployeeTestRunner"/> class</summary>
     /// <param name="httpClient">The payroll engine http client</param>
     /// <param name="scriptParser">The script parser</param>
     /// <param name="owner">The test owner</param>
     /// <param name="testPrecision">The testing precision</param>
-    /// <param name="employeeMode">The employee test mode</param>
+    /// <param name="employeeMode">The test running mode</param>
+    /// <param name="runMode">The employee test mode</param>
     public PayrunEmployeeTestRunner(PayrollHttpClient httpClient, IScriptParser scriptParser,
         TestPrecision testPrecision = TestPrecision.TestPrecision2, string owner = null,
-        EmployeeTestMode employeeMode = EmployeeTestMode.InsertEmployee) :
+        EmployeeTestMode employeeMode = EmployeeTestMode.InsertEmployee,
+        TestRunMode runMode = TestRunMode.RunTests) :
         base(httpClient, testPrecision, owner)
     {
         ScriptParser = scriptParser ?? throw new ArgumentNullException(nameof(scriptParser));
         EmployeeMode = employeeMode;
+        RunMode = runMode;
     }
 
     /// <summary>Start the test</summary>
+    /// <param name="exchange">The exchange model</param>
     /// <returns>A list of payrun job results</returns>
     public override async Task<Dictionary<Tenant, List<PayrollTestResult>>> TestAllAsync(Model.Exchange exchange)
     {
@@ -59,6 +66,12 @@ public class PayrunEmployeeTestRunner : PayrunTestRunnerBase
             // create new tenant including all payrolls, payrun and payrun job
             var import = new ExchangeImport(HttpClient, exchange, ScriptParser);
             await import.ImportAsync();
+
+            // test skip
+            if (RunMode != TestRunMode.RunTests)
+            {
+                continue;
+            }
 
             // all payrun jobs should be executed
             if (DelayBetweenCreateAndTest > 0)
