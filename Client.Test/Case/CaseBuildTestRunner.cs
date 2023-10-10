@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -12,12 +13,15 @@ namespace PayrollEngine.Client.Test.Case;
 /// </summary>
 public class CaseBuildTestRunner : CaseScriptTestRunner
 {
+    private CultureInfo Culture { get; }
+
     /// <summary>new instance of <see cref="CaseValidateTestRunner"/>see</summary>
     /// <param name="httpClient">The payroll http client</param>
     /// <param name="context">The test context</param>
     public CaseBuildTestRunner(PayrollHttpClient httpClient, CaseTestContext context) :
         base(httpClient, context)
     {
+        Culture = CultureTool.GetTenantCulture(Tenant);
     }
 
     /// <summary>Test the case validation</summary>
@@ -144,8 +148,8 @@ public class CaseBuildTestRunner : CaseScriptTestRunner
                     caseField.ValueType = actualCaseField.ValueType;
 
                     // case value
-                    var expectedValue = caseField.GetValue();
-                    var actualValue = actualCaseField.GetValue();
+                    var expectedValue = caseField.GetValue(Culture);
+                    var actualValue = actualCaseField.GetValue(Culture);
                     if (!Equals(expectedValue, actualValue))
                     {
                         results.Add(NewFailedResult(CaseTestType.CaseBuild, testName,

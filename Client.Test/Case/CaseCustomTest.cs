@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.Service.Api;
@@ -9,6 +10,8 @@ namespace PayrollEngine.Client.Test.Case;
 /// <summary>Case custom test class</summary>
 public abstract class CaseCustomTest : CustomTestBase<CaseTestContext>
 {
+    private CultureInfo Culture { get; }
+
     /// <summary>The payroll</summary>
     public Payroll Payroll => Context.Payroll;
 
@@ -27,6 +30,7 @@ public abstract class CaseCustomTest : CustomTestBase<CaseTestContext>
     protected CaseCustomTest(PayrollHttpClient httpClient, CaseTestContext context) :
         base(httpClient, context)
     {
+        Culture = CultureTool.GetTenantCulture(Tenant);
     }
 
     #region Cases
@@ -104,7 +108,7 @@ public abstract class CaseCustomTest : CustomTestBase<CaseTestContext>
     protected T GetCasePeriodValue<T>(string caseFieldName)
     {
         var caseValue = GetCasePeriodValue(caseFieldName);
-        return caseValue != null ? (T)ValueConvert.ToValue(caseValue.Value, caseValue.ValueType) : default;
+        return caseValue != null ? (T)ValueConvert.ToValue(caseValue.Value, caseValue.ValueType, Culture) : default;
     }
 
     /// <summary>Get case raw values</summary>

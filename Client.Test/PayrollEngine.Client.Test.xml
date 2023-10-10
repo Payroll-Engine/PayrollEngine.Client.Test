@@ -696,8 +696,12 @@
         <member name="T:PayrollEngine.Client.Test.Payrun.PayrunTestResult">
             <summary>Payrun test result</summary>
         </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestResult.#ctor(PayrollEngine.Client.Model.PayrunResult,PayrollEngine.Client.Model.PayrunResult)">
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestResult.Culture">
+            <summary>The test culture</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestResult.#ctor(System.Globalization.CultureInfo,PayrollEngine.Client.Model.PayrunResult,PayrollEngine.Client.Model.PayrunResult)">
             <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Payrun.PayrunTestResult"/> class</summary>
+            <param name="culture">The culture</param>
             <param name="expectedResult">The expected result</param>
             <param name="actualResult">The actual result</param>
         </member>

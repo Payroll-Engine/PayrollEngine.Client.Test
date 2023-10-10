@@ -43,6 +43,9 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
             return testResults;
         }
 
+        // culture
+        var culture = CultureTool.GetTenantCulture(tenant);
+
         // compare all payroll results values with the provided values
         foreach (var payrollResult in tenant.PayrollResults)
         {
@@ -229,7 +232,7 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
                                                            Date.SameSecond(x.Start, payrunResult.Start) &&
                                                            Date.SameSecond(x.End, payrunResult.End) &&
                                                            CompareTool.EqualLists(x.Tags, payrunResult.Tags));
-                    var result = new PayrunTestResult(payrunResult, actualResult);
+                    var result = new PayrunTestResult(culture, payrunResult, actualResult);
                     testResult.PayrunResults.Add(result);
                 }
             }
