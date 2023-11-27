@@ -7,6 +7,4 @@ namespace PayrollEngine.Client.Test.Report;
 /// Test input: report request
 /// Test output: report data set
 /// </summary>
-public class ReportExecuteTest : ReportScriptTest<ReportRequest, DataSet>
-{
-}
+public class ReportExecuteTest : ReportScriptTest<ReportRequest, DataSet>;

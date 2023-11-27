@@ -6,6 +6,4 @@ namespace PayrollEngine.Client.Test.Case;
 /// Test input: case change setup
 /// Test output: case set
 /// </summary>
-public class CaseBuildTest : CaseScriptTest<CaseChangeSetup, CaseSet>
-{
-}
+public class CaseBuildTest : CaseScriptTest<CaseChangeSetup, CaseSet>;

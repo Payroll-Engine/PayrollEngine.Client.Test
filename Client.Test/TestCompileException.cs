@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Text;
 
 namespace PayrollEngine.Client.Test;
@@ -13,14 +12,6 @@ public class TestCompileException : PayrollException
     /// <param name="innerException">The inner exception</param>
     public TestCompileException(string message, Exception innerException) :
         base(message, innerException)
-    {
-    }
-
-    /// <summary>Initializes a new instance of the <see cref="TestCompileException"></see> class.</summary>
-    /// <param name="info">The serialization info</param>
-    /// <param name="context">The streaming context</param>
-    protected TestCompileException(SerializationInfo info, StreamingContext context) :
-        base(info, context)
     {
     }
 

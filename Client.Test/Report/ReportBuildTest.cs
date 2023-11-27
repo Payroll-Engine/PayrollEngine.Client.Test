@@ -7,6 +7,4 @@ namespace PayrollEngine.Client.Test.Report;
 /// Test input: report request
 /// Test output: list of report parameter
 /// </summary>
-public class ReportBuildTest : ReportScriptTest<ReportRequest, List<ReportParameter>>
-{
-}
+public class ReportBuildTest : ReportScriptTest<ReportRequest, List<ReportParameter>>;

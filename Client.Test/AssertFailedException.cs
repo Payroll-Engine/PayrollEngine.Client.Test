@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace PayrollEngine.Client.Test;
 
@@ -20,12 +19,6 @@ public class AssertFailedException : PayrollException
     /// <inheritdoc/>
     public AssertFailedException(string message, Exception innerException) :
         base(message, innerException)
-    {
-    }
-
-    /// <inheritdoc/>
-    protected AssertFailedException(SerializationInfo info, StreamingContext context) :
-        base(info, context)
     {
     }
 }

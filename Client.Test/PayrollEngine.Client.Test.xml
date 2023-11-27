@@ -58,9 +58,6 @@
         <member name="M:PayrollEngine.Client.Test.AssertFailedException.#ctor(System.String,System.Exception)">
             <inheritdoc/>
         </member>
-        <member name="M:PayrollEngine.Client.Test.AssertFailedException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <inheritdoc/>
-        </member>
         <member name="T:PayrollEngine.Client.Test.Case.CaseAvailableTest">
             <summary>Case available function test
             Test input: case change setup
@@ -1190,11 +1187,6 @@
             <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.TestCompileException"></see> class.</summary>
             <param name="message">The exception message</param>
             <param name="innerException">The inner exception</param>
-        </member>
-        <member name="M:PayrollEngine.Client.Test.TestCompileException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.TestCompileException"></see> class.</summary>
-            <param name="info">The serialization info</param>
-            <param name="context">The streaming context</param>
         </member>
         <member name="M:PayrollEngine.Client.Test.TestCompileException.#ctor(System.Collections.Generic.IList{System.String})">
             <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.TestCompileException"></see> class.</summary>
