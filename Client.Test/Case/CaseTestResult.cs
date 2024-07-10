@@ -7,7 +7,7 @@ namespace PayrollEngine.Client.Test.Case;
 public class CaseTestResult
 {
     /// <summary>The test results</summary>
-    public List<CaseScriptTestResult> Results { get; } = new();
+    public List<CaseScriptTestResult> Results { get; } = [];
 
     /// <summary>Test if case test is failed</summary>
     public bool IsFailed() =>

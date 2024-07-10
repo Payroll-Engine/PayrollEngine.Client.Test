@@ -103,8 +103,8 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
             }
             else
             {
-                var employePayrunJobs = await GetEmployeePayrunJobsAsync(tenant.Id, employee.Id);
-                if (employePayrunJobs == null || !employePayrunJobs.Any())
+                var employeePayrunJobs = await GetEmployeePayrunJobsAsync(tenant.Id, employee.Id);
+                if (employeePayrunJobs == null || !employeePayrunJobs.Any())
                 {
                     throw new PayrollException($"Missing payrun job {payrollResult.PayrunJobName}");
                 }
@@ -114,7 +114,7 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
                 {
                     // retro job test: select the newest (last created) incremental (retro) job
                     // only incremental/retro jobs
-                    payrunJob = employePayrunJobs.Where(x => x.JobResult == PayrunJobResult.Incremental &&
+                    payrunJob = employeePayrunJobs.Where(x => x.JobResult == PayrunJobResult.Incremental &&
                                                              string.Equals(x.Name, payrollResult.PayrunJobName) &&
                                                              x.PeriodStart.Equals(retroPeriodStart.Value)).MaxBy(x => x.Created);
                     if (payrunJob == null)
@@ -125,7 +125,7 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
                 else
                 {
                     // full job test: select the newest (last created) full (non-retro) job
-                    var payrunJobs = employePayrunJobs.Where(x => x.JobResult == PayrunJobResult.Full &&
+                    var payrunJobs = employeePayrunJobs.Where(x => x.JobResult == PayrunJobResult.Full &&
                                                                   string.Equals(x.Name, payrollResult.PayrunJobName)).ToList();
                     if (!payrunJobs.Any())
                     {

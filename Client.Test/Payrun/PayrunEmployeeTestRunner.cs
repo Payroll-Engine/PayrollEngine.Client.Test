@@ -145,7 +145,7 @@ public class PayrunEmployeeTestRunner : PayrunTestRunnerBase
                 }
 
                 // duplicate test employee
-                tenant.Employees ??= new();
+                tenant.Employees ??= [];
                 tenant.Employees.Add(new(employee));
 
                 // adjust case employee

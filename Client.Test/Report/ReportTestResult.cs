@@ -7,7 +7,7 @@ namespace PayrollEngine.Client.Test.Report;
 public class ReportTestResult
 {
     /// <summary>The test results</summary>
-    public List<ReportScriptTestResult> Results { get; } = new();
+    public List<ReportScriptTestResult> Results { get; } = [];
 
     /// <summary>Test if report test is failed</summary>
     public bool IsFailed() =>

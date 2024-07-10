@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PayrollEngine.Client.Test.Report;
 
-/// <summary>Report build test
+/// <summary>Report build test.
 /// Test input: report request
 /// Test output: list of report parameter
 /// </summary>

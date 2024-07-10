@@ -2,7 +2,7 @@
 
 namespace PayrollEngine.Client.Test.Case;
 
-/// <summary>Case validate function test
+/// <summary>Case validate function test.
 /// Test input: case change setup
 /// Test output: case change
 /// </summary>

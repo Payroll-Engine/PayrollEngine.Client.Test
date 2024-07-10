@@ -249,7 +249,7 @@ public class CaseTestRunner : TestRunnerBase
     }
 
     /// <summary>Setup initialization cases</summary>
-    /// <param name="initCases">The cases to setup</param>
+    /// <param name="initCases">The setup cases</param>
     /// <param name="testContext">The test context</param>
     protected virtual async Task SetupInitCases(List<CaseChangeSetup> initCases, CaseTestContext testContext)
     {
@@ -306,15 +306,15 @@ public class CaseTestRunner : TestRunnerBase
         try
         {
             // ctor signature: public MyTest(PayrollHttpClient httpClient, CaseTestContext context);
-            var instance = Activator.CreateInstance(testType, args: new object[]
-            {
+            var instance = Activator.CreateInstance(testType, args:
+            [
                 HttpClient,
                 context
-            });
+            ]);
             // test method signature: public void MyTest(CaseAvailableTest test)
             // test method signature: public void MyTest(CaseBuildTest test)
             // test method signature: public void MyTest(CaseValidateTest test)
-            testMethod.Invoke(instance, new object[] { test });
+            testMethod.Invoke(instance, [test]);
         }
         catch (Exception exception)
         {

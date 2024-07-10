@@ -83,7 +83,7 @@
             <returns>The test results</returns>
         </member>
         <member name="T:PayrollEngine.Client.Test.Case.CaseBuildTest">
-            <summary>Case build function test
+            <summary>Case build function test.
             Test input: case change setup
             Test output: case set
             </summary>
@@ -387,7 +387,7 @@
         </member>
         <member name="M:PayrollEngine.Client.Test.Case.CaseTestRunner.SetupInitCases(System.Collections.Generic.List{PayrollEngine.Client.Model.CaseChangeSetup},PayrollEngine.Client.Test.Case.CaseTestContext)">
             <summary>Setup initialization cases</summary>
-            <param name="initCases">The cases to setup</param>
+            <param name="initCases">The setup cases</param>
             <param name="testContext">The test context</param>
         </member>
         <member name="M:PayrollEngine.Client.Test.Case.CaseTestRunner.RunCustomTest``1(``0,PayrollEngine.Client.Test.Case.CaseTestType,System.Type,System.Reflection.MethodInfo,PayrollEngine.Client.Test.Case.CaseTestContext)">
@@ -446,7 +446,7 @@
             <summary>Case validate custom result</summary>
         </member>
         <member name="T:PayrollEngine.Client.Test.Case.CaseValidateTest">
-            <summary>Case validate function test
+            <summary>Case validate function test.
             Test input: case change setup
             Test output: case change
             </summary>
@@ -878,7 +878,7 @@
             <inheritdoc />
         </member>
         <member name="T:PayrollEngine.Client.Test.Report.ReportBuildTest">
-            <summary>Report build test
+            <summary>Report build test.
             Test input: report request
             Test output: list of report parameter
             </summary>

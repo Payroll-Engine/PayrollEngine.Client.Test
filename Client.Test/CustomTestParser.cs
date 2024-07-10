@@ -122,9 +122,8 @@ public class CustomTestParser<TFunction, TContext> : CustomTestParserBase
 
     /// <summary>Get the test default references</summary>
     /// <returns>Type reference list</returns>
-    protected virtual List<Type> GetDefaultReferences() => new()
-    {
-        // any object
+    protected virtual List<Type> GetDefaultReferences() =>
+    [
         typeof(object),
         // used for object references
         typeof(AssemblyTargetedPatchBandAttribute),
@@ -135,13 +134,13 @@ public class CustomTestParser<TFunction, TContext> : CustomTestParserBase
         // payroll engine core
         typeof(SystemSpecification),
         // payroll engine client
-        typeof(PayrollHttpClient),
-    };
+        typeof(PayrollHttpClient)
+    ];
 
     /// <summary>Get the test default assembly names</summary>
     /// <returns>Assembly name list</returns>
-    protected virtual List<string> GetDefaultAssemblies() => new()
-    {
+    protected virtual List<string> GetDefaultAssemblies() =>
+    [
         "System",
         "System.Runtime",
         // dynamic objects
@@ -159,7 +158,7 @@ public class CustomTestParser<TFunction, TContext> : CustomTestParserBase
         "System.ComponentModel",
         "System.Xml.ReaderWriter",
         "System.Private.Xml"
-    };
+    ];
 
     private Assembly BuildAssembly()
     {

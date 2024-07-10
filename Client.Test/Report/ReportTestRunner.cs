@@ -133,15 +133,15 @@ public class ReportTestRunner : TestRunnerBase
         try
         {
             // ctor signature: public MyTest(PayrollHttpClient httpClient, ReportTestContext context);
-            var instance = Activator.CreateInstance(testType, args: new object[]
-            {
+            var instance = Activator.CreateInstance(testType, args:
+            [
                 HttpClient,
                 context
-            });
+            ]);
             // test method signature: public void MyTest(ReportBuildTest test)
             // test method signature: public void MyTest(ReportStartTest test)
             // test method signature: public void MyTest(ReportEndTest test)
-            testMethod.Invoke(instance, new object[] { test });
+            testMethod.Invoke(instance, [test]);
         }
         catch (Exception exception)
         {
