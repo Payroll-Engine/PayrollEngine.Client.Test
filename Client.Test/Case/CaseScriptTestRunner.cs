@@ -114,8 +114,8 @@ public abstract class CaseScriptTestRunner : TestRunnerBase
             TestName = testName,
             TestType = CaseTestType.Http,
             ErrorCode = statusCode,
-            HttpStatusCode = statusCode != 0 ? statusCode : default,
-            Expected = expected != null ? DefaultJsonSerializer.Serialize(expected) : default,
+            HttpStatusCode = statusCode != 0 ? statusCode : 0,
+            Expected = expected != null ? DefaultJsonSerializer.Serialize(expected) : null,
             Message = exception.GetBaseMessage()
         };
     }
@@ -143,14 +143,14 @@ public abstract class CaseScriptTestRunner : TestRunnerBase
         var @case = await GetCaseAsync(caseName);
         if (@case == null)
         {
-            throw new PayrollException($"Unknown case {caseName}");
+            throw new PayrollException($"Unknown case {caseName}.");
         }
 
         var cases = await new PayrollService(HttpClient).GetAvailableCasesAsync<CaseSet>(
             new(Tenant.Id, Payroll.Id),
             userId: User.Id,
             caseType: @case.CaseType,
-            caseNames: new[] { caseName },
+            caseNames: [caseName],
             employeeId: Employee?.Id,
             evaluationDate: EvaluationDate,
             regulationDate: RegulationDate);

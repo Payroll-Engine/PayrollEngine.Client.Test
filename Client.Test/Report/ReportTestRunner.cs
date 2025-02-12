@@ -185,21 +185,21 @@ public class ReportTestRunner : TestRunnerBase
         };
         if (context.Tenant == null)
         {
-            throw new PayrollException($"Missing tenant {reportTest.TenantIdentifier}");
+            throw new PayrollException($"Missing tenant {reportTest.TenantIdentifier}.");
         }
 
         // user
         context.User = await GetUserAsync(context.Tenant.Id, reportTest.UserIdentifier);
         if (context.User == null)
         {
-            throw new PayrollException($"Missing user {reportTest.UserIdentifier}");
+            throw new PayrollException($"Missing user {reportTest.UserIdentifier}.");
         }
 
         // regulation
         context.Regulation = await GetRegulationAsync(context.Tenant.Id, reportTest.RegulationName);
         if (context.Regulation == null)
         {
-            throw new PayrollException($"Missing regulation {reportTest.RegulationName}");
+            throw new PayrollException($"Missing regulation {reportTest.RegulationName}.");
         }
 
         return context;

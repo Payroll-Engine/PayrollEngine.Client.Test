@@ -3,7 +3,7 @@ using PayrollEngine.Client.Model;
 
 namespace PayrollEngine.Client.Test.Case;
 
-/// <summary>Case available function test
+/// <summary>Case available function test.
 /// Test input: case change setup
 /// Test output: bool indicates the case available state
 /// </summary>

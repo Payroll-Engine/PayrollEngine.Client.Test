@@ -82,7 +82,7 @@ public abstract class CaseCustomTest : CustomTestBase<CaseTestContext>
     /// <param name="caseFieldName">The case field name</param>
     /// <returns>The case values</returns>
     protected List<CaseFieldValue> GetCasePeriodValues(string caseFieldName) =>
-        GetCasePeriodValues(new[] { caseFieldName });
+        GetCasePeriodValues([caseFieldName]);
 
     /// <summary>Get case period values</summary>
     /// <param name="caseFieldNames">The case field names</param>
@@ -120,7 +120,7 @@ public abstract class CaseCustomTest : CustomTestBase<CaseTestContext>
         var period = Context.EvaluationPeriod;
         var caseValues = new PayrollService(HttpClient).GetCaseValuesAsync(
             new(Tenant.Id, Payroll.Id), period.Start, period.End,
-            new[] { caseFieldName }, Employee?.Id, caseSlot).Result;
+            [caseFieldName], Employee?.Id, caseSlot).Result;
         return caseValues;
     }
 

@@ -101,8 +101,8 @@ public abstract class ReportScriptTestRunner : TestRunnerBase
             Failed = !success,
             TestName = testName,
             TestType = ReportTestType.Http,
-            HttpStatusCode = exception.StatusCode.HasValue ? (int)exception.StatusCode.Value : default,
-            Expected = expected != null ? DefaultJsonSerializer.Serialize(expected) : default,
+            HttpStatusCode = exception.StatusCode.HasValue ? (int)exception.StatusCode.Value : 0,
+            Expected = expected != null ? DefaultJsonSerializer.Serialize(expected) : null,
             Message = exception.GetBaseMessage()
         };
     }

@@ -59,7 +59,7 @@
             <inheritdoc/>
         </member>
         <member name="T:PayrollEngine.Client.Test.Case.CaseAvailableTest">
-            <summary>Case available function test
+            <summary>Case available function test.
             Test input: case change setup
             Test output: bool indicates the case available state
             </summary>
@@ -912,7 +912,7 @@
             <param name="context">The test context</param>
         </member>
         <member name="T:PayrollEngine.Client.Test.Report.ReportExecuteTest">
-            <summary>Report execute test
+            <summary>Report execute test.
             Test input: report request
             Test output: report data set
             </summary>

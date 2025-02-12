@@ -32,7 +32,7 @@ public class CaseValidateTestRunner : CaseScriptTestRunner
         var caseName = test.Input?.Case?.CaseName;
         if (string.IsNullOrWhiteSpace(caseName))
         {
-            throw new ArgumentException("Validate test without case name");
+            throw new ArgumentException("Validate test without case name.");
         }
 
         var results = new List<CaseScriptTestResult>();

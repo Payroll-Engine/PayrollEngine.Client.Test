@@ -237,7 +237,7 @@ public class CaseTestRunner : TestRunnerBase
                             division = GetDivisionAsync(context.Tenant.Id, divisionName).Result;
                             if (division == null)
                             {
-                                throw new PayrollException($"Unknown division {divisionName}");
+                                throw new PayrollException($"Unknown division {divisionName}.");
                             }
                             divisions.Add(divisionName, division);
                         }
@@ -273,7 +273,7 @@ public class CaseTestRunner : TestRunnerBase
                 var division = await GetDivisionAsync(testContext.Tenant.Id, initCase.DivisionName);
                 if (division == null)
                 {
-                    throw new PayrollException($"Unknown division {initCase.DivisionName}");
+                    throw new PayrollException($"Unknown division {initCase.DivisionName}.");
                 }
 
                 initCase.DivisionId = division.Id;
@@ -364,28 +364,28 @@ public class CaseTestRunner : TestRunnerBase
         };
         if (context.Tenant == null)
         {
-            throw new PayrollException($"Missing tenant {caseTest.TenantIdentifier}");
+            throw new PayrollException($"Missing tenant {caseTest.TenantIdentifier}.");
         }
 
         // user
         context.User = await GetUserAsync(context.Tenant.Id, caseTest.UserIdentifier);
         if (context.User == null)
         {
-            throw new PayrollException($"Missing user {caseTest.UserIdentifier}");
+            throw new PayrollException($"Missing user {caseTest.UserIdentifier}.");
         }
 
         // payroll
         context.Payroll = await GetPayrollAsync(context.Tenant.Id, caseTest.PayrollName);
         if (context.Payroll == null)
         {
-            throw new PayrollException($"Missing payroll {caseTest.PayrollName}");
+            throw new PayrollException($"Missing payroll {caseTest.PayrollName}.");
         }
 
         // division
         context.Division = await GetDivisionAsync(context.Tenant.Id, context.Payroll.DivisionId);
         if (context.Division == null)
         {
-            throw new PayrollException($"Missing division {context.Payroll.DivisionName} in payroll {caseTest.PayrollName}");
+            throw new PayrollException($"Missing division {context.Payroll.DivisionName} in payroll {caseTest.PayrollName}.");
         }
 
         // employee
@@ -394,7 +394,7 @@ public class CaseTestRunner : TestRunnerBase
             context.Employee = await GetEmployeeAsync(context.Tenant.Id, caseTest.EmployeeIdentifier);
             if (context.Employee == null)
             {
-                throw new PayrollException($"Missing employee {caseTest.EmployeeIdentifier}");
+                throw new PayrollException($"Missing employee {caseTest.EmployeeIdentifier}.");
             }
         }
 

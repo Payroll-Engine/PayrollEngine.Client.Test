@@ -59,26 +59,26 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
             // employee
             if (string.IsNullOrWhiteSpace(payrollResult.EmployeeIdentifier))
             {
-                throw new PayrollException("Missing payrun job employee in payroll result");
+                throw new PayrollException("Missing payrun job employee in payroll result.");
             }
             var employee = await GetEmployeeAsync(tenant.Id, payrollResult.EmployeeIdentifier);
             if (employee == null)
             {
-                throw new PayrollException($"Missing payroll result employee with identifier {payrollResult.EmployeeIdentifier}");
+                throw new PayrollException($"Missing payroll result employee with identifier {payrollResult.EmployeeIdentifier}.");
             }
 
             // payrun job
             PayrunJob payrunJob;
             if (string.IsNullOrWhiteSpace(payrollResult.PayrunJobName))
             {
-                throw new PayrollException("Missing payrun job name in payroll result");
+                throw new PayrollException("Missing payrun job name in payroll result.");
             }
             if (jobResultMode == JobResultMode.Single)
             {
                 var invocation = tenant.PayrunJobInvocations.FirstOrDefault(x => string.Equals(x.Name, payrollResult.PayrunJobName));
                 if (invocation == null || !invocation.PayrunJobId.HasValue)
                 {
-                    throw new PayrollException($"Missing payrun job {payrollResult.PayrunJobName}");
+                    throw new PayrollException($"Missing payrun job {payrollResult.PayrunJobName}.");
                 }
 
                 var retroPeriodStart = payrollResult.RetroPeriodStart;
@@ -92,7 +92,7 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
                                                       x.PeriodStart.Equals(retroPeriodStart.Value)).MaxBy(x => x.Created);
                     if (payrunJob == null)
                     {
-                        throw new PayrollException($"Unknown retro payrun job on period {payrollResult.RetroPeriodStart.Value}");
+                        throw new PayrollException($"Unknown retro payrun job on period {payrollResult.RetroPeriodStart.Value}.");
                     }
                 }
                 else
@@ -106,7 +106,7 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
                 var employeePayrunJobs = await GetEmployeePayrunJobsAsync(tenant.Id, employee.Id);
                 if (employeePayrunJobs == null || !employeePayrunJobs.Any())
                 {
-                    throw new PayrollException($"Missing payrun job {payrollResult.PayrunJobName}");
+                    throw new PayrollException($"Missing payrun job {payrollResult.PayrunJobName}.");
                 }
 
                 var retroPeriodStart = payrollResult.RetroPeriodStart;
@@ -119,7 +119,7 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
                                                              x.PeriodStart.Equals(retroPeriodStart.Value)).MaxBy(x => x.Created);
                     if (payrunJob == null)
                     {
-                        throw new PayrollException($"Unknown retro payrun job on period {payrollResult.RetroPeriodStart.Value}");
+                        throw new PayrollException($"Unknown retro payrun job on period {payrollResult.RetroPeriodStart.Value}.");
                     }
                 }
                 else
@@ -129,7 +129,7 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
                                                                   string.Equals(x.Name, payrollResult.PayrunJobName)).ToList();
                     if (!payrunJobs.Any())
                     {
-                        throw new PayrollException($"Missing payrun job {payrollResult.PayrunJobName}");
+                        throw new PayrollException($"Missing payrun job {payrollResult.PayrunJobName}.");
                     }
                     payrunJob = payrunJobs.OrderByDescending(x => x.Created).First();
                 }
@@ -138,7 +138,7 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
             // aborted job
             if (payrunJob.JobStatus == PayrunJobStatus.Abort)
             {
-                throw new PayrollException($"Job abort [{payrunJob.Name}]: {payrunJob.Message}");
+                throw new PayrollException($"Job abort [{payrunJob.Name}]: {payrunJob.Message}.");
             }
 
             // prepare result
@@ -155,7 +155,7 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
                     testResults.Add(testResult);
                     return testResults;
                 }
-                throw new PayrollException($"Missing results for payrun job {payrunJob.Name}");
+                throw new PayrollException($"Missing results for payrun job {payrunJob.Name}.");
             }
 
             // wage type results

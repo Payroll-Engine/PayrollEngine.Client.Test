@@ -29,7 +29,7 @@ public class CaseAvailableTestRunner : CaseScriptTestRunner
         }
         if (string.IsNullOrWhiteSpace(test.CaseName))
         {
-            throw new ArgumentException("Available test without case name");
+            throw new ArgumentException("Available test without case name.");
         }
 
         var results = new List<CaseScriptTestResult>();

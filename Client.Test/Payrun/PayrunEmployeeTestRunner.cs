@@ -57,7 +57,7 @@ public class PayrunEmployeeTestRunner : PayrunTestRunnerBase
             var existingTenant = await GetTenantAsync(tenant.Identifier);
             if (existingTenant == null)
             {
-                throw new PayrollException($"Missing tenant {tenant.Identifier}");
+                throw new PayrollException($"Missing tenant {tenant.Identifier}.");
             }
 
             // duplicate test employee
@@ -102,7 +102,7 @@ public class PayrunEmployeeTestRunner : PayrunTestRunnerBase
 
         if (!employeeIdentifiers.Any())
         {
-            throw new PayrollException($"Missing test employees in tenant {tenant.Identifier}");
+            throw new PayrollException($"Missing test employees in tenant {tenant.Identifier}.");
         }
 
         // insert new test employees
@@ -114,7 +114,7 @@ public class PayrunEmployeeTestRunner : PayrunTestRunnerBase
                 var employee = await GetEmployeeAsync(tenantId, employeeIdentifier);
                 if (employee == null)
                 {
-                    throw new PayrollException($"Missing test employee {employeeIdentifier}");
+                    throw new PayrollException($"Missing test employee {employeeIdentifier}.");
                 }
 
                 // find next available employee identifier
@@ -133,7 +133,7 @@ public class PayrunEmployeeTestRunner : PayrunTestRunnerBase
                 }
                 if (string.IsNullOrWhiteSpace(testEmployeeIdentifier))
                 {
-                    throw new PayrollException($"Invalid identifier on test employee {employeeIdentifier}");
+                    throw new PayrollException($"Invalid identifier on test employee {employeeIdentifier}.");
                 }
 
                 // create test employee

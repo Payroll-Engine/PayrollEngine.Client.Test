@@ -116,19 +116,19 @@ public class PayrunTestRunner : PayrunTestRunnerBase
         // employees
         if (tenant.Employees == null || tenant.Employees.Count == 0)
         {
-            throw new PayrollException($"Tenant {tenant.Identifier} without employees");
+            throw new PayrollException($"Tenant {tenant.Identifier} without employees.");
         }
 
         // payrun job invocations
         if (tenant.PayrunJobInvocations == null || tenant.PayrunJobInvocations.Count == 0)
         {
-            throw new PayrollException($"Tenant {tenant.Identifier} without payrun job invocations");
+            throw new PayrollException($"Tenant {tenant.Identifier} without payrun job invocations.");
         }
 
         // payroll results
         if (tenant.PayrollResults == null || !tenant.PayrollResults.Any() || !tenant.PayrollResults[0].HasResults())
         {
-            throw new PayrollException($"Tenant {tenant.Identifier} without payroll result");
+            throw new PayrollException($"Tenant {tenant.Identifier} without payroll result.");
         }
     }
 

@@ -33,7 +33,7 @@ public class ReportBuildTestRunner : ReportScriptTestRunner
         try
         {
             // user
-            if (test.Input.UserId == default && !string.IsNullOrWhiteSpace(test.Input.UserIdentifier))
+            if (test.Input.UserId == 0 && !string.IsNullOrWhiteSpace(test.Input.UserIdentifier))
             {
                 var user = await GetUserAsync(Context.Tenant.Id, test.Input.UserIdentifier);
                 test.Input.UserId = user.Id;
