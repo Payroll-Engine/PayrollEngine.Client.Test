@@ -166,9 +166,11 @@
             <param name="caseFieldName">The case field name</param>
             <returns>The case value</returns>
         </member>
-        <member name="M:PayrollEngine.Client.Test.Case.CaseCustomTest.GetCaseValues(System.String,System.String)">
+        <member name="M:PayrollEngine.Client.Test.Case.CaseCustomTest.GetCaseValues(System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.String)">
             <summary>Get case raw values</summary>
             <param name="caseFieldName">The case field name</param>
+            <param name="regulationDate">The regulation date (default: UTC now)</param>
+            <param name="evaluationDate">The evaluation date (default: value date)</param>
             <param name="caseSlot">The case slot</param>
             <returns>The case raw values</returns>
         </member>

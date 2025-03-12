@@ -113,14 +113,17 @@ public abstract class CaseCustomTest : CustomTestBase<CaseTestContext>
 
     /// <summary>Get case raw values</summary>
     /// <param name="caseFieldName">The case field name</param>
+    /// <param name="regulationDate">The regulation date (default: UTC now)</param>
+    /// <param name="evaluationDate">The evaluation date (default: value date)</param>
     /// <param name="caseSlot">The case slot</param>
     /// <returns>The case raw values</returns>
-    protected List<CaseFieldValue> GetCaseValues(string caseFieldName, string caseSlot = null)
+    protected List<CaseFieldValue> GetCaseValues(string caseFieldName, DateTime? regulationDate = null,
+        DateTime? evaluationDate = null, string caseSlot = null)
     {
         var period = Context.EvaluationPeriod;
         var caseValues = new PayrollService(HttpClient).GetCaseValuesAsync(
             new(Tenant.Id, Payroll.Id), period.Start, period.End,
-            [caseFieldName], Employee?.Id, caseSlot).Result;
+            [caseFieldName], Employee?.Id, regulationDate, evaluationDate, caseSlot).Result;
         return caseValues;
     }
 
