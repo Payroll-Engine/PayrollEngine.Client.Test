@@ -565,10 +565,11 @@
             <param name="expectedResult">The expected result</param>
             <param name="actualResult">The actual result</param>
         </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.CollectorTestCustomResult.IsInvalidResult">
+        <member name="M:PayrollEngine.Client.Test.Payrun.CollectorTestCustomResult.ValidValue">
             <summary>Test for invalid result</summary>
+            <inheritdoc />
         </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.CollectorTestCustomResult.IsValidResult">
+        <member name="M:PayrollEngine.Client.Test.Payrun.CollectorTestCustomResult.ValidCulture">
             <inheritdoc />
         </member>
         <member name="T:PayrollEngine.Client.Test.Payrun.CollectorTestResult">
@@ -586,10 +587,10 @@
             <param name="expectedResult">The expected result</param>
             <param name="actualResult">The actual result</param>
         </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.CollectorTestResult.IsInvalidResult">
-            <summary>Test for invalid result</summary>
+        <member name="M:PayrollEngine.Client.Test.Payrun.CollectorTestResult.ValidCulture">
+            <inheritdoc />
         </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.CollectorTestResult.IsValidResult">
+        <member name="M:PayrollEngine.Client.Test.Payrun.CollectorTestResult.ValidValue">
             <inheritdoc />
         </member>
         <member name="T:PayrollEngine.Client.Test.Payrun.EmployeeTestMode">
@@ -673,13 +674,14 @@
         <member name="P:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.RunMode">
             <summary>The test running mode</summary>
         </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,PayrollEngine.Client.Script.IScriptParser,PayrollEngine.Client.Test.TestPrecision,System.String,PayrollEngine.Client.Test.Payrun.EmployeeTestMode,PayrollEngine.Client.Test.Payrun.TestRunMode)">
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,PayrollEngine.Client.Script.IScriptParser,PayrollEngine.Client.Test.TestPrecision,System.String,PayrollEngine.Client.Test.Payrun.EmployeeTestMode,PayrollEngine.Client.Test.Payrun.TestResultMode,PayrollEngine.Client.Test.Payrun.TestRunMode)">
             <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner"/> class</summary>
             <param name="httpClient">The payroll engine http client</param>
             <param name="scriptParser">The script parser</param>
             <param name="owner">The test owner</param>
             <param name="testPrecision">The testing precision</param>
             <param name="employeeMode">The test running mode</param>
+            <param name="resultMode">The test result mode (default: clean)</param>
             <param name="runMode">The employee test mode</param>
         </member>
         <member name="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.TestAllAsync(PayrollEngine.Client.Model.Exchange)">
@@ -687,10 +689,14 @@
             <param name="exchange">The exchange model</param>
             <returns>A list of payrun job results</returns>
         </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.DuplicateTestEmployee(System.Int32,PayrollEngine.Client.Model.ExchangeTenant)">
-            <summary>Duplicates the test employee</summary>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.DuplicateTestEmployees(System.Int32,PayrollEngine.Client.Model.ExchangeTenant)">
+            <summary>Duplicates the test employees</summary>
             <param name="tenantId">The tenant id</param>
             <param name="tenant">The exchange tenant</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.CleanupEmployees(System.Collections.Generic.Dictionary{PayrollEngine.Client.Model.Tenant,System.Collections.Generic.List{PayrollEngine.Client.Test.Payrun.PayrollTestResult}})">
+            <summary>Cleanup test employees</summary>
+            <param name="tenantResults">Results</param>
         </member>
         <member name="T:PayrollEngine.Client.Test.Payrun.PayrunTestResult">
             <summary>Payrun test result</summary>
@@ -704,7 +710,10 @@
             <param name="expectedResult">The expected result</param>
             <param name="actualResult">The actual result</param>
         </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestResult.IsValidResult">
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestResult.ValidCulture">
+            <inheritdoc />
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestResult.ValidValue">
             <inheritdoc />
         </member>
         <member name="T:PayrollEngine.Client.Test.Payrun.PayrunTestRunner">
@@ -715,9 +724,6 @@
         </member>
         <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.ImportMode">
             <summary>The data import mode</summary>
-        </member>
-        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.ResultMode">
-            <summary>The test result mode</summary>
         </member>
         <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.RunMode">
             <summary>The test running mode</summary>
@@ -743,9 +749,14 @@
             <summary>Validate the tenant</summary>
             <param name="tenant">The tenant</param>
         </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.CleanupTenants(PayrollEngine.Client.Model.Exchange)">
-            <summary>Cleanup exchange tenants</summary>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.CleanupTenants(PayrollEngine.Client.Model.Exchange,System.Collections.Generic.Dictionary{PayrollEngine.Client.Model.Tenant,System.Collections.Generic.List{PayrollEngine.Client.Test.Payrun.PayrollTestResult}})">
+            <summary>Cleanup test tenants</summary>
             <param name="exchange">The exchange</param>
+            <param name="results">Results</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.CleanupTenant(PayrollEngine.Client.Model.Tenant)">
+            <summary>Cleanup test tenant</summary>
+            <param name="exchangeTenant">The exchange tenant</param>
         </member>
         <member name="T:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase">
             <summary>Base class for file based payroll tests</summary>
@@ -753,13 +764,17 @@
         <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.TestPrecision">
             <summary>The testing precision</summary>
         </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.ResultMode">
+            <summary>The test result mode</summary>
+        </member>
         <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.Owner">
             <summary>The test owner</summary>
         </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.#ctor(PayrollEngine.Client.PayrollHttpClient,PayrollEngine.Client.Test.TestPrecision,System.String)">
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.#ctor(PayrollEngine.Client.PayrollHttpClient,PayrollEngine.Client.Test.TestPrecision,PayrollEngine.Client.Test.Payrun.TestResultMode,System.String)">
             <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase"/> class</summary>
             <param name="httpClient">The payroll engine http client</param>
             <param name="testPrecision">The testing precision</param>
+            <param name="resultMode">The test result mode (default: clean)</param>
             <param name="owner">The test owner</param>
         </member>
         <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.TestAllAsync(PayrollEngine.Client.Model.Exchange)">
@@ -826,10 +841,13 @@
             <summary>The test result mode</summary>
         </member>
         <member name="F:PayrollEngine.Client.Test.Payrun.TestResultMode.CleanTest">
-            <summary>Cleanup all test results</summary>
+            <summary>Cleanup test results</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.Payrun.TestResultMode.KeepFailedTest">
+            <summary>Keep test results of failed test (manual cleanup)</summary>
         </member>
         <member name="F:PayrollEngine.Client.Test.Payrun.TestResultMode.KeepTest">
-            <summary>Keep all test results (manual cleanup)</summary>
+            <summary>Keep test results (manual cleanup)</summary>
         </member>
         <member name="T:PayrollEngine.Client.Test.Payrun.TestRunMode">
             <summary>The test running mode</summary>
@@ -852,10 +870,10 @@
             <param name="expectedResult">The expected result</param>
             <param name="actualResult">The actual result</param>
         </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.WageTypeTestCustomResult.IsInvalidResult">
-            <summary>Test for invalid result</summary>
+        <member name="M:PayrollEngine.Client.Test.Payrun.WageTypeTestCustomResult.ValidCulture">
+            <inheritdoc />
         </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.WageTypeTestCustomResult.IsValidResult">
+        <member name="M:PayrollEngine.Client.Test.Payrun.WageTypeTestCustomResult.ValidValue">
             <inheritdoc />
         </member>
         <member name="T:PayrollEngine.Client.Test.Payrun.WageTypeTestResult">
@@ -873,10 +891,10 @@
             <param name="expectedResult">The expected result</param>
             <param name="actualResult">The actual result</param>
         </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.WageTypeTestResult.IsInvalidResult">
-            <summary>Test for invalid result</summary>
+        <member name="M:PayrollEngine.Client.Test.Payrun.WageTypeTestResult.ValidCulture">
+            <inheritdoc />
         </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.WageTypeTestResult.IsValidResult">
+        <member name="M:PayrollEngine.Client.Test.Payrun.WageTypeTestResult.ValidValue">
             <inheritdoc />
         </member>
         <member name="T:PayrollEngine.Client.Test.Report.ReportBuildTest">
@@ -1250,11 +1268,14 @@
             <param name="expectedResult">The expected result</param>
             <param name="actualResult">The actual result</param>
         </member>
-        <member name="M:PayrollEngine.Client.Test.TestResultBase`1.IsFailed">
+        <member name="M:PayrollEngine.Client.Test.TestResultBase`1.Failed">
             <summary>Test failed test</summary>
         </member>
-        <member name="M:PayrollEngine.Client.Test.TestResultBase`1.IsValidResult">
-            <summary>Get for valid result</summary>
+        <member name="M:PayrollEngine.Client.Test.TestResultBase`1.ValidCulture">
+            <summary>Get for valid culture</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.TestResultBase`1.ValidValue">
+            <summary>Get for valid value</summary>
         </member>
         <member name="M:PayrollEngine.Client.Test.TestResultBase`1.ValidAttributes">
             <summary>Test attribute values</summary>
@@ -1279,6 +1300,11 @@
         <member name="M:PayrollEngine.Client.Test.TestRunnerBase.DeleteTenantAsync(System.Int32)">
             <summary>Delete tenant</summary>
             <param name="tenantId">The tenant id</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.TestRunnerBase.DeleteEmployeeAsync(System.Int32,System.Int32)">
+            <summary>Delete employee</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="employeeId">The employee id</param>
         </member>
         <member name="M:PayrollEngine.Client.Test.TestRunnerBase.GetUserAsync(System.Int32,System.String)">
             <summary>Get user</summary>

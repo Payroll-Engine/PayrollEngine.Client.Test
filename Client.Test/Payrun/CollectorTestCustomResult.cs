@@ -12,18 +12,23 @@ public class CollectorTestCustomResult : TestResultBase<CollectorCustomResult>
     /// <param name="testPrecision">The testing precision</param>
     /// <param name="expectedResult">The expected result</param>
     /// <param name="actualResult">The actual result</param>
-    public CollectorTestCustomResult(TestPrecision testPrecision, CollectorCustomResult expectedResult, CollectorCustomResult actualResult = null) :
+    public CollectorTestCustomResult(TestPrecision testPrecision, CollectorCustomResult expectedResult,
+        CollectorCustomResult actualResult = null) :
         base(expectedResult, actualResult)
     {
         TestPrecision = testPrecision;
     }
 
     /// <summary>Test for invalid result</summary>
-    public bool IsInvalidResult() =>
-        ActualResult == null ||
-        ActualResult != null && !ActualResult.Value.AlmostEquals(ExpectedResult.Value, TestPrecision.GetDecimals()) ||
-        !ValidAttributes();
+    /// <inheritdoc />
+    public override bool ValidValue() =>
+        !(ActualResult == null ||
+        ActualResult != null &&
+        !ActualResult.Value.AlmostEquals(ExpectedResult.Value, TestPrecision.GetDecimals()) ||
+        !ValidAttributes());
 
     /// <inheritdoc />
-    public override bool IsValidResult() => !IsInvalidResult();
+    public override bool ValidCulture() =>
+        string.IsNullOrWhiteSpace(ExpectedResult.Culture) ||
+        string.Equals(ExpectedResult.Culture, ActualResult.Culture);
 }

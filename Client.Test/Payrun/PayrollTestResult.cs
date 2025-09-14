@@ -32,15 +32,15 @@ public class PayrollTestResult
 
     /// <summary>Test if wage type test is failed</summary>
     public bool FailedWageTypeResult =>
-        WageTypeResults.Any(x => x.IsFailed());
+        WageTypeResults.Any(x => x.Failed());
 
     /// <summary>Test if collector test is failed</summary>
     public bool FailedCollectorResult =>
-        CollectorResults.Any(x => x.IsFailed());
+        CollectorResults.Any(x => x.Failed());
 
     /// <summary>Test if payrun test is failed</summary>
     public bool FailedPayrunResult =>
-        PayrunResults.Any(x => x.IsFailed());
+        PayrunResults.Any(x => x.Failed());
 
     /// <summary>Test if payroll test is failed</summary>
     public bool Failed =>

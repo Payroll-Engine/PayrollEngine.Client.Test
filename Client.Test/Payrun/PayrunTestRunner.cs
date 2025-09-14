@@ -19,9 +19,6 @@ public class PayrunTestRunner : PayrunTestRunnerBase
     /// <summary>The data import mode</summary>
     public DataImportMode ImportMode { get; }
 
-    /// <summary>The test result mode</summary>
-    public TestResultMode ResultMode { get; }
-
     /// <summary>The test running mode</summary>
     public TestRunMode RunMode { get; }
 
@@ -41,11 +38,10 @@ public class PayrunTestRunner : PayrunTestRunnerBase
         string owner = null, DataImportMode importMode = DataImportMode.Single,
         TestResultMode resultMode = TestResultMode.CleanTest,
         TestRunMode runMode = TestRunMode.RunTests) :
-        base(httpClient, testPrecision, owner)
+        base(httpClient, testPrecision, resultMode, owner)
     {
         ScriptParser = scriptParser ?? throw new ArgumentNullException(nameof(scriptParser));
         ImportMode = importMode;
-        ResultMode = resultMode;
         RunMode = runMode;
     }
 
@@ -60,7 +56,7 @@ public class PayrunTestRunner : PayrunTestRunnerBase
         try
         {
             // start cleanup
-            await CleanupTenants(exchange);
+            await CleanupTenants(exchange, results);
 
             // validate tenants
             foreach (var tenant in exchange.Tenants)
@@ -94,11 +90,7 @@ public class PayrunTestRunner : PayrunTestRunnerBase
         }
         finally
         {
-            // end cleanup
-            if (ResultMode == TestResultMode.CleanTest)
-            {
-                await CleanupTenants(exchange);
-            }
+            await CleanupTenants(exchange, results);
         }
 
         return results;
@@ -132,36 +124,60 @@ public class PayrunTestRunner : PayrunTestRunnerBase
         }
     }
 
-    /// <summary>Cleanup exchange tenants</summary>
+    /// <summary>Cleanup test tenants</summary>
     /// <param name="exchange">The exchange</param>
-    protected virtual async Task CleanupTenants(Model.Exchange exchange)
+    /// <param name="results">Results</param>
+    protected virtual async Task CleanupTenants(Model.Exchange exchange, Dictionary<Tenant, List<PayrollTestResult>> results)
     {
+        if (ResultMode == TestResultMode.KeepTest)
+        {
+            return;
+        }
+
         // cleanup in reverse order
         var exchangeTenants = new List<Tenant>(exchange.Tenants);
         exchangeTenants.Reverse();
         foreach (var exchangeTenant in exchangeTenants)
         {
-            if (exchangeTenant.Id == 0 && string.IsNullOrWhiteSpace(exchangeTenant.Identifier))
+            var keep = false;
+
+            // keep tenant on failed test
+            if (ResultMode == TestResultMode.KeepFailedTest && 
+                results.TryGetValue(exchangeTenant, out var result))
             {
-                var tenant = await new TenantService(HttpClient).GetAsync<Tenant>(
-                    new(), exchangeTenant.Identifier);
-                if (tenant != null)
-                {
-                    exchangeTenant.Id = tenant.Id;
-                }
+                keep = result.Any(x => x.Failed);
             }
-            try
+
+            if (!keep)
             {
-                if (exchangeTenant.Id != 0)
-                {
-                    await DeleteTenantAsync(exchangeTenant.Id);
-                }
+                await CleanupTenant(exchangeTenant);
             }
-            catch (Exception exception)
+        }
+    }
+
+    /// <summary>Cleanup test tenant</summary>
+    /// <param name="exchangeTenant">The exchange tenant</param>
+    protected virtual async Task CleanupTenant(Tenant exchangeTenant)
+    {
+        if (exchangeTenant.Id == 0 && string.IsNullOrWhiteSpace(exchangeTenant.Identifier))
+        {
+            var tenant = await new TenantService(HttpClient).GetAsync<Tenant>(
+                new(), exchangeTenant.Identifier);
+            if (tenant != null)
             {
-                Log.Error(exception, exception.GetBaseMessage());
-                // continue deleting remaining test tenants
+                exchangeTenant.Id = tenant.Id;
             }
+        }
+        try
+        {
+            if (exchangeTenant.Id != 0)
+            {
+                await DeleteTenantAsync(exchangeTenant.Id);
+            }
+        }
+        catch (Exception exception)
+        {
+            Log.Error(exception, exception.GetBaseMessage());
         }
     }
 }

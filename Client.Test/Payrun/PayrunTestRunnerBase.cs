@@ -11,6 +11,9 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
 {
     /// <summary>The testing precision</summary>
     public TestPrecision TestPrecision { get; }
+    
+    /// <summary>The test result mode</summary>
+    public TestResultMode ResultMode { get; }
 
     /// <summary>The test owner</summary>
     public string Owner { get; }
@@ -18,11 +21,14 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
     /// <summary>Initializes a new instance of the <see cref="PayrunTestRunnerBase"/> class</summary>
     /// <param name="httpClient">The payroll engine http client</param>
     /// <param name="testPrecision">The testing precision</param>
+    /// <param name="resultMode">The test result mode (default: clean)</param>
     /// <param name="owner">The test owner</param>
-    protected PayrunTestRunnerBase(PayrollHttpClient httpClient, TestPrecision testPrecision, string owner = null) :
+    protected PayrunTestRunnerBase(PayrollHttpClient httpClient, TestPrecision testPrecision,
+        TestResultMode resultMode = TestResultMode.CleanTest, string owner = null) :
         base(httpClient)
     {
         TestPrecision = testPrecision;
+        ResultMode = resultMode;
         Owner = owner;
     }
 

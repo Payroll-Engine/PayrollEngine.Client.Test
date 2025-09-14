@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using PayrollEngine.Client.Exchange;
+using System.Collections.Generic;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.Script;
+using PayrollEngine.Client.Exchange;
 using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.Client.Test.Payrun;
@@ -30,12 +30,14 @@ public class PayrunEmployeeTestRunner : PayrunTestRunnerBase
     /// <param name="owner">The test owner</param>
     /// <param name="testPrecision">The testing precision</param>
     /// <param name="employeeMode">The test running mode</param>
+    /// <param name="resultMode">The test result mode (default: clean)</param>
     /// <param name="runMode">The employee test mode</param>
     public PayrunEmployeeTestRunner(PayrollHttpClient httpClient, IScriptParser scriptParser,
         TestPrecision testPrecision = TestPrecision.TestPrecision2, string owner = null,
         EmployeeTestMode employeeMode = EmployeeTestMode.InsertEmployee,
+        TestResultMode resultMode = TestResultMode.CleanTest,
         TestRunMode runMode = TestRunMode.RunTests) :
-        base(httpClient, testPrecision, owner)
+        base(httpClient, testPrecision, resultMode, owner)
     {
         ScriptParser = scriptParser ?? throw new ArgumentNullException(nameof(scriptParser));
         EmployeeMode = employeeMode;
@@ -51,46 +53,53 @@ public class PayrunEmployeeTestRunner : PayrunTestRunnerBase
         ApplyOwner(exchange, Owner);
 
         var results = new Dictionary<Tenant, List<PayrollTestResult>>();
-        foreach (var tenant in exchange.Tenants)
+        try
         {
-            // existing tenant
-            var existingTenant = await GetTenantAsync(tenant.Identifier);
-            if (existingTenant == null)
+            foreach (var tenant in exchange.Tenants)
             {
-                throw new PayrollException($"Missing tenant {tenant.Identifier}.");
+                // existing tenant
+                var existingTenant = await GetTenantAsync(tenant.Identifier);
+                if (existingTenant == null)
+                {
+                    throw new PayrollException($"Missing tenant {tenant.Identifier}.");
+                }
+
+                // duplicate test employee
+                await DuplicateTestEmployees(existingTenant.Id, tenant);
+
+                // create new tenant including all payrolls, payrun and payrun job
+                var import = new ExchangeImport(HttpClient, exchange, ScriptParser);
+                await import.ImportAsync();
+
+                // test skip
+                if (RunMode != TestRunMode.RunTests)
+                {
+                    continue;
+                }
+
+                // all payrun jobs should be executed
+                if (DelayBetweenCreateAndTest > 0)
+                {
+                    Task.Delay(DelayBetweenCreateAndTest).Wait();
+                }
+
+                // test results
+                var payrunJobResult = await TestPayrunJobAsync(tenant, JobResultMode.Multiple);
+                results.Add(tenant, payrunJobResult.ToList());
             }
-
-            // duplicate test employee
-            await DuplicateTestEmployee(existingTenant.Id, tenant);
-
-            // create new tenant including all payrolls, payrun and payrun job
-            var import = new ExchangeImport(HttpClient, exchange, ScriptParser);
-            await import.ImportAsync();
-
-            // test skip
-            if (RunMode != TestRunMode.RunTests)
-            {
-                continue;
-            }
-
-            // all payrun jobs should be executed
-            if (DelayBetweenCreateAndTest > 0)
-            {
-                Task.Delay(DelayBetweenCreateAndTest).Wait();
-            }
-
-            // test results
-            var payrunJobResult = await TestPayrunJobAsync(tenant, JobResultMode.Multiple);
-            results.Add(tenant, payrunJobResult.ToList());
+        }
+        finally
+        {
+            await CleanupEmployees(results);
         }
 
         return results;
     }
 
-    /// <summary>Duplicates the test employee</summary>
+    /// <summary>Duplicates the test employees</summary>
     /// <param name="tenantId">The tenant id</param>
     /// <param name="tenant">The exchange tenant</param>
-    protected virtual async Task DuplicateTestEmployee(int tenantId, ExchangeTenant tenant)
+    protected virtual async Task DuplicateTestEmployees(int tenantId, ExchangeTenant tenant)
     {
         // collect employees from cases
         var employeeIdentifiers = new List<string>();
@@ -178,6 +187,49 @@ public class PayrunEmployeeTestRunner : PayrunTestRunnerBase
                     {
                         payrollResultSet.EmployeeIdentifier = testEmployeeIdentifier;
                     }
+                }
+            }
+        }
+    }
+
+    /// <summary>Cleanup test employees</summary>
+    /// <param name="tenantResults">Results</param>
+    protected virtual async Task CleanupEmployees(Dictionary<Tenant, List<PayrollTestResult>> tenantResults)
+    {
+        if (ResultMode == TestResultMode.KeepTest)
+        {
+            return;
+        }
+
+        var deleteEmployeeIds = new HashSet<int>();
+        foreach (var tenantResult in tenantResults)
+        {
+            var tenantId = tenantResult.Key.Id;
+            foreach (var result in tenantResult.Value)
+            {
+                // keep failed
+                if (ResultMode == TestResultMode.KeepFailedTest && result.Failed)
+                {
+                    continue;
+                }
+
+                var employeeId = result.Employee.Id;
+
+                // check delete history
+                if (deleteEmployeeIds.Contains(employeeId))
+                {
+                    continue;
+                }
+
+                try
+                {
+                   await DeleteEmployeeAsync(tenantId, employeeId);
+                   // update delete history
+                   deleteEmployeeIds.Add(employeeId);
+                }
+                catch (Exception exception)
+                {
+                    Log.Error(exception, exception.GetBaseMessage());
                 }
             }
         }

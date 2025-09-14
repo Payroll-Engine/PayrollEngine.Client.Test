@@ -22,12 +22,15 @@ public class WageTypeTestResult : TestResultBase<WageTypeResultSet>
         TestPrecision = testPrecision;
     }
 
-    /// <summary>Test for invalid result</summary>
-    public bool IsInvalidResult() =>
-        ActualResult == null && ExpectedResult.Value != 0 ||
-        ActualResult != null && !ActualResult.AlmostEqualValue(ExpectedResult.Value, TestPrecision.GetDecimals()) ||
-        !ValidAttributes();
+    /// <inheritdoc />
+    public override bool ValidCulture() =>
+        string.IsNullOrWhiteSpace(ExpectedResult.Culture) ||
+        string.Equals(ExpectedResult.Culture, ActualResult.Culture);
 
     /// <inheritdoc />
-    public override bool IsValidResult() => !IsInvalidResult();
+    public override bool ValidValue() => 
+        !(ActualResult == null && ExpectedResult.Value != 0 ||
+        ActualResult != null &&
+        !ActualResult.AlmostEqualValue(ExpectedResult.Value, TestPrecision.GetDecimals()) ||
+        !ValidAttributes());
 }

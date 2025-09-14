@@ -22,10 +22,13 @@ public abstract class TestResultBase<T>
     }
 
     /// <summary>Test failed test</summary>
-    public bool IsFailed() => !IsValidResult();
+    public bool Failed() => !ValidValue() || !ValidCulture();
 
-    /// <summary>Get for valid result</summary>
-    public abstract bool IsValidResult();
+    /// <summary>Get for valid culture</summary>
+    public abstract bool ValidCulture();
+
+    /// <summary>Get for valid value</summary>
+    public abstract bool ValidValue();
 
     /// <summary>Test attribute values</summary>
     public bool ValidAttributes() => FirstInvalidAttribute() == null;

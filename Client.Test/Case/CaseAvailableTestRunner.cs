@@ -38,7 +38,7 @@ public class CaseAvailableTestRunner : CaseScriptTestRunner
             var caseSet = await GetAvailableCaseAsync(test.CaseName);
 
             // expecting the case is not available
-            if (test.Output == false)
+            if (!test.Output)
             {
                 results.Add(NewResult(caseSet != null, CaseTestType.CaseAvailable, test.TestName,
                     $"Case {test.CaseName}: expected case is not available, received case with id {caseSet?.Id}", test.Output, caseSet));

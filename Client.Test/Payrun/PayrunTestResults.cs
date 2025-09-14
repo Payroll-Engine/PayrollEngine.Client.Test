@@ -20,14 +20,19 @@ public class PayrunTestResult : TestResultBase<PayrunResult>
         Culture = culture ?? throw new ArgumentNullException(nameof(culture));
     }
 
+    
     /// <inheritdoc />
-    public override bool IsValidResult()
+    public override bool ValidCulture() =>
+        string.IsNullOrWhiteSpace(ExpectedResult.Culture) ||
+        string.Equals(ExpectedResult.Culture, ActualResult.Culture);
+
+    /// <inheritdoc />
+    public override bool ValidValue()
     {
         if (ExpectedResult == null || ActualResult == null)
         {
             return false;
         }
-
         var expectedValue = ValueConvert.ToValue(ExpectedResult.Value, ExpectedResult.ValueType, Culture);
         var actualValue = ValueConvert.ToValue(ActualResult.Value, ActualResult.ValueType, Culture);
         return Equals(expectedValue, actualValue);

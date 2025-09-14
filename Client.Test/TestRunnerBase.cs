@@ -29,6 +29,12 @@ public abstract class TestRunnerBase
     protected async Task DeleteTenantAsync(int tenantId) =>
         await new TenantService(HttpClient).DeleteAsync(new(), tenantId);
 
+    /// <summary>Delete employee</summary>
+    /// <param name="tenantId">The tenant id</param>
+    /// <param name="employeeId">The employee id</param>
+    protected async Task DeleteEmployeeAsync(int tenantId, int employeeId) =>
+        await new EmployeeService(HttpClient).DeleteAsync(new(tenantId), employeeId);
+
     /// <summary>Get user</summary>
     /// <param name="tenantId">The tenant id</param>
     /// <param name="identifier">The tenant identifier</param>
