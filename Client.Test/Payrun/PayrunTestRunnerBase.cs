@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using Task = System.Threading.Tasks.Task;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.Service.Api;
 
@@ -11,7 +12,7 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
 {
     /// <summary>The testing precision</summary>
     public TestPrecision TestPrecision { get; }
-    
+
     /// <summary>The test result mode</summary>
     public TestResultMode ResultMode { get; }
 
@@ -147,6 +148,9 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
                 throw new PayrollException($"Job abort [{payrunJob.Name}]: {payrunJob.Message}.");
             }
 
+            // namespace
+            await ApplyNamespaceAsync(payrollResult, tenant.Id, payrunJob.PayrollId);
+
             // prepare result
             var testResult = new PayrollTestResult(tenant, employee, payrunJob);
 
@@ -231,12 +235,8 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
                 foreach (var payrunResult in payrollResult.PayrunResults)
                 {
                     var actualResult = payrunResult.Tags == null ?
+                        payrunResults?.FirstOrDefault(x => string.Equals(x.Name, payrunResult.Name)) :
                         payrunResults?.FirstOrDefault(x => string.Equals(x.Name, payrunResult.Name) &&
-                                                           Date.SameSecond(x.Start, payrunResult.Start) &&
-                                                           Date.SameSecond(x.End, payrunResult.End)) :
-                        payrunResults?.FirstOrDefault(x => string.Equals(x.Name, payrunResult.Name) &&
-                                                           Date.SameSecond(x.Start, payrunResult.Start) &&
-                                                           Date.SameSecond(x.End, payrunResult.End) &&
                                                            CompareTool.EqualLists(x.Tags, payrunResult.Tags));
                     var result = new PayrunTestResult(culture, payrunResult, actualResult);
                     testResult.PayrunResults.Add(result);
@@ -247,6 +247,39 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
         }
 
         return testResults;
+    }
+
+    /// <summary>Apply namespace to payroll result</summary>
+    /// <param name="payrollResult">Payroll result</param>
+    /// <param name="tenantId">Tenant id</param>
+    /// <param name="payrollId">Payroll id</param>
+    private async Task ApplyNamespaceAsync(PayrollResultSet payrollResult, int tenantId, int payrollId)
+    {
+        // collector result
+        if (payrollResult.CollectorResults != null)
+        {
+            var collectorService = new CollectorService(HttpClient);
+            var regulations = await new PayrollService(HttpClient)
+                .GetRegulationsAsync<Regulation>(new(tenantId, payrollId));
+            foreach (var collectorResult in payrollResult.CollectorResults)
+            {
+                if (collectorResult.CollectorName.HasNamespace())
+                {
+                    continue;
+                }
+                foreach (var regulation in regulations)
+                {
+                    var collectorName = collectorResult.CollectorName.EnsureNamespace(regulation.Namespace);
+                    var collector = await collectorService.GetAsync<Collector>(
+                        new(tenantId, regulation.Id), collectorName);
+                    if (collector != null)
+                    {
+                        collectorResult.CollectorName = collectorName;
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     /// <summary>Apply the test owner</summary>

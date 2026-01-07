@@ -110,6 +110,24 @@
             <param name="actual">The actual case</param>
             <returns>TupleThe value case field matching the name, null on missing case field</returns>
         </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseBuildTestRunner.CompareCaseFields(PayrollEngine.Client.Model.CaseSet,PayrollEngine.Client.Model.CaseSet,System.String,System.Collections.Generic.List{PayrollEngine.Client.Test.Case.CaseScriptTestResult})">
+            <summary>
+            Compare case fields
+            </summary>
+            <param name="expected">Expected data set</param>
+            <param name="actual">Actual data set</param>
+            <param name="testName">Test name</param>
+            <param name="results">Compare results</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Case.CaseBuildTestRunner.CompareCaseSlots(PayrollEngine.Client.Model.CaseSet,PayrollEngine.Client.Model.CaseSet,System.String,System.Collections.Generic.List{PayrollEngine.Client.Test.Case.CaseScriptTestResult})">
+            <summary>
+            Compare case slots
+            </summary>
+            <param name="expected">Expected data set</param>
+            <param name="actual">Actual data set</param>
+            <param name="testName">Test name</param>
+            <param name="results">Compare results</param>
+        </member>
         <member name="T:PayrollEngine.Client.Test.Case.CaseCustomTest">
             <summary>Case custom test class</summary>
         </member>
@@ -788,6 +806,12 @@
             <param name="jobResultMode">The job result mode</param>
             <returns>List of payrun job test results</returns>
         </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.ApplyNamespaceAsync(PayrollEngine.Client.Model.PayrollResultSet,System.Int32,System.Int32)">
+            <summary>Apply namespace to payroll result</summary>
+            <param name="payrollResult">Payroll result</param>
+            <param name="tenantId">Tenant id</param>
+            <param name="payrollId">Payroll id</param>
+        </member>
         <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.ApplyOwner(PayrollEngine.Client.Model.Exchange,System.String)">
             <summary>Apply the test owner</summary>
             <param name="exchange">The exchange</param>
@@ -956,6 +980,42 @@
             <param name="expected">The expected report</param>
             <param name="actual">The actual report</param>
             <returns>TupleThe value case field matching the name, null on missing case field</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportExecuteTestRunner.CompareRelations(PayrollEngine.Data.DataSet,PayrollEngine.Data.DataSet,System.String,System.Collections.Generic.List{PayrollEngine.Client.Test.Report.ReportScriptTestResult})">
+            <summary>
+            Compare data set relations
+            </summary>
+            <param name="expected">Expected data set</param>
+            <param name="actual">Actual data set</param>
+            <param name="testName">Test name</param>
+            <param name="results">Compare results</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportExecuteTestRunner.CompareTables(PayrollEngine.Data.DataSet,PayrollEngine.Data.DataSet,System.String,System.Collections.Generic.List{PayrollEngine.Client.Test.Report.ReportScriptTestResult})">
+            <summary>
+            Compare data set tables
+            </summary>
+            <param name="expected">Expected data set</param>
+            <param name="actual">Actual data set</param>
+            <param name="testName">Test name</param>
+            <param name="results">Compare results</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportExecuteTestRunner.CompareTableRows(PayrollEngine.Data.DataTable,PayrollEngine.Data.DataTable,System.String,System.Collections.Generic.List{PayrollEngine.Client.Test.Report.ReportScriptTestResult})">
+            <summary>
+            Compare data table rows
+            </summary>
+            <param name="expected">Expected data set</param>
+            <param name="actual">Actual data set</param>
+            <param name="testName">Test name</param>
+            <param name="results">Compare results</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Report.ReportExecuteTestRunner.CompareTableColumns(PayrollEngine.Data.DataTable,PayrollEngine.Data.DataTable,System.String,System.Collections.Generic.List{PayrollEngine.Client.Test.Report.ReportScriptTestResult})">
+            <summary>
+            Compare data table columns
+            </summary>
+            <param name="expected">Expected data set</param>
+            <param name="actual">Actual data set</param>
+            <param name="testName">Test name</param>
+            <param name="results">Compare results</param>
         </member>
         <member name="T:PayrollEngine.Client.Test.Report.ReportScriptTest`2">
             <summary>Report script base test</summary>

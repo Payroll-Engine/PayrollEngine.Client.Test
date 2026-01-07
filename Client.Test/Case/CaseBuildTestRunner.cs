@@ -83,14 +83,7 @@ public class CaseBuildTestRunner : CaseScriptTestRunner
             }
             else
             {
-                foreach (var caseSlot in expected.Slots)
-                {
-                    // case slot
-                    if (!actual.Slots.Any(x => string.Equals(x.Name, caseSlot.Name)))
-                    {
-                        results.Add(NewFailedResult(CaseTestType.CaseBuild, testName, $"Missing case slot {caseSlot.Name}"));
-                    }
-                }
+                CompareCaseSlots(expected, actual, testName, results);
             }
         }
 
@@ -104,58 +97,7 @@ public class CaseBuildTestRunner : CaseScriptTestRunner
             }
             else
             {
-                foreach (var caseField in expected.Fields)
-                {
-                    // case field
-                    var actualCaseField = actual.Fields.FirstOrDefault(x => string.Equals(x.Name, caseField.Name));
-                    if (actualCaseField == null)
-                    {
-                        results.Add(NewFailedResult(CaseTestType.CaseBuild, testName, $"Missing case field {caseField.Name}"));
-                        continue;
-                    }
-
-                    // case field start date
-                    if (caseField.Start != null && !Equals(caseField.Start, actualCaseField.Start))
-                    {
-                        results.Add(NewFailedResult(CaseTestType.CaseBuild, testName,
-                            $"Invalid case value start {caseField.Name} - Expected: {caseField.Start}, Actual: {actualCaseField.Start}"));
-                    }
-
-                    // case field end date
-                    if (caseField.End != null && !Equals(caseField.End, actualCaseField.End))
-                    {
-                        results.Add(NewFailedResult(CaseTestType.CaseBuild, testName,
-                            $"Invalid case value end {caseField.Name} - Expected: {caseField.End}, Actual: {actualCaseField.End}"));
-                    }
-
-                    // case field attribute
-                    var invalidAttribute = caseField.Attributes?.FirstInvalidAttribute(actualCaseField.Attributes);
-                    if (invalidAttribute != null)
-                    {
-                        results.Add(NewFailedResult(CaseTestType.CaseBuild, testName,
-                            $"Invalid case field attribute {caseField.Name}.{invalidAttribute.Item1} - Expected: {invalidAttribute.Item2 ?? "null"}, Actual: {invalidAttribute.Item3 ?? "null"}"));
-                    }
-
-                    // case value attribute
-                    invalidAttribute = caseField.ValueAttributes?.FirstInvalidAttribute(actualCaseField.ValueAttributes);
-                    if (invalidAttribute != null)
-                    {
-                        results.Add(NewFailedResult(CaseTestType.CaseBuild, testName,
-                            $"Invalid case value attribute {caseField.Name}.{invalidAttribute.Item1} - Expected: {invalidAttribute.Item2 ?? "null"}, Actual: {invalidAttribute.Item3 ?? "null"}"));
-                    }
-
-                    // adapt value type
-                    caseField.ValueType = actualCaseField.ValueType;
-
-                    // case value
-                    var expectedValue = caseField.GetValue(Culture);
-                    var actualValue = actualCaseField.GetValue(Culture);
-                    if (!Equals(expectedValue, actualValue))
-                    {
-                        results.Add(NewFailedResult(CaseTestType.CaseBuild, testName,
-                            $"Invalid case value {caseField.Name} - Expected: {expectedValue ?? "null"}, Actual: {actualValue ?? "null"}"));
-                    }
-                }
+                CompareCaseFields(expected, actual, testName, results);
             }
         }
 
@@ -184,5 +126,87 @@ public class CaseBuildTestRunner : CaseScriptTestRunner
         }
 
         return results;
+    }
+
+    /// <summary>
+    /// Compare case fields
+    /// </summary>
+    /// <param name="expected">Expected data set</param>
+    /// <param name="actual">Actual data set</param>
+    /// <param name="testName">Test name</param>
+    /// <param name="results">Compare results</param>
+    private void CompareCaseFields(CaseSet expected, CaseSet actual, string testName, List<CaseScriptTestResult> results)
+    {
+        foreach (var caseField in expected.Fields)
+        {
+            // case field
+            var actualCaseField = actual.Fields.FirstOrDefault(x => string.Equals(x.Name, caseField.Name));
+            if (actualCaseField == null)
+            {
+                results.Add(NewFailedResult(CaseTestType.CaseBuild, testName, $"Missing case field {caseField.Name}"));
+                continue;
+            }
+
+            // case field start date
+            if (caseField.Start != null && !Equals(caseField.Start, actualCaseField.Start))
+            {
+                results.Add(NewFailedResult(CaseTestType.CaseBuild, testName,
+                    $"Invalid case value start {caseField.Name} - Expected: {caseField.Start}, Actual: {actualCaseField.Start}"));
+            }
+
+            // case field end date
+            if (caseField.End != null && !Equals(caseField.End, actualCaseField.End))
+            {
+                results.Add(NewFailedResult(CaseTestType.CaseBuild, testName,
+                    $"Invalid case value end {caseField.Name} - Expected: {caseField.End}, Actual: {actualCaseField.End}"));
+            }
+
+            // case field attribute
+            var invalidAttribute = caseField.Attributes?.FirstInvalidAttribute(actualCaseField.Attributes);
+            if (invalidAttribute != null)
+            {
+                results.Add(NewFailedResult(CaseTestType.CaseBuild, testName,
+                    $"Invalid case field attribute {caseField.Name}.{invalidAttribute.Item1} - Expected: {invalidAttribute.Item2 ?? "null"}, Actual: {invalidAttribute.Item3 ?? "null"}"));
+            }
+
+            // case value attribute
+            invalidAttribute = caseField.ValueAttributes?.FirstInvalidAttribute(actualCaseField.ValueAttributes);
+            if (invalidAttribute != null)
+            {
+                results.Add(NewFailedResult(CaseTestType.CaseBuild, testName,
+                    $"Invalid case value attribute {caseField.Name}.{invalidAttribute.Item1} - Expected: {invalidAttribute.Item2 ?? "null"}, Actual: {invalidAttribute.Item3 ?? "null"}"));
+            }
+
+            // adapt value type
+            caseField.ValueType = actualCaseField.ValueType;
+
+            // case value
+            var expectedValue = caseField.GetValue(Culture);
+            var actualValue = actualCaseField.GetValue(Culture);
+            if (!Equals(expectedValue, actualValue))
+            {
+                results.Add(NewFailedResult(CaseTestType.CaseBuild, testName,
+                    $"Invalid case value {caseField.Name} - Expected: {expectedValue ?? "null"}, Actual: {actualValue ?? "null"}"));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Compare case slots
+    /// </summary>
+    /// <param name="expected">Expected data set</param>
+    /// <param name="actual">Actual data set</param>
+    /// <param name="testName">Test name</param>
+    /// <param name="results">Compare results</param>
+    private void CompareCaseSlots(CaseSet expected, CaseSet actual, string testName, List<CaseScriptTestResult> results)
+    {
+        foreach (var caseSlot in expected.Slots)
+        {
+            // case slot
+            if (!actual.Slots.Any(x => string.Equals(x.Name, caseSlot.Name)))
+            {
+                results.Add(NewFailedResult(CaseTestType.CaseBuild, testName, $"Missing case slot {caseSlot.Name}"));
+            }
+        }
     }
 }
