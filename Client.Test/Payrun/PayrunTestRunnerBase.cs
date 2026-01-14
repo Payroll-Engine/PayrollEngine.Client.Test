@@ -10,27 +10,19 @@ namespace PayrollEngine.Client.Test.Payrun;
 /// <summary>Base class for file based payroll tests</summary>
 public abstract class PayrunTestRunnerBase : TestRunnerBase
 {
+    /// <summary>The test settings</summary>
+    protected PayrunTestSettings Settings { get; }
+
     /// <summary>The testing precision</summary>
-    public TestPrecision TestPrecision { get; }
-
-    /// <summary>The test result mode</summary>
-    public TestResultMode ResultMode { get; }
-
-    /// <summary>The test owner</summary>
-    public string Owner { get; }
+    protected TestPrecision TestPrecision => Settings.TestPrecision;
 
     /// <summary>Initializes a new instance of the <see cref="PayrunTestRunnerBase"/> class</summary>
     /// <param name="httpClient">The payroll engine http client</param>
-    /// <param name="testPrecision">The testing precision</param>
-    /// <param name="resultMode">The test result mode (default: clean)</param>
-    /// <param name="owner">The test owner</param>
-    protected PayrunTestRunnerBase(PayrollHttpClient httpClient, TestPrecision testPrecision,
-        TestResultMode resultMode = TestResultMode.CleanTest, string owner = null) :
+    /// <param name="settings">The test settings</param>
+    protected PayrunTestRunnerBase(PayrollHttpClient httpClient, PayrunTestSettings settings) :
         base(httpClient)
     {
-        TestPrecision = testPrecision;
-        ResultMode = resultMode;
-        Owner = owner;
+        Settings = settings;
     }
 
     /// <summary>Start the test</summary>
@@ -75,73 +67,26 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
             }
 
             // payrun job
-            PayrunJob payrunJob;
-            if (string.IsNullOrWhiteSpace(payrollResult.PayrunJobName))
+            var payrunJob = await FindPayrunJobAsync(tenant, jobResultMode, payrollResult, employee);
+            var count = 0;
+            while (payrunJob?.JobEnd == null)
             {
-                throw new PayrollException("Missing payrun job name in payroll result.");
-            }
-            if (jobResultMode == JobResultMode.Single)
-            {
-                var invocation = tenant.PayrunJobInvocations.FirstOrDefault(x => string.Equals(x.Name, payrollResult.PayrunJobName));
-                if (invocation == null || !invocation.PayrunJobId.HasValue)
-                {
-                    throw new PayrollException($"Missing payrun job {payrollResult.PayrunJobName}.");
-                }
+                count++;
+                Log.Debug($"Waiting to complete job {payrollResult.PayrunJobName} ({count})");
+                Task.Delay(Settings.ResultRetryDelay).Wait();
+                payrunJob = await FindPayrunJobAsync(tenant, jobResultMode, payrollResult, employee);
 
-                var retroPeriodStart = payrollResult.RetroPeriodStart;
-                if (retroPeriodStart != null)
+                // retry count
+                if (count >= Settings.ResultRetryCount)
                 {
-                    var payrunJobs = await GetPayrunJobsAsync(tenant.Id, payrollResult.PayrunJobName);
-                    // retro job test: select the newest (last created) incremental (retro) job
-                    // only incremental/retro jobs
-                    payrunJob = payrunJobs.Where(x => x.JobResult == PayrunJobResult.Incremental &&
-                                                      string.Equals(x.Name, payrollResult.PayrunJobName) &&
-                                                      x.PeriodStart.Equals(retroPeriodStart.Value)).MaxBy(x => x.Created);
-                    if (payrunJob == null)
-                    {
-                        throw new PayrollException($"Unknown retro payrun job on period {payrollResult.RetroPeriodStart.Value}.");
-                    }
-                }
-                else
-                {
-                    payrunJob = await new PayrunJobService(HttpClient).GetAsync<PayrunJob>(
-                        new(tenant.Id), invocation.PayrunJobId.Value);
+                    break;
                 }
             }
-            else
+            // missing job
+            if (payrunJob == null)
             {
-                var employeePayrunJobs = await GetEmployeePayrunJobsAsync(tenant.Id, employee.Id);
-                if (employeePayrunJobs == null || !employeePayrunJobs.Any())
-                {
-                    throw new PayrollException($"Missing payrun job {payrollResult.PayrunJobName}.");
-                }
-
-                var retroPeriodStart = payrollResult.RetroPeriodStart;
-                if (retroPeriodStart != null)
-                {
-                    // retro job test: select the newest (last created) incremental (retro) job
-                    // only incremental/retro jobs
-                    payrunJob = employeePayrunJobs.Where(x => x.JobResult == PayrunJobResult.Incremental &&
-                                                             string.Equals(x.Name, payrollResult.PayrunJobName) &&
-                                                             x.PeriodStart.Equals(retroPeriodStart.Value)).MaxBy(x => x.Created);
-                    if (payrunJob == null)
-                    {
-                        throw new PayrollException($"Unknown retro payrun job on period {payrollResult.RetroPeriodStart.Value}.");
-                    }
-                }
-                else
-                {
-                    // full job test: select the newest (last created) full (non-retro) job
-                    var payrunJobs = employeePayrunJobs.Where(x => x.JobResult == PayrunJobResult.Full &&
-                                                                  string.Equals(x.Name, payrollResult.PayrunJobName)).ToList();
-                    if (!payrunJobs.Any())
-                    {
-                        throw new PayrollException($"Missing payrun job {payrollResult.PayrunJobName}.");
-                    }
-                    payrunJob = payrunJobs.OrderByDescending(x => x.Created).First();
-                }
+                throw new PayrollException($"Missing payrun job {payrollResult.PayrunJobName}.");
             }
-
             // aborted job
             if (payrunJob.JobStatus == PayrunJobStatus.Abort)
             {
@@ -151,22 +96,22 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
             // namespace
             await ApplyNamespaceAsync(payrollResult, tenant.Id, payrunJob.PayrollId);
 
-            // prepare result
-            var testResult = new PayrollTestResult(tenant, employee, payrunJob);
-
             // existing result
             var actualPayrollResult = await GetPayrollResultAsync(tenant.Id, employee.Id, payrunJob.Id);
+
             // one result expected
             if (actualPayrollResult == null)
             {
                 // special case: no results expected
                 if (!payrollResult.HasResults())
                 {
-                    testResults.Add(testResult);
+                    testResults.Add(new PayrollTestResult(tenant, employee, payrunJob));
                     return testResults;
                 }
                 throw new PayrollException($"Missing results for payrun job {payrunJob.Name}.");
             }
+
+            var testResult = new PayrollTestResult(tenant, employee, payrunJob);
 
             // wage type results
             if (payrollResult.WageTypeResults != null)
@@ -249,6 +194,75 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
         return testResults;
     }
 
+    /// <summary>
+    /// Find payrun job by job name and employee
+    /// </summary>
+    private async Task<PayrunJob> FindPayrunJobAsync(ExchangeTenant tenant, JobResultMode jobResultMode,
+        PayrollResultSet payrollResult, Employee employee)
+    {
+        // payrun job
+        PayrunJob payrunJob = null;
+
+        if (string.IsNullOrWhiteSpace(payrollResult.PayrunJobName))
+        {
+            throw new PayrollException("Missing payrun job name in payroll result.");
+        }
+        if (jobResultMode == JobResultMode.Single)
+        {
+            var invocation = tenant.PayrunJobInvocations.FirstOrDefault(x => string.Equals(x.Name, payrollResult.PayrunJobName));
+            if (invocation == null || !invocation.PayrunJobId.HasValue)
+            {
+                return null;
+            }
+
+            var retroPeriodStart = payrollResult.RetroPeriodStart;
+            if (retroPeriodStart != null)
+            {
+                var payrunJobs = await GetPayrunJobsAsync(tenant.Id, payrollResult.PayrunJobName);
+                // retro job test: select the newest (last created) incremental (retro) job
+                // only incremental/retro jobs
+                payrunJob = payrunJobs.Where(x => x.JobResult == PayrunJobResult.Incremental &&
+                                                  string.Equals(x.Name, payrollResult.PayrunJobName) &&
+                                                  x.PeriodStart.Equals(retroPeriodStart.Value)).MaxBy(x => x.Created);
+            }
+            else
+            {
+                payrunJob = await new PayrunJobService(HttpClient).GetAsync<PayrunJob>(
+                    new(tenant.Id), invocation.PayrunJobId.Value);
+            }
+        }
+        else
+        {
+            var employeePayrunJobs = await GetEmployeePayrunJobsAsync(tenant.Id, employee.Id);
+            if (employeePayrunJobs == null || !employeePayrunJobs.Any())
+            {
+                return null;
+            }
+
+            var retroPeriodStart = payrollResult.RetroPeriodStart;
+            if (retroPeriodStart != null)
+            {
+                // retro job test: select the newest (last created) incremental (retro) job
+                // only incremental/retro jobs
+                payrunJob = employeePayrunJobs.Where(x => x.JobResult == PayrunJobResult.Incremental &&
+                                                          string.Equals(x.Name, payrollResult.PayrunJobName) &&
+                                                          x.PeriodStart.Equals(retroPeriodStart.Value)).MaxBy(x => x.Created);
+            }
+            else
+            {
+                // full job test: select the newest (last created) full (non-retro) job
+                var payrunJobs = employeePayrunJobs.Where(x => x.JobResult == PayrunJobResult.Full &&
+                                                               string.Equals(x.Name, payrollResult.PayrunJobName)).ToList();
+                if (payrunJobs.Any())
+                {
+                    payrunJob = payrunJobs.OrderByDescending(x => x.Created).First();
+                }
+            }
+        }
+
+        return payrunJob;
+    }
+
     /// <summary>Apply namespace to payroll result</summary>
     /// <param name="payrollResult">Payroll result</param>
     /// <param name="tenantId">Tenant id</param>
@@ -308,6 +322,12 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
 
     #region Api
 
+    /// <summary>Get payrun job</summary>
+    /// <param name="tenantId">The tenant id</param>
+    /// <param name="payrunJobId">The payrun job id</param>
+    protected async Task<PayrunJob> GetPayrunJobAsync(int tenantId, int payrunJobId) =>
+        await new PayrunJobService(HttpClient).GetAsync<PayrunJob>(new(tenantId), payrunJobId);
+
     /// <summary>Get payrun jobs</summary>
     /// <param name="tenantId">The tenant id</param>
     /// <param name="payrunName">The payrun name</param>
@@ -319,7 +339,6 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
         };
         return await new PayrunJobService(HttpClient).QueryAsync<PayrunJob>(new(tenantId), query);
     }
-
 
     /// <summary>Get employee payrun jobs</summary>
     /// <param name="tenantId">The tenant id</param>

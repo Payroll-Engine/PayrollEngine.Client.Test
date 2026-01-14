@@ -22,23 +22,18 @@ public class PayrunTestRunner : PayrunTestRunnerBase
     /// <summary>The test running mode</summary>
     public TestRunMode RunMode { get; }
 
-    /// <summary>The delay between creation and test</summary>
-    public int DelayBetweenCreateAndTest { get; set; }
-
     /// <summary>Initializes a new instance of the <see cref="PayrunTestRunner"/> class</summary>
     /// <param name="httpClient">The payroll engine http client</param>
     /// <param name="scriptParser">The script parser</param>
-    /// <param name="testPrecision">The testing precision</param>
-    /// <param name="owner">The test owner</param>
+    /// <param name="settings">The test settings</param>
     /// <param name="importMode">The data import mode (default: single)</param>
-    /// <param name="resultMode">The test result mode (default: clean)</param>
     /// <param name="runMode">The employee test mode</param>
-    public PayrunTestRunner(PayrollHttpClient httpClient, IScriptParser scriptParser,
-        TestPrecision testPrecision = TestPrecision.TestPrecision2,
-        string owner = null, DataImportMode importMode = DataImportMode.Single,
-        TestResultMode resultMode = TestResultMode.CleanTest,
+    public PayrunTestRunner(PayrollHttpClient httpClient,
+        IScriptParser scriptParser,
+        PayrunTestSettings settings,
+        DataImportMode importMode = DataImportMode.Single,
         TestRunMode runMode = TestRunMode.RunTests) :
-        base(httpClient, testPrecision, resultMode, owner)
+        base(httpClient, settings)
     {
         ScriptParser = scriptParser ?? throw new ArgumentNullException(nameof(scriptParser));
         ImportMode = importMode;
@@ -50,7 +45,7 @@ public class PayrunTestRunner : PayrunTestRunnerBase
     public override async Task<Dictionary<Tenant, List<PayrollTestResult>>> TestAllAsync(Model.Exchange exchange)
     {
         // apply owner
-        ApplyOwner(exchange, Owner);
+        ApplyOwner(exchange, Settings.Owner);
 
         var results = new Dictionary<Tenant, List<PayrollTestResult>>();
         try
@@ -73,15 +68,18 @@ public class PayrunTestRunner : PayrunTestRunnerBase
             // not test skip
             if (RunMode == TestRunMode.RunTests)
             {
-                // all payrun jobs should be executed
-                if (DelayBetweenCreateAndTest > 0)
-                {
-                    Task.Delay(DelayBetweenCreateAndTest).Wait();
-                }
-
                 // test tenants
                 foreach (var tenant in exchange.Tenants)
                 {
+                    // no test
+                    if (tenant.PayrollResults == null || !tenant.PayrollResults.Any())
+                    {
+                        continue;
+                    }
+
+                    // wait for completed payrun jobs
+                    // await WaitForCompletedPayrunJobsAsync(tenant, JobResultMode.Single);
+
                     // test results
                     var payrunJobResult = await TestPayrunJobAsync(tenant, JobResultMode.Single);
                     results.Add(tenant, payrunJobResult.ToList());
@@ -129,7 +127,7 @@ public class PayrunTestRunner : PayrunTestRunnerBase
     /// <param name="results">Results</param>
     protected virtual async Task CleanupTenants(Model.Exchange exchange, Dictionary<Tenant, List<PayrollTestResult>> results)
     {
-        if (ResultMode == TestResultMode.KeepTest)
+        if (Settings.ResultMode == TestResultMode.KeepTest)
         {
             return;
         }
@@ -142,7 +140,7 @@ public class PayrunTestRunner : PayrunTestRunnerBase
             var keep = false;
 
             // keep tenant on failed test
-            if (ResultMode == TestResultMode.KeepFailedTest && 
+            if (Settings.ResultMode == TestResultMode.KeepFailedTest &&
                 results.TryGetValue(exchangeTenant, out var result))
             {
                 keep = result.Any(x => x.Failed);

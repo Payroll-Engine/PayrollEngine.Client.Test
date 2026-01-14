@@ -680,9 +680,6 @@
         <member name="T:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner">
             <summary>Payrun employee test runner</summary>
         </member>
-        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.DelayBetweenCreateAndTest">
-            <summary>The delay between creation and test</summary>
-        </member>
         <member name="P:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.ScriptParser">
             <summary>The employee test mode</summary>
         </member>
@@ -692,14 +689,12 @@
         <member name="P:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.RunMode">
             <summary>The test running mode</summary>
         </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,PayrollEngine.Client.Script.IScriptParser,PayrollEngine.Client.Test.TestPrecision,System.String,PayrollEngine.Client.Test.Payrun.EmployeeTestMode,PayrollEngine.Client.Test.Payrun.TestResultMode,PayrollEngine.Client.Test.Payrun.TestRunMode)">
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,PayrollEngine.Client.Script.IScriptParser,PayrollEngine.Client.Test.Payrun.PayrunTestSettings,PayrollEngine.Client.Test.Payrun.EmployeeTestMode,PayrollEngine.Client.Test.Payrun.TestRunMode)">
             <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner"/> class</summary>
             <param name="httpClient">The payroll engine http client</param>
             <param name="scriptParser">The script parser</param>
-            <param name="owner">The test owner</param>
-            <param name="testPrecision">The testing precision</param>
+            <param name="settings">The test settings</param>
             <param name="employeeMode">The test running mode</param>
-            <param name="resultMode">The test result mode (default: clean)</param>
             <param name="runMode">The employee test mode</param>
         </member>
         <member name="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.TestAllAsync(PayrollEngine.Client.Model.Exchange)">
@@ -746,17 +741,12 @@
         <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.RunMode">
             <summary>The test running mode</summary>
         </member>
-        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.DelayBetweenCreateAndTest">
-            <summary>The delay between creation and test</summary>
-        </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,PayrollEngine.Client.Script.IScriptParser,PayrollEngine.Client.Test.TestPrecision,System.String,PayrollEngine.Client.Exchange.DataImportMode,PayrollEngine.Client.Test.Payrun.TestResultMode,PayrollEngine.Client.Test.Payrun.TestRunMode)">
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,PayrollEngine.Client.Script.IScriptParser,PayrollEngine.Client.Test.Payrun.PayrunTestSettings,PayrollEngine.Client.Exchange.DataImportMode,PayrollEngine.Client.Test.Payrun.TestRunMode)">
             <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Payrun.PayrunTestRunner"/> class</summary>
             <param name="httpClient">The payroll engine http client</param>
             <param name="scriptParser">The script parser</param>
-            <param name="testPrecision">The testing precision</param>
-            <param name="owner">The test owner</param>
+            <param name="settings">The test settings</param>
             <param name="importMode">The data import mode (default: single)</param>
-            <param name="resultMode">The test result mode (default: clean)</param>
             <param name="runMode">The employee test mode</param>
         </member>
         <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.TestAllAsync(PayrollEngine.Client.Model.Exchange)">
@@ -779,21 +769,16 @@
         <member name="T:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase">
             <summary>Base class for file based payroll tests</summary>
         </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.Settings">
+            <summary>The test settings</summary>
+        </member>
         <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.TestPrecision">
             <summary>The testing precision</summary>
         </member>
-        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.ResultMode">
-            <summary>The test result mode</summary>
-        </member>
-        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.Owner">
-            <summary>The test owner</summary>
-        </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.#ctor(PayrollEngine.Client.PayrollHttpClient,PayrollEngine.Client.Test.TestPrecision,PayrollEngine.Client.Test.Payrun.TestResultMode,System.String)">
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.#ctor(PayrollEngine.Client.PayrollHttpClient,PayrollEngine.Client.Test.Payrun.PayrunTestSettings)">
             <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase"/> class</summary>
             <param name="httpClient">The payroll engine http client</param>
-            <param name="testPrecision">The testing precision</param>
-            <param name="resultMode">The test result mode (default: clean)</param>
-            <param name="owner">The test owner</param>
+            <param name="settings">The test settings</param>
         </member>
         <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.TestAllAsync(PayrollEngine.Client.Model.Exchange)">
             <summary>Start the test</summary>
@@ -806,6 +791,11 @@
             <param name="jobResultMode">The job result mode</param>
             <returns>List of payrun job test results</returns>
         </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.FindPayrunJobAsync(PayrollEngine.Client.Model.ExchangeTenant,PayrollEngine.Client.Test.Payrun.JobResultMode,PayrollEngine.Client.Model.PayrollResultSet,PayrollEngine.Client.Model.Employee)">
+            <summary>
+            Find payrun job by job name and employee
+            </summary>
+        </member>
         <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.ApplyNamespaceAsync(PayrollEngine.Client.Model.PayrollResultSet,System.Int32,System.Int32)">
             <summary>Apply namespace to payroll result</summary>
             <param name="payrollResult">Payroll result</param>
@@ -817,6 +807,11 @@
             <param name="exchange">The exchange</param>
             <param name="owner">The owner name</param>
             <returns>List of payrun job test results</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.GetPayrunJobAsync(System.Int32,System.Int32)">
+            <summary>Get payrun job</summary>
+            <param name="tenantId">The tenant id</param>
+            <param name="payrunJobId">The payrun job id</param>
         </member>
         <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunnerBase.GetPayrunJobsAsync(System.Int32,System.String)">
             <summary>Get payrun jobs</summary>
@@ -860,6 +855,36 @@
             <summary>Get payrun results</summary>
             <param name="tenantId">The tenant id</param>
             <param name="payrollResultId">The payroll result id</param>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.Payrun.PayrunTestSettings">
+            <summary>
+            Payrun test settings
+            </summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestSettings.TestPrecision">
+            <summary>
+            Test precision (default: 2 digits)
+            </summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestSettings.ResultMode">
+            <summary>
+            Result mode (default: clean test)
+            </summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestSettings.Owner">
+            <summary>
+            Owner
+            </summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestSettings.ResultRetryDelay">
+            <summary>
+            Result retry delay in milliseconds (default: 1000 ms)
+            </summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestSettings.ResultRetryCount">
+            <summary>
+            Result retry count (default: 50)
+            </summary>
         </member>
         <member name="T:PayrollEngine.Client.Test.Payrun.TestResultMode">
             <summary>The test result mode</summary>

@@ -12,9 +12,6 @@ namespace PayrollEngine.Client.Test.Payrun;
 /// <summary>Payrun employee test runner</summary>
 public class PayrunEmployeeTestRunner : PayrunTestRunnerBase
 {
-    /// <summary>The delay between creation and test</summary>
-    public int DelayBetweenCreateAndTest { get; set; }
-
     /// <summary>The employee test mode</summary>
     public IScriptParser ScriptParser { get; }
 
@@ -27,17 +24,15 @@ public class PayrunEmployeeTestRunner : PayrunTestRunnerBase
     /// <summary>Initializes a new instance of the <see cref="PayrunEmployeeTestRunner"/> class</summary>
     /// <param name="httpClient">The payroll engine http client</param>
     /// <param name="scriptParser">The script parser</param>
-    /// <param name="owner">The test owner</param>
-    /// <param name="testPrecision">The testing precision</param>
+    /// <param name="settings">The test settings</param>
     /// <param name="employeeMode">The test running mode</param>
-    /// <param name="resultMode">The test result mode (default: clean)</param>
     /// <param name="runMode">The employee test mode</param>
-    public PayrunEmployeeTestRunner(PayrollHttpClient httpClient, IScriptParser scriptParser,
-        TestPrecision testPrecision = TestPrecision.TestPrecision2, string owner = null,
+    public PayrunEmployeeTestRunner(PayrollHttpClient httpClient,
+        IScriptParser scriptParser,
+        PayrunTestSettings settings,
         EmployeeTestMode employeeMode = EmployeeTestMode.InsertEmployee,
-        TestResultMode resultMode = TestResultMode.CleanTest,
         TestRunMode runMode = TestRunMode.RunTests) :
-        base(httpClient, testPrecision, resultMode, owner)
+        base(httpClient, settings)
     {
         ScriptParser = scriptParser ?? throw new ArgumentNullException(nameof(scriptParser));
         EmployeeMode = employeeMode;
@@ -50,7 +45,7 @@ public class PayrunEmployeeTestRunner : PayrunTestRunnerBase
     public override async Task<Dictionary<Tenant, List<PayrollTestResult>>> TestAllAsync(Model.Exchange exchange)
     {
         // apply owner
-        ApplyOwner(exchange, Owner);
+        ApplyOwner(exchange, Settings.Owner);
 
         var results = new Dictionary<Tenant, List<PayrollTestResult>>();
         try
@@ -75,12 +70,6 @@ public class PayrunEmployeeTestRunner : PayrunTestRunnerBase
                 if (RunMode != TestRunMode.RunTests)
                 {
                     continue;
-                }
-
-                // all payrun jobs should be executed
-                if (DelayBetweenCreateAndTest > 0)
-                {
-                    Task.Delay(DelayBetweenCreateAndTest).Wait();
                 }
 
                 // test results
@@ -196,7 +185,7 @@ public class PayrunEmployeeTestRunner : PayrunTestRunnerBase
     /// <param name="tenantResults">Results</param>
     protected virtual async Task CleanupEmployees(Dictionary<Tenant, List<PayrollTestResult>> tenantResults)
     {
-        if (ResultMode == TestResultMode.KeepTest)
+        if (Settings.ResultMode == TestResultMode.KeepTest)
         {
             return;
         }
@@ -208,7 +197,7 @@ public class PayrunEmployeeTestRunner : PayrunTestRunnerBase
             foreach (var result in tenantResult.Value)
             {
                 // keep failed
-                if (ResultMode == TestResultMode.KeepFailedTest && result.Failed)
+                if (Settings.ResultMode == TestResultMode.KeepFailedTest && result.Failed)
                 {
                     continue;
                 }
@@ -223,9 +212,9 @@ public class PayrunEmployeeTestRunner : PayrunTestRunnerBase
 
                 try
                 {
-                   await DeleteEmployeeAsync(tenantId, employeeId);
-                   // update delete history
-                   deleteEmployeeIds.Add(employeeId);
+                    await DeleteEmployeeAsync(tenantId, employeeId);
+                    // update delete history
+                    deleteEmployeeIds.Add(employeeId);
                 }
                 catch (Exception exception)
                 {
