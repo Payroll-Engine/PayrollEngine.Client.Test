@@ -1309,6 +1309,21 @@
         <member name="P:PayrollEngine.Client.Test.TestContextBase.User">
             <summary>The user</summary>
         </member>
+        <member name="T:PayrollEngine.Client.Test.TestFileExtensions">
+            <summary>Test file extensions</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.TestFileExtensions.PayrunTest">
+            <summary>Payrun test file extension</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.TestFileExtensions.EmployeeTest">
+            <summary>Employee test file extension</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.TestFileExtensions.CaseTest">
+            <summary>Case test file extension</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.TestFileExtensions.ReportTest">
+            <summary>Report test file extension</summary>
+        </member>
         <member name="T:PayrollEngine.Client.Test.TestPrecision">
             <summary>The test precision</summary>
         </member>

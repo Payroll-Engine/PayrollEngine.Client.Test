@@ -71,12 +71,15 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
             var count = 0;
             while (payrunJob?.JobEnd == null)
             {
-                count++;
-                Log.Debug($"Waiting to complete job {payrollResult.PayrunJobName} ({count})");
+                if (count > 0)
+                {
+                    Log.Debug($"Waiting to complete job {payrollResult.PayrunJobName} ({count})");
+                }
                 Task.Delay(Settings.ResultRetryDelay).Wait();
                 payrunJob = await FindPayrunJobAsync(tenant, jobResultMode, payrollResult, employee);
 
                 // retry count
+                count++;
                 if (count >= Settings.ResultRetryCount)
                 {
                     break;
