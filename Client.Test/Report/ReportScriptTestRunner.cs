@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using PayrollEngine.Client.Model;
@@ -25,7 +25,8 @@ public abstract class ReportScriptTestRunner : TestRunnerBase
     protected ReportScriptTestRunner(PayrollHttpClient httpClient, ReportTestContext context) :
         base(httpClient)
     {
-        Context = context ?? throw new ArgumentNullException(nameof(context));
+        ArgumentNullException.ThrowIfNull(context);
+        Context = context;
     }
 
     #region Test
@@ -88,10 +89,7 @@ public abstract class ReportScriptTestRunner : TestRunnerBase
     protected ReportScriptTestResult NewResult(HttpRequestException exception, string testName,
         object expected = null)
     {
-        if (exception == null)
-        {
-            throw new ArgumentNullException(nameof(exception));
-        }
+        ArgumentNullException.ThrowIfNull(exception);
 
         var success = exception.StatusCode.HasValue &&
                       (int)exception.StatusCode.Value >= 200 &&

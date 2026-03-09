@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PayrollEngine.Client.Test;
 
@@ -17,7 +17,8 @@ public abstract class TestResultBase<T>
     /// <param name="actualResult">The actual result</param>
     protected TestResultBase(T expectedResult, T actualResult = default)
     {
-        ExpectedResult = expectedResult ?? throw new ArgumentNullException(nameof(expectedResult));
+        ArgumentNullException.ThrowIfNull(expectedResult);
+        ExpectedResult = expectedResult;
         ActualResult = actualResult;
     }
 

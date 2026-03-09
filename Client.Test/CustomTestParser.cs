@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -26,12 +26,10 @@ public class CustomTestParser<TFunction, TContext> : CustomTestParserBase
     /// <param name="sourceFiles">THe source  files</param>
     public CustomTestParser(string testName, List<string> sourceFiles)
     {
-        if (string.IsNullOrWhiteSpace(testName))
-        {
-            throw new ArgumentException(nameof(testName));
-        }
+        ArgumentException.ThrowIfNullOrWhiteSpace(testName);
         TestName = testName;
-        SourceFiles = sourceFiles ?? throw new ArgumentNullException(nameof(sourceFiles));
+        ArgumentNullException.ThrowIfNull(sourceFiles);
+        SourceFiles = sourceFiles;
     }
 
     private List<Type> GetTestTypes()
@@ -61,10 +59,7 @@ public class CustomTestParser<TFunction, TContext> : CustomTestParserBase
     /// <returns>THe test method info</returns>
     public MethodInfo GetTest(string testName, params Type[] parameterTypes)
     {
-        if (string.IsNullOrWhiteSpace(testName))
-        {
-            throw new ArgumentException(nameof(testName));
-        }
+        ArgumentException.ThrowIfNullOrWhiteSpace(testName);
 
         // assembly
         EnsureAssembly();

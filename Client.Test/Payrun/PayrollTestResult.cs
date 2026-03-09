@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using PayrollEngine.Client.Model;
@@ -54,8 +54,11 @@ public class PayrollTestResult
     /// <param name="employee">The employee</param>
     public PayrollTestResult(Tenant tenant, Employee employee, PayrunJob payrunJob)
     {
-        Tenant = tenant ?? throw new ArgumentNullException(nameof(tenant));
-        Employee = employee ?? throw new ArgumentNullException(nameof(employee));
-        PayrunJob = payrunJob ?? throw new ArgumentNullException(nameof(payrunJob));
+        ArgumentNullException.ThrowIfNull(tenant);
+        Tenant = tenant;
+        ArgumentNullException.ThrowIfNull(employee);
+        Employee = employee;
+        ArgumentNullException.ThrowIfNull(payrunJob);
+        PayrunJob = payrunJob;
     }
 }

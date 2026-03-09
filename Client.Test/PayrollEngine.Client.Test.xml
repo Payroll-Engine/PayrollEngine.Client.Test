@@ -73,7 +73,7 @@
             </summary>
         </member>
         <member name="M:PayrollEngine.Client.Test.Case.CaseAvailableTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,PayrollEngine.Client.Test.Case.CaseTestContext)">
-            <summary>new instance of <see cref="T:PayrollEngine.Client.Test.Case.CaseValidateTestRunner"/>see</summary>
+            <summary>New instance of <see cref="T:PayrollEngine.Client.Test.Case.CaseAvailableTestRunner"/></summary>
             <param name="httpClient">The payroll http client</param>
             <param name="context">The test context</param>
         </member>
@@ -571,21 +571,29 @@
             <param name="httpClient">The payroll engine http client</param>
             <param name="fileName">Name of the file</param>
         </member>
+        <member name="T:PayrollEngine.Client.Test.NumericTestResultBase`1">
+            <summary>Result of test</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.NumericTestResultBase`1.TestPrecision">
+            <summary>The testing precision</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.NumericTestResultBase`1.#ctor(PayrollEngine.Client.Test.TestPrecision,`0,`0)">
+            <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.TestResultBase`1"/> class</summary>
+            <param name="testPrecision">The testing precision</param>
+            <param name="expectedResult">The expected result</param>
+            <param name="actualResult">The actual result</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.NumericTestResultBase`1.ValidValue">
+            <inheritdoc />
+        </member>
         <member name="T:PayrollEngine.Client.Test.Payrun.CollectorTestCustomResult">
             <summary>Collector test custom result</summary>
-        </member>
-        <member name="P:PayrollEngine.Client.Test.Payrun.CollectorTestCustomResult.TestPrecision">
-            <summary>The testing precision</summary>
         </member>
         <member name="M:PayrollEngine.Client.Test.Payrun.CollectorTestCustomResult.#ctor(PayrollEngine.Client.Test.TestPrecision,PayrollEngine.Client.Model.CollectorCustomResult,PayrollEngine.Client.Model.CollectorCustomResult)">
             <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Payrun.CollectorTestCustomResult"/> class</summary>
             <param name="testPrecision">The testing precision</param>
             <param name="expectedResult">The expected result</param>
             <param name="actualResult">The actual result</param>
-        </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.CollectorTestCustomResult.ValidValue">
-            <summary>Test for invalid result</summary>
-            <inheritdoc />
         </member>
         <member name="M:PayrollEngine.Client.Test.Payrun.CollectorTestCustomResult.ValidCulture">
             <inheritdoc />
@@ -596,9 +604,6 @@
         <member name="P:PayrollEngine.Client.Test.Payrun.CollectorTestResult.CustomResults">
             <summary>The collector custom results</summary>
         </member>
-        <member name="P:PayrollEngine.Client.Test.Payrun.CollectorTestResult.TestPrecision">
-            <summary>The testing precision</summary>
-        </member>
         <member name="M:PayrollEngine.Client.Test.Payrun.CollectorTestResult.#ctor(PayrollEngine.Client.Test.TestPrecision,PayrollEngine.Client.Model.CollectorResultSet,PayrollEngine.Client.Model.CollectorResultSet)">
             <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Payrun.CollectorTestResult"/> class</summary>
             <param name="testPrecision">The testing precision</param>
@@ -606,9 +611,6 @@
             <param name="actualResult">The actual result</param>
         </member>
         <member name="M:PayrollEngine.Client.Test.Payrun.CollectorTestResult.ValidCulture">
-            <inheritdoc />
-        </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.CollectorTestResult.ValidValue">
             <inheritdoc />
         </member>
         <member name="T:PayrollEngine.Client.Test.Payrun.EmployeeTestMode">
@@ -677,11 +679,39 @@
             <param name="payrunJob">The payrun job</param>
             <param name="employee">The employee</param>
         </member>
+        <member name="T:PayrollEngine.Client.Test.Payrun.PayrunEmployeePreviewTestRunner">
+            <summary>Payrun employee preview test runner</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeePreviewTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,PayrollEngine.Client.Test.Payrun.PayrunTestSettings)">
+            <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Payrun.PayrunEmployeePreviewTestRunner"/> class</summary>
+            <param name="httpClient">The payroll engine http client</param>
+            <param name="settings">The test settings</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeePreviewTestRunner.TestAllAsync(PayrollEngine.Client.Model.Exchange)">
+            <summary>Start the test</summary>
+            <param name="exchange">The exchange model</param>
+            <returns>A dictionary of tenant to payroll test results</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeePreviewTestRunner.TestPreviewAsync(PayrollEngine.Client.Model.ExchangeTenant,PayrollEngine.Client.Model.Tenant)">
+            <summary>Test payrun jobs via preview</summary>
+            <param name="tenant">The exchange tenant</param>
+            <param name="existingTenant">The existing tenant</param>
+            <returns>List of payroll test results</returns>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeePreviewTestRunner.CreatePlaceholderPayrunJob(PayrollEngine.Client.Model.PayrunJobInvocation,System.DateTime,System.DateTime)">
+            <summary>Create a placeholder payrun job for test result display</summary>
+            <param name="invocation">The payrun job invocation</param>
+            <param name="startTime">The preview start time</param>
+            <param name="endTime">The preview end time</param>
+        </member>
         <member name="T:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner">
             <summary>Payrun employee test runner</summary>
         </member>
         <member name="P:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.ScriptParser">
-            <summary>The employee test mode</summary>
+            <summary>The script parser</summary>
+        </member>
+        <member name="P:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.ImportMode">
+            <summary>The data import mode</summary>
         </member>
         <member name="P:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.EmployeeMode">
             <summary>The employee test mode</summary>
@@ -689,11 +719,12 @@
         <member name="P:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.RunMode">
             <summary>The test running mode</summary>
         </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,PayrollEngine.Client.Script.IScriptParser,PayrollEngine.Client.Test.Payrun.PayrunTestSettings,PayrollEngine.Client.Test.Payrun.EmployeeTestMode,PayrollEngine.Client.Test.Payrun.TestRunMode)">
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.#ctor(PayrollEngine.Client.PayrollHttpClient,PayrollEngine.Client.Script.IScriptParser,PayrollEngine.Client.Test.Payrun.PayrunTestSettings,PayrollEngine.Client.Exchange.DataImportMode,PayrollEngine.Client.Test.Payrun.EmployeeTestMode,PayrollEngine.Client.Test.Payrun.TestRunMode)">
             <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner"/> class</summary>
             <param name="httpClient">The payroll engine http client</param>
             <param name="scriptParser">The script parser</param>
             <param name="settings">The test settings</param>
+            <param name="importMode">The data import mode (default: single)</param>
             <param name="employeeMode">The test running mode</param>
             <param name="runMode">The employee test mode</param>
         </member>
@@ -910,9 +941,6 @@
         <member name="T:PayrollEngine.Client.Test.Payrun.WageTypeTestCustomResult">
             <summary>The wage type test custom result</summary>
         </member>
-        <member name="P:PayrollEngine.Client.Test.Payrun.WageTypeTestCustomResult.TestPrecision">
-            <summary>The testing precision</summary>
-        </member>
         <member name="M:PayrollEngine.Client.Test.Payrun.WageTypeTestCustomResult.#ctor(PayrollEngine.Client.Test.TestPrecision,PayrollEngine.Client.Model.WageTypeCustomResult,PayrollEngine.Client.Model.WageTypeCustomResult)">
             <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Payrun.WageTypeTestCustomResult"/> class</summary>
             <param name="testPrecision">The testing precision</param>
@@ -922,17 +950,11 @@
         <member name="M:PayrollEngine.Client.Test.Payrun.WageTypeTestCustomResult.ValidCulture">
             <inheritdoc />
         </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.WageTypeTestCustomResult.ValidValue">
-            <inheritdoc />
-        </member>
         <member name="T:PayrollEngine.Client.Test.Payrun.WageTypeTestResult">
             <summary>Wage type test result</summary>
         </member>
         <member name="P:PayrollEngine.Client.Test.Payrun.WageTypeTestResult.CustomResults">
             <summary>The wage type custom results</summary>
-        </member>
-        <member name="P:PayrollEngine.Client.Test.Payrun.WageTypeTestResult.TestPrecision">
-            <summary>The testing precision</summary>
         </member>
         <member name="M:PayrollEngine.Client.Test.Payrun.WageTypeTestResult.#ctor(PayrollEngine.Client.Test.TestPrecision,PayrollEngine.Client.Model.WageTypeResultSet,PayrollEngine.Client.Model.WageTypeResultSet)">
             <summary>Initializes a new instance of the <see cref="T:PayrollEngine.Client.Test.Payrun.WageTypeTestResult"/> class</summary>
@@ -941,9 +963,6 @@
             <param name="actualResult">The actual result</param>
         </member>
         <member name="M:PayrollEngine.Client.Test.Payrun.WageTypeTestResult.ValidCulture">
-            <inheritdoc />
-        </member>
-        <member name="M:PayrollEngine.Client.Test.Payrun.WageTypeTestResult.ValidValue">
             <inheritdoc />
         </member>
         <member name="T:PayrollEngine.Client.Test.Report.ReportBuildTest">

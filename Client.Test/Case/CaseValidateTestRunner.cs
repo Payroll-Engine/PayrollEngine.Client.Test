@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -25,15 +25,9 @@ public class CaseValidateTestRunner : CaseScriptTestRunner
     /// <returns>The test results</returns>
     public virtual async Task<IList<CaseScriptTestResult>> Test(CaseValidateTest test)
     {
-        if (test == null)
-        {
-            throw new ArgumentNullException(nameof(test));
-        }
+        ArgumentNullException.ThrowIfNull(test);
         var caseName = test.Input?.Case?.CaseName;
-        if (string.IsNullOrWhiteSpace(caseName))
-        {
-            throw new ArgumentException("Validate test without case name.");
-        }
+        ArgumentException.ThrowIfNullOrWhiteSpace(caseName);
 
         var results = new List<CaseScriptTestResult>();
         var expectedIssue = test.Output?.Issues?.FirstOrDefault();

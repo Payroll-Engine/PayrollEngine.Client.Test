@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -29,15 +29,9 @@ public class CaseBuildTestRunner : CaseScriptTestRunner
     /// <returns>The test results</returns>
     public virtual async Task<IList<CaseScriptTestResult>> Test(CaseBuildTest test)
     {
-        if (test == null)
-        {
-            throw new ArgumentNullException(nameof(test));
-        }
+        ArgumentNullException.ThrowIfNull(test);
         var caseName = test.Input?.Case?.CaseName;
-        if (string.IsNullOrWhiteSpace(caseName))
-        {
-            throw new ArgumentException("Build test without input case");
-        }
+        ArgumentException.ThrowIfNullOrWhiteSpace(caseName);
 
         var results = new List<CaseScriptTestResult>();
         try

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Task = System.Threading.Tasks.Task;
@@ -68,21 +69,17 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
 
             // payrun job
             var payrunJob = await FindPayrunJobAsync(tenant, jobResultMode, payrollResult, employee);
-            var count = 0;
-            while (payrunJob?.JobEnd == null)
+            var pollStart = Stopwatch.StartNew();
+            var maxWaitMs = (long)Settings.ResultRetryCount * Settings.ResultRetryDelay;
+            while (payrunJob?.JobEnd == null && pollStart.ElapsedMilliseconds < maxWaitMs)
             {
-                if (count > 0)
-                {
-                    Log.Debug($"Waiting to complete job {payrollResult.PayrunJobName} ({count})");
-                }
-                Task.Delay(Settings.ResultRetryDelay).Wait();
+                await Task.Delay(Settings.ResultRetryDelay);
                 payrunJob = await FindPayrunJobAsync(tenant, jobResultMode, payrollResult, employee);
 
-                // retry count
-                count++;
-                if (count >= Settings.ResultRetryCount)
+                // progress indicator every 10 seconds
+                if (pollStart.ElapsedMilliseconds > 0 && pollStart.ElapsedMilliseconds % 10000 < Settings.ResultRetryDelay)
                 {
-                    break;
+                    Log.Debug($"  ... waiting ({pollStart.ElapsedMilliseconds / 1000}s)");
                 }
             }
             // missing job
@@ -136,9 +133,13 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
                         foreach (var wageTypeCustomResult in wageTypeResult.CustomResults)
                         {
                             var actualWageTypeCustomResult = wageTypeCustomResult.Tags == null ?
-                                wageTypeCustomResults?.FirstOrDefault(x => string.Equals(x.Source, wageTypeCustomResult.Source)) :
-                                wageTypeCustomResults?.FirstOrDefault(x => string.Equals(x.Source, wageTypeCustomResult.Source) &&
-                                                                           CompareTool.EqualLists(x.Tags, wageTypeCustomResult.Tags));
+                                wageTypeCustomResults?.FirstOrDefault(x =>
+                                    string.Equals(x.Source, wageTypeCustomResult.Source) &&
+                                    (wageTypeCustomResult.Start == default || x.Start == wageTypeCustomResult.Start)) :
+                                wageTypeCustomResults?.FirstOrDefault(x =>
+                                    string.Equals(x.Source, wageTypeCustomResult.Source) &&
+                                    (wageTypeCustomResult.Start == default || x.Start == wageTypeCustomResult.Start) &&
+                                    CompareTool.EqualLists(x.Tags, wageTypeCustomResult.Tags));
                             var customResult = new WageTypeTestCustomResult(TestPrecision, wageTypeCustomResult, actualWageTypeCustomResult);
                             result.CustomResults.Add(customResult);
                         }
@@ -166,9 +167,13 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
                         foreach (var collectorCustomResult in collectorResult.CustomResults)
                         {
                             var actualCollectorCustomResult = collectorCustomResult.Tags == null ?
-                                collectorCustomResults?.FirstOrDefault(x => string.Equals(x.Source, collectorCustomResult.Source)) :
-                                collectorCustomResults?.FirstOrDefault(x => string.Equals(x.Source, collectorCustomResult.Source) &&
-                                                                            CompareTool.EqualLists(x.Tags, collectorCustomResult.Tags));
+                                collectorCustomResults?.FirstOrDefault(x =>
+                                    string.Equals(x.Source, collectorCustomResult.Source) &&
+                                    (collectorCustomResult.Start == default || x.Start == collectorCustomResult.Start)) :
+                                collectorCustomResults?.FirstOrDefault(x =>
+                                    string.Equals(x.Source, collectorCustomResult.Source) &&
+                                    (collectorCustomResult.Start == default || x.Start == collectorCustomResult.Start) &&
+                                    CompareTool.EqualLists(x.Tags, collectorCustomResult.Tags));
                             var customResult = new CollectorTestCustomResult(TestPrecision, collectorCustomResult, actualCollectorCustomResult);
                             result.CustomResults.Add(customResult);
                         }
@@ -221,7 +226,8 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
             var retroPeriodStart = payrollResult.RetroPeriodStart;
             if (retroPeriodStart != null)
             {
-                var payrunJobs = await GetPayrunJobsAsync(tenant.Id, payrollResult.PayrunJobName);
+                // use employee-scoped query so retro jobs from other employees are excluded
+                var payrunJobs = await GetEmployeePayrunJobsAsync(tenant.Id, employee.Id);
                 // retro job test: select the newest (last created) incremental (retro) job
                 // only incremental/retro jobs
                 payrunJob = payrunJobs.Where(x => x.JobResult == PayrunJobResult.Incremental &&
@@ -357,7 +363,7 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
     {
         var query = new Query
         {
-            Filter = $"{nameof(employeeId)} eq {employeeId} and {nameof(payrunJobId)} eq {payrunJobId}"
+            Filter = $"{nameof(PayrollResult.EmployeeId)} eq {employeeId} and {nameof(PayrollResult.PayrunJobId)} eq {payrunJobId}"
         };
         return (await new PayrollResultService(HttpClient).QueryAsync<PayrollResult>(new(tenantId), query))
             .FirstOrDefault();

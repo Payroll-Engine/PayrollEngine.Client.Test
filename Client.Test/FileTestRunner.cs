@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PayrollEngine.Client.Test;
 
@@ -14,10 +14,7 @@ public abstract class FileTestRunner : TestRunnerBase
     protected FileTestRunner(PayrollHttpClient httpClient, string fileName) :
         base(httpClient)
     {
-        if (string.IsNullOrWhiteSpace(fileName))
-        {
-            throw new ArgumentException(nameof(fileName));
-        }
+        ArgumentException.ThrowIfNullOrWhiteSpace(fileName);
         FileName = fileName;
     }
 }

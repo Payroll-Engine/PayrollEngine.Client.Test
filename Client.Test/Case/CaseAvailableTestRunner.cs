@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ namespace PayrollEngine.Client.Test.Case;
 /// </summary>
 public class CaseAvailableTestRunner : CaseScriptTestRunner
 {
-    /// <summary>new instance of <see cref="CaseValidateTestRunner"/>see</summary>
+    /// <summary>New instance of <see cref="CaseAvailableTestRunner"/></summary>
     /// <param name="httpClient">The payroll http client</param>
     /// <param name="context">The test context</param>
     public CaseAvailableTestRunner(PayrollHttpClient httpClient, CaseTestContext context) :
@@ -23,10 +23,7 @@ public class CaseAvailableTestRunner : CaseScriptTestRunner
     /// <returns>The test results</returns>
     public virtual async Task<IList<CaseScriptTestResult>> Test(CaseAvailableTest test)
     {
-        if (test == null)
-        {
-            throw new ArgumentNullException(nameof(test));
-        }
+        ArgumentNullException.ThrowIfNull(test);
         if (string.IsNullOrWhiteSpace(test.CaseName))
         {
             throw new ArgumentException("Available test without case name.");

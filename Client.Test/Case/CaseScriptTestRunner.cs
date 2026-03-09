@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -38,7 +38,8 @@ public abstract class CaseScriptTestRunner : TestRunnerBase
     protected CaseScriptTestRunner(PayrollHttpClient httpClient, CaseTestContext context) :
         base(httpClient)
     {
-        Context = context ?? throw new ArgumentNullException(nameof(context));
+        ArgumentNullException.ThrowIfNull(context);
+        Context = context;
     }
 
     #region Test
@@ -101,10 +102,7 @@ public abstract class CaseScriptTestRunner : TestRunnerBase
     protected CaseScriptTestResult NewResult(HttpRequestException exception, string testName,
         object expected = null)
     {
-        if (exception == null)
-        {
-            throw new ArgumentNullException(nameof(exception));
-        }
+        ArgumentNullException.ThrowIfNull(exception);
 
         var statusCode = exception.StatusCode.HasValue ? (int)exception.StatusCode.Value : 0;
         var success = statusCode >= 200 && statusCode <= 299;
@@ -135,10 +133,7 @@ public abstract class CaseScriptTestRunner : TestRunnerBase
     /// <returns>The case if available, otherwise null</returns>
     protected virtual async Task<CaseSet> GetAvailableCaseAsync(string caseName)
     {
-        if (string.IsNullOrWhiteSpace(caseName))
-        {
-            throw new ArgumentException(nameof(caseName));
-        }
+        ArgumentException.ThrowIfNullOrWhiteSpace(caseName);
 
         var @case = await GetCaseAsync(caseName);
         if (@case == null)
@@ -171,10 +166,7 @@ public abstract class CaseScriptTestRunner : TestRunnerBase
     /// <returns>The case including the case fields and related cases</returns>
     protected virtual async Task<CaseSet> GetCaseAsync(string caseName, CaseChangeSetup caseChangeSetup = null)
     {
-        if (string.IsNullOrWhiteSpace(caseName))
-        {
-            throw new ArgumentException(nameof(caseName));
-        }
+        ArgumentException.ThrowIfNullOrWhiteSpace(caseName);
         return await new PayrollService(HttpClient).BuildCaseAsync<CaseSet>(
             new(Tenant.Id, Payroll.Id),
             caseName: caseName,
@@ -190,10 +182,7 @@ public abstract class CaseScriptTestRunner : TestRunnerBase
     /// <returns>The creation result</returns>
     protected virtual async Task<CaseChange> AddCaseAsync(CaseChangeSetup caseChangeSetup)
     {
-        if (caseChangeSetup == null)
-        {
-            throw new ArgumentNullException(nameof(caseChangeSetup));
-        }
+        ArgumentNullException.ThrowIfNull(caseChangeSetup);
 
         return await new PayrollService(HttpClient).AddCaseAsync<CaseChangeSetup, CaseChange>(
             new(Tenant.Id, Payroll.Id),

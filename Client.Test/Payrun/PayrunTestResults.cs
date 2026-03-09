@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using PayrollEngine.Client.Model;
 
@@ -17,7 +17,8 @@ public class PayrunTestResult : TestResultBase<PayrunResult>
     public PayrunTestResult(CultureInfo culture, PayrunResult expectedResult, PayrunResult actualResult = null) :
         base(expectedResult, actualResult)
     {
-        Culture = culture ?? throw new ArgumentNullException(nameof(culture));
+        ArgumentNullException.ThrowIfNull(culture);
+        Culture = culture;
     }
 
     

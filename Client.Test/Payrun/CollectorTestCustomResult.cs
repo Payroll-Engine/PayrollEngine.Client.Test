@@ -3,10 +3,8 @@
 namespace PayrollEngine.Client.Test.Payrun;
 
 /// <summary>Collector test custom result</summary>
-public class CollectorTestCustomResult : TestResultBase<CollectorCustomResult>
+public class CollectorTestCustomResult : NumericTestResultBase<CollectorCustomResult>
 {
-    /// <summary>The testing precision</summary>
-    public TestPrecision TestPrecision { get; }
 
     /// <summary>Initializes a new instance of the <see cref="CollectorTestCustomResult"/> class</summary>
     /// <param name="testPrecision">The testing precision</param>
@@ -14,18 +12,9 @@ public class CollectorTestCustomResult : TestResultBase<CollectorCustomResult>
     /// <param name="actualResult">The actual result</param>
     public CollectorTestCustomResult(TestPrecision testPrecision, CollectorCustomResult expectedResult,
         CollectorCustomResult actualResult = null) :
-        base(expectedResult, actualResult)
+        base(testPrecision, expectedResult, actualResult)
     {
-        TestPrecision = testPrecision;
     }
-
-    /// <summary>Test for invalid result</summary>
-    /// <inheritdoc />
-    public override bool ValidValue() =>
-        !(ActualResult == null ||
-        ActualResult != null &&
-        !ActualResult.Value.AlmostEquals(ExpectedResult.Value, TestPrecision.GetDecimals()) ||
-        !ValidAttributes());
 
     /// <inheritdoc />
     public override bool ValidCulture() =>

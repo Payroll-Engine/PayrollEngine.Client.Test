@@ -28,5 +28,5 @@ public class PayrunTestSettings
     /// <summary>
     /// Result retry count (default: 50)
     /// </summary>
-    public int ResultRetryCount { get; set; } = 50;
+    public int ResultRetryCount { get; set; } = 120;
 }

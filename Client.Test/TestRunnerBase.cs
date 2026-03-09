@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.Service.Api;
@@ -16,7 +16,8 @@ public abstract class TestRunnerBase
     /// <param name="httpClient">The payroll engine http client</param>
     protected TestRunnerBase(PayrollHttpClient httpClient)
     {
-        HttpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+        ArgumentNullException.ThrowIfNull(httpClient);
+        HttpClient = httpClient;
     }
 
     /// <summary>Get tenant</summary>

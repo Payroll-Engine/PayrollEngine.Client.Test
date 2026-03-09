@@ -1,10 +1,12 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.Script;
 using PayrollEngine.Client.Exchange;
+using PayrollEngine.Client.QueryExpression;
+using PayrollEngine.Client.Service.Api;
 using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.Client.Test.Payrun;
@@ -12,8 +14,11 @@ namespace PayrollEngine.Client.Test.Payrun;
 /// <summary>Payrun employee test runner</summary>
 public class PayrunEmployeeTestRunner : PayrunTestRunnerBase
 {
-    /// <summary>The employee test mode</summary>
+    /// <summary>The script parser</summary>
     public IScriptParser ScriptParser { get; }
+
+    /// <summary>The data import mode</summary>
+    public DataImportMode ImportMode { get; }
 
     /// <summary>The employee test mode</summary>
     public EmployeeTestMode EmployeeMode { get; }
@@ -25,16 +30,20 @@ public class PayrunEmployeeTestRunner : PayrunTestRunnerBase
     /// <param name="httpClient">The payroll engine http client</param>
     /// <param name="scriptParser">The script parser</param>
     /// <param name="settings">The test settings</param>
+    /// <param name="importMode">The data import mode (default: single)</param>
     /// <param name="employeeMode">The test running mode</param>
     /// <param name="runMode">The employee test mode</param>
     public PayrunEmployeeTestRunner(PayrollHttpClient httpClient,
         IScriptParser scriptParser,
         PayrunTestSettings settings,
+        DataImportMode importMode = DataImportMode.Single,
         EmployeeTestMode employeeMode = EmployeeTestMode.InsertEmployee,
         TestRunMode runMode = TestRunMode.RunTests) :
         base(httpClient, settings)
     {
-        ScriptParser = scriptParser ?? throw new ArgumentNullException(nameof(scriptParser));
+        ArgumentNullException.ThrowIfNull(scriptParser);
+        ScriptParser = scriptParser;
+        ImportMode = importMode;
         EmployeeMode = employeeMode;
         RunMode = runMode;
     }
@@ -63,7 +72,7 @@ public class PayrunEmployeeTestRunner : PayrunTestRunnerBase
                 await DuplicateTestEmployees(existingTenant.Id, tenant);
 
                 // create new tenant including all payrolls, payrun and payrun job
-                var import = new ExchangeImport(HttpClient, exchange, ScriptParser);
+                var import = new ExchangeImport(HttpClient, exchange, ScriptParser, importMode: ImportMode);
                 await import.ImportAsync();
 
                 // test skip
@@ -91,11 +100,13 @@ public class PayrunEmployeeTestRunner : PayrunTestRunnerBase
     protected virtual async Task DuplicateTestEmployees(int tenantId, ExchangeTenant tenant)
     {
         // collect employees from cases
-        var employeeIdentifiers = new List<string>();
+        var employeeIdentifiers = new HashSet<string>();
         foreach (var payroll in tenant.Payrolls)
         {
-            var casesByEmployees = new HashSet<string>(payroll.Cases.Select(x => x.EmployeeIdentifier));
-            employeeIdentifiers.AddRange(casesByEmployees);
+            foreach (var employeeIdentifier in payroll.Cases.Select(x => x.EmployeeIdentifier))
+            {
+                employeeIdentifiers.Add(employeeIdentifier);
+            }
         }
 
         if (!employeeIdentifiers.Any())
@@ -115,20 +126,15 @@ public class PayrunEmployeeTestRunner : PayrunTestRunnerBase
                     throw new PayrollException($"Missing test employee {employeeIdentifier}.");
                 }
 
-                // find next available employee identifier
-                string testEmployeeIdentifier;
-                var i = 1;
-                while (true)
+                // find next available employee identifier: count existing test employees in one query
+                var testPrefix = $"{employeeIdentifier} Test ";
+                var countQuery = new DivisionQuery
                 {
-                    var nextIdentifier = $"{employeeIdentifier} Test {i}";
-                    var nextEmployee = await GetEmployeeAsync(tenantId, nextIdentifier);
-                    if (nextEmployee == null)
-                    {
-                        testEmployeeIdentifier = nextIdentifier;
-                        break;
-                    }
-                    i++;
-                }
+                    Filter = new StartsWith(nameof(Employee.Identifier), testPrefix).Expression
+                };
+                var existingCount = await new EmployeeService(HttpClient).QueryCountAsync(new(tenantId), countQuery);
+                var i = (int)existingCount + 1;
+                var testEmployeeIdentifier = $"{employeeIdentifier} Test {i}";
                 if (string.IsNullOrWhiteSpace(testEmployeeIdentifier))
                 {
                     throw new PayrollException($"Invalid identifier on test employee {employeeIdentifier}.");

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -24,10 +24,7 @@ public class ReportBuildTestRunner : ReportScriptTestRunner
     /// <returns>The test results</returns>
     public virtual async Task<IList<ReportScriptTestResult>> Test(ReportBuildTest test)
     {
-        if (test == null)
-        {
-            throw new ArgumentNullException(nameof(test));
-        }
+        ArgumentNullException.ThrowIfNull(test);
 
         var results = new List<ReportScriptTestResult>();
         try

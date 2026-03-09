@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using PayrollEngine.Client.Model;
 
 namespace PayrollEngine.Client.Test;
@@ -24,7 +24,9 @@ public abstract class CustomTestBase<TContext>
     /// <param name="context">The test context</param>
     protected CustomTestBase(PayrollHttpClient httpClient, TContext context)
     {
-        HttpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-        Context = context ?? throw new ArgumentNullException(nameof(context));
+        ArgumentNullException.ThrowIfNull(httpClient);
+        HttpClient = httpClient;
+        ArgumentNullException.ThrowIfNull(context);
+        Context = context;
     }
 }

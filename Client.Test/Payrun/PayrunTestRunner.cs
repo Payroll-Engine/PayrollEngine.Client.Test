@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,7 +35,8 @@ public class PayrunTestRunner : PayrunTestRunnerBase
         TestRunMode runMode = TestRunMode.RunTests) :
         base(httpClient, settings)
     {
-        ScriptParser = scriptParser ?? throw new ArgumentNullException(nameof(scriptParser));
+        ArgumentNullException.ThrowIfNull(scriptParser);
+        ScriptParser = scriptParser;
         ImportMode = importMode;
         RunMode = runMode;
     }
