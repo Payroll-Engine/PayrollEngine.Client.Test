@@ -21,9 +21,9 @@ public class PayrunTestSettings
     public string Owner { get; set; }
 
     /// <summary>
-    /// Result retry delay in milliseconds (default: 1000 ms)
+    /// Result retry delay in milliseconds (default: 50 ms)
     /// </summary>
-    public int ResultRetryDelay { get; set; } = 1000;
+    public int ResultRetryDelay { get; set; } = 50;
 
     /// <summary>
     /// Result retry count (default: 50)

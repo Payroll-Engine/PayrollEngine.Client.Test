@@ -780,8 +780,17 @@
             <param name="importMode">The data import mode (default: single)</param>
             <param name="runMode">The employee test mode</param>
         </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.ImportAsync(PayrollEngine.Client.Model.Exchange)">
+            <summary>Import exchange data without running tests</summary>
+            <param name="exchange">The test exchange</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.TestAsync(PayrollEngine.Client.Model.Exchange)">
+            <summary>Run payrun tests on already-imported exchange data</summary>
+            <param name="exchange">The test exchange (must have been imported via <see cref="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.ImportAsync(PayrollEngine.Client.Model.Exchange)"/>)</param>
+            <returns>A list of payrun job results</returns>
+        </member>
         <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.TestAllAsync(PayrollEngine.Client.Model.Exchange)">
-            <summary>Start the test</summary>
+            <summary>Start the test (import + test in one step)</summary>
             <returns>A list of payrun job results</returns>
         </member>
         <member name="M:PayrollEngine.Client.Test.Payrun.PayrunTestRunner.ValidateTenant(PayrollEngine.Client.Model.ExchangeTenant)">
@@ -909,7 +918,7 @@
         </member>
         <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestSettings.ResultRetryDelay">
             <summary>
-            Result retry delay in milliseconds (default: 1000 ms)
+            Result retry delay in milliseconds (default: 50 ms)
             </summary>
         </member>
         <member name="P:PayrollEngine.Client.Test.Payrun.PayrunTestSettings.ResultRetryCount">

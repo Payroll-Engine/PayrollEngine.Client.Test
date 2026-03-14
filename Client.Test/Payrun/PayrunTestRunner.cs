@@ -41,47 +41,45 @@ public class PayrunTestRunner : PayrunTestRunnerBase
         RunMode = runMode;
     }
 
-    /// <summary>Start the test</summary>
-    /// <returns>A list of payrun job results</returns>
-    public override async Task<Dictionary<Tenant, List<PayrollTestResult>>> TestAllAsync(Model.Exchange exchange)
+    /// <summary>Import exchange data without running tests</summary>
+    /// <param name="exchange">The test exchange</param>
+    public async Task ImportAsync(Model.Exchange exchange)
     {
         // apply owner
         ApplyOwner(exchange, Settings.Owner);
 
+        // validate tenants
+        foreach (var tenant in exchange.Tenants)
+        {
+            ValidateTenant(tenant);
+        }
+
+        // cleanup existing tenants before import
+        var emptyResults = new Dictionary<Tenant, List<PayrollTestResult>>();
+        await CleanupTenants(exchange, emptyResults);
+
+        // create new tenant including all payrolls, payrun and payrun job
+        var import = new ExchangeImport(HttpClient, exchange, ScriptParser, importMode: ImportMode);
+        await import.ImportAsync();
+    }
+
+    /// <summary>Run payrun tests on already-imported exchange data</summary>
+    /// <param name="exchange">The test exchange (must have been imported via <see cref="ImportAsync"/>)</param>
+    /// <returns>A list of payrun job results</returns>
+    public async Task<Dictionary<Tenant, List<PayrollTestResult>>> TestAsync(Model.Exchange exchange)
+    {
         var results = new Dictionary<Tenant, List<PayrollTestResult>>();
         try
         {
-            // start cleanup
-            await CleanupTenants(exchange, results);
-
-            // validate tenants
-            foreach (var tenant in exchange.Tenants)
-            {
-                // tenant validation: missing results
-                ValidateTenant(tenant);
-            }
-
-            // validate tenants and regulation permissions
-            // create new tenant including all payrolls, payrun and payrun job
-            var import = new ExchangeImport(HttpClient, exchange, ScriptParser, importMode: ImportMode);
-            await import.ImportAsync();
-
             // not test skip
             if (RunMode == TestRunMode.RunTests)
             {
-                // test tenants
                 foreach (var tenant in exchange.Tenants)
                 {
-                    // no test
                     if (tenant.PayrollResults == null || !tenant.PayrollResults.Any())
                     {
                         continue;
                     }
-
-                    // wait for completed payrun jobs
-                    // await WaitForCompletedPayrunJobsAsync(tenant, JobResultMode.Single);
-
-                    // test results
                     var payrunJobResult = await TestPayrunJobAsync(tenant, JobResultMode.Single);
                     results.Add(tenant, payrunJobResult.ToList());
                 }
@@ -91,8 +89,15 @@ public class PayrunTestRunner : PayrunTestRunnerBase
         {
             await CleanupTenants(exchange, results);
         }
-
         return results;
+    }
+
+    /// <summary>Start the test (import + test in one step)</summary>
+    /// <returns>A list of payrun job results</returns>
+    public override async Task<Dictionary<Tenant, List<PayrollTestResult>>> TestAllAsync(Model.Exchange exchange)
+    {
+        await ImportAsync(exchange);
+        return await TestAsync(exchange);
     }
 
     /// <summary>Validate the tenant</summary>
