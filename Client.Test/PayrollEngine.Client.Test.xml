@@ -974,6 +974,33 @@
         <member name="M:PayrollEngine.Client.Test.Payrun.WageTypeTestResult.ValidCulture">
             <inheritdoc />
         </member>
+        <member name="T:PayrollEngine.Client.Test.ProgramExitCode">
+            <summary>Program exit codes for commands</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.ProgramExitCode.Ok">
+            <summary>No error</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.ProgramExitCode.GenericError">
+            <summary>Generic application error</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.ProgramExitCode.CommandFile">
+            <summary>Command file error</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.ProgramExitCode.ConnectionError">
+            <summary>Backend connection error</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.ProgramExitCode.HttpError">
+            <summary>Http error</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.ProgramExitCode.FailedTest">
+            <summary>Failed test</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.ProgramExitCode.InvalidOptions">
+            <summary>Invalid options</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.ProgramExitCode.InvalidInput">
+            <summary>Invalid input (e.g. missing or invalid source files)</summary>
+        </member>
         <member name="T:PayrollEngine.Client.Test.Report.ReportBuildTest">
             <summary>Report build test.
             Test input: report request
@@ -1313,6 +1340,30 @@
         <member name="M:PayrollEngine.Client.Test.TestBase`2.InitTest">
             <summary>Init the test</summary>
         </member>
+        <member name="T:PayrollEngine.Client.Test.TestCommandBase">
+            <summary>Test command base</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.TestCommandBase.GetTestFileNames(System.String)">
+            <summary>Get test file names by mask</summary>
+            <param name="fileMask">File name or glob mask</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.TestCommandBase.DisplayTestResults``1(PayrollEngine.ILogger,PayrollEngine.Client.Command.ICommandConsole,PayrollEngine.Client.Test.TestDisplayMode,System.Collections.Generic.ICollection{``0})">
+            <summary>Display test results using the standard mode</summary>
+            <param name="logger">Logger</param>
+            <param name="console">Console</param>
+            <param name="displayMode">Display mode</param>
+            <param name="results">Test results</param>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.TestCommandBase`1">
+            <summary>Test command base</summary>
+            <typeparam name="TArgs">Command parameter type</typeparam>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.TestCommandBase`1.Execute(PayrollEngine.Client.Command.CommandContext,`0)">
+            <summary>Execute the command with typed parameters</summary>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.TestCommandBase`1.OnExecute(PayrollEngine.Client.Command.CommandContext,PayrollEngine.Client.Command.ICommandParameters)">
+            <inheritdoc />
+        </member>
         <member name="T:PayrollEngine.Client.Test.TestCompileException">
             <summary>Case test compile exception</summary>
         </member>
@@ -1336,6 +1387,15 @@
         </member>
         <member name="P:PayrollEngine.Client.Test.TestContextBase.User">
             <summary>The user</summary>
+        </member>
+        <member name="T:PayrollEngine.Client.Test.TestDisplayMode">
+            <summary>Test display mode</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.TestDisplayMode.ShowFailed">
+            <summary>Show failed tests only (default)</summary>
+        </member>
+        <member name="F:PayrollEngine.Client.Test.TestDisplayMode.ShowAll">
+            <summary>Show all tests including passed</summary>
         </member>
         <member name="T:PayrollEngine.Client.Test.TestFileExtensions">
             <summary>Test file extensions</summary>
