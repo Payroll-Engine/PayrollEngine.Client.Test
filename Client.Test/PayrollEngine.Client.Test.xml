@@ -974,33 +974,6 @@
         <member name="M:PayrollEngine.Client.Test.Payrun.WageTypeTestResult.ValidCulture">
             <inheritdoc />
         </member>
-        <member name="T:PayrollEngine.Client.Test.ProgramExitCode">
-            <summary>Program exit codes for commands</summary>
-        </member>
-        <member name="F:PayrollEngine.Client.Test.ProgramExitCode.Ok">
-            <summary>No error</summary>
-        </member>
-        <member name="F:PayrollEngine.Client.Test.ProgramExitCode.GenericError">
-            <summary>Generic application error</summary>
-        </member>
-        <member name="F:PayrollEngine.Client.Test.ProgramExitCode.CommandFile">
-            <summary>Command file error</summary>
-        </member>
-        <member name="F:PayrollEngine.Client.Test.ProgramExitCode.ConnectionError">
-            <summary>Backend connection error</summary>
-        </member>
-        <member name="F:PayrollEngine.Client.Test.ProgramExitCode.HttpError">
-            <summary>Http error</summary>
-        </member>
-        <member name="F:PayrollEngine.Client.Test.ProgramExitCode.FailedTest">
-            <summary>Failed test</summary>
-        </member>
-        <member name="F:PayrollEngine.Client.Test.ProgramExitCode.InvalidOptions">
-            <summary>Invalid options</summary>
-        </member>
-        <member name="F:PayrollEngine.Client.Test.ProgramExitCode.InvalidInput">
-            <summary>Invalid input (e.g. missing or invalid source files)</summary>
-        </member>
         <member name="T:PayrollEngine.Client.Test.Report.ReportBuildTest">
             <summary>Report build test.
             Test input: report request

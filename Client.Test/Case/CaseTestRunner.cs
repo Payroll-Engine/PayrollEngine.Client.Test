@@ -279,6 +279,17 @@ public class CaseTestRunner : TestRunnerBase
                 initCase.DivisionId = division.Id;
             }
 
+            // employee
+            if (initCase.EmployeeId == null || initCase.EmployeeId == 0 && !string.IsNullOrWhiteSpace(initCase.EmployeeIdentifier))
+            {
+                var employee = await GetEmployeeAsync(testContext.Tenant.Id, initCase.EmployeeIdentifier);
+                if (employee == null)
+                {
+                    throw new PayrollException($"Unknown employee {initCase.EmployeeIdentifier}.");
+                }
+                initCase.EmployeeId = employee.Id;
+            }
+
             // add case
             try
             {

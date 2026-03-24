@@ -41,7 +41,7 @@ public class CaseValidateTestRunner : CaseScriptTestRunner
             {
                 results.AddRange(testResults);
             }
-            else if (expectedIssue != null)
+            else if (expectedIssue != null && test.Output.Values != null && test.Output.Values.Any())
             {
                 // expected issue
                 results.Add(NewFailedResult(CaseTestType.CaseValidate, test.TestName,
