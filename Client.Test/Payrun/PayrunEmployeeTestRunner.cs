@@ -103,7 +103,13 @@ public class PayrunEmployeeTestRunner : PayrunTestRunnerBase
         var employeeIdentifiers = new HashSet<string>();
         foreach (var payroll in tenant.Payrolls)
         {
-            foreach (var employeeIdentifier in payroll.Cases.Select(x => x.EmployeeIdentifier))
+            if (payroll.Cases == null)
+            {
+                continue;
+            }
+            foreach (var employeeIdentifier in payroll.Cases
+                .Select(x => x.EmployeeIdentifier)
+                .Where(x => !string.IsNullOrWhiteSpace(x)))
             {
                 employeeIdentifiers.Add(employeeIdentifier);
             }
@@ -176,7 +182,7 @@ public class PayrunEmployeeTestRunner : PayrunTestRunnerBase
                 }
 
                 // adjust payroll result test employee
-                foreach (var payrollResultSet in tenant.PayrollResults)
+                foreach (var payrollResultSet in tenant.PayrollResults ?? [])
                 {
                     if (string.Equals(payrollResultSet.EmployeeIdentifier, employeeIdentifier))
                     {

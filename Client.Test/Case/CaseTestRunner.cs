@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -279,8 +279,9 @@ public class CaseTestRunner : TestRunnerBase
                 initCase.DivisionId = division.Id;
             }
 
-            // employee
-            if (initCase.EmployeeId == null || initCase.EmployeeId == 0 && !string.IsNullOrWhiteSpace(initCase.EmployeeIdentifier))
+            // employee: only resolve when an identifier is present and no id has been set yet
+            if (!string.IsNullOrWhiteSpace(initCase.EmployeeIdentifier) &&
+                (initCase.EmployeeId == null || initCase.EmployeeId == 0))
             {
                 var employee = await GetEmployeeAsync(testContext.Tenant.Id, initCase.EmployeeIdentifier);
                 if (employee == null)
