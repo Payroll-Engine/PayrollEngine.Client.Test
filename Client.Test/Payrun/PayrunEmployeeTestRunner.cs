@@ -48,42 +48,46 @@ public class PayrunEmployeeTestRunner : PayrunTestRunnerBase
         RunMode = runMode;
     }
 
-    /// <summary>Start the test</summary>
-    /// <param name="exchange">The exchange model</param>
-    /// <returns>A list of payrun job results</returns>
-    public override async Task<Dictionary<Tenant, List<PayrollTestResult>>> TestAllAsync(Model.Exchange exchange)
+    /// <summary>Import exchange data and duplicate test employees without running tests</summary>
+    /// <param name="exchange">The test exchange</param>
+    public async Task ImportAsync(Model.Exchange exchange)
     {
         // apply owner
         ApplyOwner(exchange, Settings.Owner);
 
+        foreach (var tenant in exchange.Tenants)
+        {
+            // existing tenant
+            var existingTenant = await GetTenantAsync(tenant.Identifier);
+            if (existingTenant == null)
+            {
+                throw new PayrollException($"Missing tenant {tenant.Identifier}.");
+            }
+
+            // duplicate test employee
+            await DuplicateTestEmployees(existingTenant.Id, tenant);
+
+            // create new tenant including all payrolls, payrun and payrun job
+            var import = new ExchangeImport(HttpClient, exchange, ScriptParser, importMode: ImportMode);
+            await import.ImportAsync();
+        }
+    }
+
+    /// <summary>Run payrun tests on already-imported exchange data</summary>
+    /// <param name="exchange">The test exchange (must have been imported via <see cref="ImportAsync"/>)</param>
+    /// <returns>A list of payrun job results</returns>
+    public async Task<Dictionary<Tenant, List<PayrollTestResult>>> TestAsync(Model.Exchange exchange)
+    {
         var results = new Dictionary<Tenant, List<PayrollTestResult>>();
         try
         {
-            foreach (var tenant in exchange.Tenants)
+            if (RunMode == TestRunMode.RunTests)
             {
-                // existing tenant
-                var existingTenant = await GetTenantAsync(tenant.Identifier);
-                if (existingTenant == null)
+                foreach (var tenant in exchange.Tenants)
                 {
-                    throw new PayrollException($"Missing tenant {tenant.Identifier}.");
+                    var payrunJobResult = await TestPayrunJobAsync(tenant, JobResultMode.Multiple);
+                    results.Add(tenant, payrunJobResult.ToList());
                 }
-
-                // duplicate test employee
-                await DuplicateTestEmployees(existingTenant.Id, tenant);
-
-                // create new tenant including all payrolls, payrun and payrun job
-                var import = new ExchangeImport(HttpClient, exchange, ScriptParser, importMode: ImportMode);
-                await import.ImportAsync();
-
-                // test skip
-                if (RunMode != TestRunMode.RunTests)
-                {
-                    continue;
-                }
-
-                // test results
-                var payrunJobResult = await TestPayrunJobAsync(tenant, JobResultMode.Multiple);
-                results.Add(tenant, payrunJobResult.ToList());
             }
         }
         finally
@@ -92,6 +96,15 @@ public class PayrunEmployeeTestRunner : PayrunTestRunnerBase
         }
 
         return results;
+    }
+
+    /// <summary>Start the test</summary>
+    /// <param name="exchange">The exchange model</param>
+    /// <returns>A list of payrun job results</returns>
+    public override async Task<Dictionary<Tenant, List<PayrollTestResult>>> TestAllAsync(Model.Exchange exchange)
+    {
+        await ImportAsync(exchange);
+        return await TestAsync(exchange);
     }
 
     /// <summary>Duplicates the test employees</summary>
