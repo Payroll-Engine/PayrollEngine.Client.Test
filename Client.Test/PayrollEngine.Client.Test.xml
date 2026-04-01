@@ -728,6 +728,15 @@
             <param name="employeeMode">The test running mode</param>
             <param name="runMode">The employee test mode</param>
         </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.ImportAsync(PayrollEngine.Client.Model.Exchange)">
+            <summary>Import exchange data and duplicate test employees without running tests</summary>
+            <param name="exchange">The test exchange</param>
+        </member>
+        <member name="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.TestAsync(PayrollEngine.Client.Model.Exchange)">
+            <summary>Run payrun tests on already-imported exchange data</summary>
+            <param name="exchange">The test exchange (must have been imported via <see cref="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.ImportAsync(PayrollEngine.Client.Model.Exchange)"/>)</param>
+            <returns>A list of payrun job results</returns>
+        </member>
         <member name="M:PayrollEngine.Client.Test.Payrun.PayrunEmployeeTestRunner.TestAllAsync(PayrollEngine.Client.Model.Exchange)">
             <summary>Start the test</summary>
             <param name="exchange">The exchange model</param>
