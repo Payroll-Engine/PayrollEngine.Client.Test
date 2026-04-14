@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
@@ -50,6 +50,18 @@ namespace PayrollEngine.Client.Test
                 // invalid attribute value
                 if (!Equals(expectedValue, actualValue))
                 {
+                    // when both values have the same string representation but differ by type,
+                    // include the type name to make the mismatch immediately visible
+                    // e.g. expected=4 (String) vs actual=4 (Int32) instead of expected=4, actual=4
+                    var expectedStr = expectedValue?.ToString();
+                    var actualStr   = actualValue?.ToString();
+                    if (expectedStr == actualStr)
+                    {
+                        var expectedOut = $"{expectedStr} ({expectedValue?.GetType().Name ?? "null"})";
+                        var actualOut   = $"{actualStr} ({actualValue?.GetType().Name ?? "null"})";
+                        return new(expectedAttribute.Key, expectedOut, actualOut);
+                    }
+
                     return new(expectedAttribute.Key, expectedValue, actualValue);
                 }
             }

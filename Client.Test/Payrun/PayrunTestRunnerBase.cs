@@ -49,8 +49,13 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
         // compare all payroll results values with the provided values
         foreach (var payrollResult in tenant.PayrollResults)
         {
-            // no results to test
-            if (payrollResult.WageTypeResults == null && payrollResult.CollectorResults == null)
+            // resolve whether this result expects the job to abort (e.g. invalid-input regression tests)
+            var invocation = tenant.PayrunJobInvocations?.FirstOrDefault(x =>
+                string.Equals(x.Name, payrollResult.PayrunJobName));
+            var expectedAbort = invocation?.CompletedJobStatus == PayrunJobStatus.Abort;
+
+            // no results to test — skip unless abort is expected (aborted jobs produce no results by design)
+            if (!expectedAbort && payrollResult.WageTypeResults == null && payrollResult.CollectorResults == null)
             {
                 Log.Warning("Empty payroll results");
                 continue;
@@ -90,7 +95,18 @@ public abstract class PayrunTestRunnerBase : TestRunnerBase
             // aborted job
             if (payrunJob.JobStatus == PayrunJobStatus.Abort)
             {
+                if (expectedAbort)
+                {
+                    testResults.Add(new PayrollTestResult(tenant, employee, payrunJob));
+                    continue;
+                }
                 throw new PayrollException($"Job abort [{payrunJob.Name}]: {payrunJob.Message}.");
+            }
+            // abort expected but job completed — regression: fix not applied or condition not met
+            if (expectedAbort)
+            {
+                throw new PayrollException(
+                    $"Expected abort for [{payrunJob.Name}] but job completed with status {payrunJob.JobStatus}.");
             }
 
             // namespace
