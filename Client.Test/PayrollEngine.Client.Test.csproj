@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<AssemblyName>PayrollEngine.Client.Test</AssemblyName>
@@ -17,7 +17,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.CodeAnalysis.Compilers" Version="5.3.0" />
-		<PackageReference Include="PayrollEngine.Client.Core" Version="0.10.0-beta.dev" />
+		<PackageReference Include="PayrollEngine.Client.Core" Version="$(Version)" />
 	</ItemGroup>
 
 	<!-- include xml documention files and json schemas to the nuget package -->
