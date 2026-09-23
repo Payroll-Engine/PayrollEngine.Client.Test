@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<AssemblyName>PayrollEngine.Client.Test</AssemblyName>
@@ -16,7 +16,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.CodeAnalysis.Compilers" Version="5.3.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.Compilers" Version="5.9.0" />
 		<PackageReference Include="PayrollEngine.Client.Core" Version="$(Version)" />
 	</ItemGroup>
 
