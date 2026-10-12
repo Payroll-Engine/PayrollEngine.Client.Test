@@ -204,6 +204,7 @@ public class PayrunEmployeePreviewTestRunner : PayrunTestRunnerBase
         {
             Name = invocation.Name,
             PeriodStart = invocation.PeriodStart,
+            PayDate = invocation.PayDate,
             JobStart = startTime,
             JobEnd = endTime,
             JobStatus = PayrunJobStatus.Complete,
