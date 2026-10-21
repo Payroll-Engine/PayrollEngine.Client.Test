@@ -216,7 +216,7 @@ public class CaseTestRunner : TestRunnerBase
                     test.Input.UserId = context.User.Id;
 
                     // update employee
-                    if (!test.Input.EmployeeId.HasValue &&
+                    if (!test.Input.EmployeeId.HasValue && context.Employee != null &&
                         string.Equals(test.Input.EmployeeIdentifier, context.Employee.Identifier))
                     {
                         test.Input.EmployeeId = context.Employee.Id;
